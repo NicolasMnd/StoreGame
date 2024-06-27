@@ -1,23 +1,42 @@
 package game.tile;
 
+import game.GameObject;
+import util.texture.Texture;
 import util.Pos;
 
-public abstract class GameTile {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final Pos pos;
-    private final String texture;
+public abstract class GameTile extends GameObject {
 
-    public GameTile(String texture, Pos pos) {
-        this.texture = texture;
-        this.pos = pos;
+    /**
+     * The list of peers of this object
+     */
+    private List<GameTile> peers = new ArrayList<>();
+
+    public GameTile(Pos pos, Texture texture) {
+        super(pos, texture);
+    }
+
+    @Override
+    public void updatePosition(Pos pos) {
+        return;
     }
 
     /**
-     * The position of the tile
-     * @return a {@link Pos} object
+     * Allows this {@link GameTile} to have a relation with another tile
+     * @param peer the tile you want to connect with this one.
      */
-    public Pos getPos() {
-        return this.pos;
+    public void addPeer(GameTile peer) {
+        this.peers.add(peer);
+    }
+
+    /**
+     * Returns the list of {@link GameTile} consisting of peers to this object
+     * @return
+     */
+    public List<GameTile> getPeers() {
+        return this.peers;
     }
 
 }

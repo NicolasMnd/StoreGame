@@ -1,20 +1,23 @@
 package game.map;
 
 import game.tile.GameTile;
-import util.Dimension;
-import util.Direction;
-import util.Function;
-import util.Pair;
+import util.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.function.Consumer;
 
+/**
+ * This is the interface used by {@link game.GameState} to initialise the map
+ */
 public class MapHandler {
 
     private final MapReader reader;
+    private final MapRotator rotator;
 
     public MapHandler() {
         this.reader = new MapReader(getMapDimensions());
+        this.rotator = new MapRotator(getMapDimensions());
     }
 
     /**
@@ -24,11 +27,18 @@ public class MapHandler {
      */
     public GameTile[][] readMap(String tag) {
         readLines(reader);
+        //ObjectLinker<GameTile> objectLinker = new ObjectLinker<>(reader.getTiles());
         return reader.getTiles();
     }
 
-    public GameTile[] rotate(GameTile[][] map, Direction dir) {
-        return null;
+    /**
+     * Passes a request to {@link MapRotator} which will handle the rotation of the double array
+     * @param map the map we want to rotate
+     * @param dir the direction of the rotation
+     * @return the rotated {@link GameTile} double array
+     */
+    public GameTile[][] rotate(GameTile[][] map, Direction dir) {
+        return this.rotator.rotate(map, dir);
     }
 
     /**
@@ -39,7 +49,7 @@ public class MapHandler {
         int[] amountLines = {0};
         int[] maxColumns = {0};
 
-        Function<String> count = (string) -> {
+        Consumer<String> count = (string) -> {
             String[] split = string.split(";");
             if(maxColumns[0] < split.length)
                 maxColumns[0] = split.length;
@@ -53,12 +63,12 @@ public class MapHandler {
     /**
      * Reads a line in the map and lets a function handle any logic behind handling that line
      */
-    private void readLines(Function<String> f) {
+    private void readLines(Consumer<String> f) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader("resources/map.csv"));
 
             while(reader.ready())
-                f.execute(reader.readLine());
+                f.accept(reader.readLine());
 
         } catch (Exception e) {
 

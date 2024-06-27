@@ -1,14 +1,22 @@
 package game.map;
 
+import game.container.Container;
 import game.tile.GameTile;
+import listeners.IContainerNotifier;
 import util.Dimension;
-import util.Function;
-import util.Pair;
 
-public class MapReader implements Function<String> {
+import java.util.List;
+import java.util.function.Consumer;
+
+/**
+ * This class contains the logic to create {@link GameTile} from a string retrieved from a text file
+ */
+public class MapReader implements Consumer<String> {
 
     private GameTile[][] tiles;
+    private List<Container> containers;
     private int parseLine = 0;
+    private TileReader tileReader;
 
     /**
      * Class that handles the interpretation of lines to {@link GameTile}
@@ -16,15 +24,20 @@ public class MapReader implements Function<String> {
      */
     public MapReader(Dimension dimensions) {
         tiles = new GameTile[dimensions.getHeight()][dimensions.getWidth()];
+        tileReader = new TileReader(addContainerListener());
     }
 
+    /**
+     * Is executed for each line while reading through the map.
+     * @param type the string that should be parsed
+     */
     @Override
-    public void execute(String type) {
+    public void accept(String type) {
 
         String[] split = type.split(";");
 
         for(int i = 0; i < split.length; i++)
-            tiles[parseLine][i] = getTileFor(split[i]);
+            tiles[parseLine][i] = tileReader.getTileFor(split[i]);
 
         parseLine++;
 
@@ -39,15 +52,19 @@ public class MapReader implements Function<String> {
     }
 
     /**
-     * Retrieves the correct {@link GameTile} instance for a given key
-     * @param key the string key that maps to a {@link GameTile}
-     * @return a {@link GameTile} object
+     * Returns the constructed containers
+     * @return an array of containers
      */
-    private GameTile getTileFor(String key) {
-        switch(key) {
-            default:
-                return null;
-        }
+    public List<Container> getContainers() {
+        return containers;
+    }
+
+    /**
+     * Allows the {@link TileReader} to call upon this method when he encounters a {@link GameTile} that has a container
+     * @return a {@link IContainerNotifier} object that is defined in this class itself and updates {@link MapReader#containers}
+     */
+    private IContainerNotifier addContainerListener() {
+        return (hashCode, tileCode) -> containers.add(new Container(hashCode, tileCode));
     }
 
 }

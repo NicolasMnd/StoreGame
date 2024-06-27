@@ -15,7 +15,15 @@ public class GameState {
      * Starts up the game.
      */
     public void init() {
-        loadMap("map.csv");
+        loadMap("map/map.csv");
+    }
+
+    /**
+     * Returns the map representation in {@link GameTile} objects
+     * @return the game map
+     */
+    public GameTile[][] getTiles() {
+        return this.tiles.clone();
     }
 
     /**

@@ -4,7 +4,6 @@ import game.GameState;
 import listeners.MouseHandler;
 
 import javax.swing.*;
-import java.awt.event.MouseListener;
 
 /**
  * All graphic related items are processed here.
@@ -17,6 +16,8 @@ public class GameView extends JFrame implements View {
 
     @Override
     public void render(GameState state) {
+
+
 
     }
 

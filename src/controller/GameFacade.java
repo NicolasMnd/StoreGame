@@ -22,6 +22,13 @@ public class GameFacade {
         state.init();
     }
 
+    /**
+     * Let the game idle
+     */
+    public void tick() {
+
+    }
+
     public void leftClicked(int x, int y) {
 
     }

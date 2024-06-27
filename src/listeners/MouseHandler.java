@@ -11,23 +11,23 @@ import java.util.List;
  */
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
-    private List<MouseNotifier> mouseListeners;
+    private List<IMouseNotifier> mouseListeners;
 
     public MouseHandler() {
         this.mouseListeners = new ArrayList<>();
     }
 
-    public void subscribeListener(MouseNotifier listener) {
+    public void subscribeListener(IMouseNotifier listener) {
         this.mouseListeners.add(listener);
     }
 
-    public void unsubscribe(MouseNotifier listener) {
+    public void unsubscribe(IMouseNotifier listener) {
         this.mouseListeners.remove(listener);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        for(MouseNotifier listener : mouseListeners)
+        for(IMouseNotifier listener : mouseListeners)
             if(e.getButton() == 1)
                 listener.leftClick(e.getX(), e.getY());
             else if(e.getButton() == 2)
@@ -61,7 +61,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        for(MouseNotifier listener : mouseListeners)
+        for(IMouseNotifier listener : mouseListeners)
             listener.hover(e.getX(), e.getY());
     }
 

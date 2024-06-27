@@ -1,6 +1,6 @@
 package listeners;
 
-public interface MouseNotifier {
+public interface IMouseNotifier {
 
     void hover(int x, int y);
 

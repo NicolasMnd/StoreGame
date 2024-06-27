@@ -4,7 +4,7 @@ import com.misterc.controller.Controller;
 import com.misterc.controller.MisterC;
 import com.misterc.input.InputType;
 import listeners.MouseHandler;
-import listeners.MouseNotifier;
+import listeners.IMouseNotifier;
 
 public class GameController extends Controller {
 
@@ -36,8 +36,8 @@ public class GameController extends Controller {
     }
 
     // Creates a mouse listener
-    private MouseNotifier getNotifier() {
-        return new MouseNotifier() {
+    private IMouseNotifier getNotifier() {
+        return new IMouseNotifier() {
             @Override
             public void hover(int x, int y) {
                 facade.hover(x, y);
