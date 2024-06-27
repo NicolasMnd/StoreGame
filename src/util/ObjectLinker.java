@@ -61,22 +61,110 @@ public class ObjectLinker<T> {
      */
     private List<T> checkRow(T[] row, List<T> leftOvers) {
 
-        // First we get the objects which can be peer objects
-        List<T> possiblePeers = getPeersInRow(row);
+        if(containsPeers(row, 0) == -1)
+            return leftOvers;
+
+        int waitUntil = 0;
+
+        // We loop over the row and check for peer objects
+        for(int i = 0; i < row.length; i++) {
+
+            waitUntil = containsPeers(row, i);
+
+            // We check if from this index there are still peer objects
+            if(waitUntil == -1)
+                return leftOvers;
+
+            // If we have not detected any peer objects, we skip until there is one
+            if(i != waitUntil)
+                continue;
+
+            Pair<Integer, Integer> peerInfo = getLengthPeers(row, i);
+
+            // If the amount of peers in a row is acceptable, we link them.
+            if(peerInfo.getSecond() >= getLinkRowAmount()) {
+                leftOvers = attemptLink(row, leftOvers, peerInfo);
+            }
+            // Else we skip the amount and add them to the leftovers
+            else {
+                int sizeBefore = leftOvers.size();
+                leftOvers = getPeerObjectsInRow(row, leftOvers, peerInfo.getFirst());
+                waitUntil = leftOvers.size() - sizeBefore;
+            }
+
+        }
 
         //TODO
         return null;
     }
 
-    private List<T> getPeersInRow(T[] row) {
+    /**
+     * Will loop through a row until we find a non peer object. We count the amount of peers.
+     * @param row row that will be looped through
+     * @return a pair of which index the peers start & stop
+     */
+    Pair<Integer, Integer> getLengthPeers(T[] row, int start) {
+        assert start < row.length;
+        int amount = 0;
+        int startPeer = start;
+        for(int i = start; i < row.length; i++) {
+            if(!isPeerObject.test(row[i]))
+                return new Pair<>(start, amount);
+            else
+                amount++;
+        }
+        return new Pair<>(start, amount);
+    }
 
-        List<T> possiblePeers = new ArrayList<>();
+    /**
+     * Determines if the row has any peers in it given a certain start index
+     * @param row the row which is looped through
+     * @param start the starting index
+     * @return
+     */
+    int containsPeers(T[] row, int start) {
+        assert start < row.length;
+        for(int i = start; i < row.length; i++) {
+            if(isPeerObject.test(row[i]))
+                return i;
+        }
+        return -1;
+    }
 
-        for(T element : row)
-            if(isPeerObject.test(element))
-                possiblePeers.add(element);
+    /**
+     * We retrieve all peer objects starting from a specified index. Called when the amount
+     * of peers were insufficient in row to link them. They are added to the leftover list.
+     * This will go until it finds a non peer object or until the end of the row has been reached.
+     * @param row the row we currently operate
+     * @param list the peers from previous
+     * @param startIndex the start index
+     * @return a list of peer objects that cannot be grouped
+     */
+    List<T> getPeerObjectsInRow(T[] row, List<T> list, int startIndex) {
+        for(int i = startIndex; i < row.length; i++)
+            if(!isPeerObject.test(row[i]))
+                return list;
+            else
+                list.add(row[i]);
+        return list;
+    }
 
-        return possiblePeers;
+    /**
+     * Given that we have a row with at least {@link ObjectLinker#getLinkRowAmount()} linkable peers,
+     * we will now try to link them.
+     * @param row
+     * @param unlinkedPeers the list of unlinked peers
+     * @param peerInfo the info for the peers: start index ; amount of peers
+     */
+    List<T> attemptLink(T[] row, List<T> unlinkedPeers, Pair<Integer, Integer> peerInfo) {
+
+        for(int i = peerInfo.getFirst(); i < peerInfo.getFirst() + peerInfo.getSecond() - 1; i++)
+            if(canBePeers.test(row[i], row[i+1]))
+                action.apply(row[i], row[i+1]);
+            else
+                unlinkedPeers.add(row[i]);
+
+        return unlinkedPeers;
 
     }
 

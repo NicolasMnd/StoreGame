@@ -22,9 +22,7 @@ public class TileLinker extends ObjectLinker<GameTile> {
 
                 (tile1, tile2) -> tile1.getPeers().contains(tile2),
 
-                (tile1, tile2) -> {
-                    return true;
-                }
+                (tile1, tile2) -> tile1.getPosition().operation.isConnected1D(tile2.getPosition(), 4) && tile1.getFacing().equals(tile2.getFacing())
 
         );
 

@@ -22,4 +22,14 @@ public class Pair<S, T> {
         return compare.getFirst().equals(first) && compare.getSecond().equals(second);
     }
 
+    public String toString() {
+        return "<" + first.toString() + ", " + second.toString() + ">";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Pair<?,?> p)
+            return p.getFirst() == this.getFirst() && p.getSecond() == this.getSecond();
+        return false;
+    }
 }

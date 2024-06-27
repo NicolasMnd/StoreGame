@@ -61,6 +61,20 @@ public class PositionHelper {
         }
     }
 
+    /**
+     * Determines if the given position is on the same axis and at least in the given range
+     * @param pos the position to be checked
+     * @param range the max range
+     * @return a boolean
+     */
+    public boolean isConnected1D(Pos pos, int range) {
+        if(pos.x() == this.pos.x())
+            return Math.abs(this.pos.subtract(pos).y()) <= range;
+        else if(pos.y() == this.pos.y())
+            return Math.abs(this.pos.subtract(pos).x()) <= range;
+        return false;
+    }
+
 
 
 }

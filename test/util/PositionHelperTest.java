@@ -133,4 +133,18 @@ public class PositionHelperTest {
         assertFalse(helper.isConnected(new Pos(1, 0), LEFT));
     }
 
+    @Test
+    public void isConnected1D_True() {
+        assertTrue(helper.isConnected1D(new Pos(1,0), 1));
+        assertTrue(helper.isConnected1D(new Pos(2,0), 2));
+        assertTrue(helper.isConnected1D(new Pos(1,0), 2));
+    }
+
+    @Test
+    public void isConnected1D_False() {
+        assertFalse(helper.isConnected1D(new Pos(2,0), 1));
+        assertFalse(helper.isConnected1D(new Pos(3,0), 2));
+        assertFalse(helper.isConnected1D(new Pos(1,1), 5));
+    }
+
 }
