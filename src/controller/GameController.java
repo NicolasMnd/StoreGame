@@ -3,6 +3,8 @@ package controller;
 import com.misterc.controller.Controller;
 import com.misterc.controller.MisterC;
 import com.misterc.input.InputType;
+import listeners.MouseHandler;
+import listeners.MouseNotifier;
 
 public class GameController extends Controller {
 
@@ -11,9 +13,16 @@ public class GameController extends Controller {
      */
     private final GameFacade facade;
 
+    /**
+     * Allows this class to receive mouse input requests
+     */
+    private final MouseHandler mouseHandler;
+
     public GameController(MisterC c) {
         super(c, null);
-        this.facade = new GameFacade();
+        this.mouseHandler = new MouseHandler();
+        this.mouseHandler.subscribeListener(getNotifier());
+        this.facade = new GameFacade(mouseHandler);
     }
 
     @Override
@@ -23,7 +32,27 @@ public class GameController extends Controller {
 
     @Override
     public void paint() {
+        this.facade.render();
+    }
 
+    // Creates a mouse listener
+    private MouseNotifier getNotifier() {
+        return new MouseNotifier() {
+            @Override
+            public void hover(int x, int y) {
+                facade.hover(x, y);
+            }
+
+            @Override
+            public void leftClick(int x, int y) {
+                facade.leftClicked(x, y);
+            }
+
+            @Override
+            public void rightClick(int x, int y) {
+                facade.rightClicked(x, y);
+            }
+        };
     }
 
 }
