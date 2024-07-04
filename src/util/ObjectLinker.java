@@ -76,7 +76,7 @@ public class ObjectLinker<T> {
      * Retrieves the matrix to do modification
      * @return the clone of the current matrix
      */
-    protected T[][] getMatrix() {
+    public T[][] getMatrix() {
         return this.matrix.clone();
     }
 

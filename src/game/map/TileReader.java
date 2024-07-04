@@ -4,6 +4,7 @@ import game.GameObject;
 import game.GameObjectBuilder;
 import game.tile.GameTile;
 import game.tile.TileShelf;
+import listeners.IContainerInteraction;
 import listeners.IContainerNotifier;
 import util.Direction;
 import util.Pos;
@@ -11,9 +12,7 @@ import util.texture.TextureLoader;
 import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,11 +20,11 @@ import java.util.Map;
  */
 public class TileReader {
 
-    private List<IContainerNotifier> containerNotifiers = new ArrayList<>();
+    private final IContainerNotifier containerNotifier;
     private Map<String, TextureHolder> textureRegistry;
 
     public TileReader(IContainerNotifier containerNotifier) {
-        this.containerNotifiers.add(containerNotifier);
+        this.containerNotifier = containerNotifier;
         this.textureRegistry = new HashMap<>();
     }
 
@@ -38,9 +37,7 @@ public class TileReader {
 
         switch(ripId(code)) {
             case "shelf":
-                //notifyContainer();
-                return buildTile(code, new TileShelf(pos));
-                //TODO other tiles
+                return buildTile(code, new TileShelf(pos, notifyContainer(ripContainerCode(code))));
         }
 
         return null;
@@ -89,14 +86,17 @@ public class TileReader {
         };
     }
 
+    private int ripContainerCode(String name) {
+        return Integer.parseInt(name.split("_")[2]);
+    }
+
     /**
      * Notifies a container
-     * @param containerCode the code of the container
-     * @param tileCode the code of the tile
+     * @param containerCode the code of the tile
+     * @return a {@link IContainerNotifier} that allows the receiver of the value to interact with the {@link game.container.Container}
      */
-    private void notifyContainer(int containerCode, int tileCode) {
-        for(IContainerNotifier notifier : containerNotifiers)
-            notifier.notifyContainer(containerCode, tileCode);
+    private IContainerInteraction notifyContainer(int containerCode) {
+        return this.containerNotifier.notifyContainer(containerCode);
     }
 
 }

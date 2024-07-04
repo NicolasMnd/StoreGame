@@ -16,8 +16,7 @@ public class GameView extends JFrame implements View {
 
     @Override
     public void render(GameState state) {
-
-
+        
 
     }
 

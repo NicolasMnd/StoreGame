@@ -25,7 +25,7 @@ public class TileReaderTest {
     }
 
     private IContainerNotifier getNotifier() {
-        return (a, b) -> addedcontainer.add(new Pair<>(a, b));
+        return null;
     }
 
 }

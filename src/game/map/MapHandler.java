@@ -1,10 +1,12 @@
 package game.map;
 
+import game.map.linkers.ShelfLinker;
 import game.tile.GameTile;
-import util.*;
+import util.Dimension;
+import util.Direction;
+import util.FileHelper;
+import util.Pair;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.function.Consumer;
 
 /**
@@ -26,9 +28,9 @@ public class MapHandler {
      * @return a {@link GameTile} matrix
      */
     public GameTile[][] readMap(String tag) {
-        readLines(reader); //TODO link here
-        //ObjectLinker<GameTile> objectLinker = new ObjectLinker<>(reader.getTiles());
-        return reader.getTiles();
+        readLines(reader);
+        ShelfLinker linker = new ShelfLinker(reader.getTiles());
+        return linker.getMatrix();
     }
 
     /**
@@ -64,17 +66,7 @@ public class MapHandler {
      * Reads a line in the map and lets a function handle any logic behind handling that line
      */
     private void readLines(Consumer<String> f) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("resources/map.csv"));
-
-            while(reader.ready())
-                f.accept(reader.readLine());
-
-        } catch (Exception e) {
-
-            throw new RuntimeException(e);
-
-        }
+        new FileHelper().readAndConsume(f, "/resources/map/map.csv");
     }
 
 }

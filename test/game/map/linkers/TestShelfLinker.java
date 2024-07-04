@@ -21,10 +21,10 @@ public class TestShelfLinker {
     @BeforeEach
     public void init() {
         tiles = new GameTile[][] {
-                {new TestTile(), new TileShelf(new Pos(0, 1)), new TileShelf(new Pos(0, 2)), new TileShelf(new Pos(0, 3)), new TileShelf(new Pos(0, 4)), new TileShelf(new Pos(0, 5))},
-                {new TestTile(), new TileShelf(new Pos(1, 1)), new TileShelf(new Pos(1, 2)), new TileShelf(new Pos(1, 3)), new TileShelf(new Pos(1, 4)), new TileShelf(new Pos(1, 5))},
-                {new TestTile(), new TestTile(),                     new TestTile(),                     new TestTile(),                      new TestTile(),                     new TileShelf(new Pos(2, 5))},
-                {new TestTile(), new TileShelf(new Pos(0, 1)), new TileShelf(new Pos(0, 2)), new TileShelf(new Pos(0, 3)), new TileShelf(new Pos(0, 4)), new TileShelf(new Pos(3, 5))},
+                {new TestTile(), new TileShelf(new Pos(0, 1), null), new TileShelf(new Pos(0, 2), null), new TileShelf(new Pos(0, 3), null), new TileShelf(new Pos(0, 4), null), new TileShelf(new Pos(0, 5), null)},
+                {new TestTile(), new TileShelf(new Pos(1, 1), null), new TileShelf(new Pos(1, 2), null), new TileShelf(new Pos(1, 3), null), new TileShelf(new Pos(1, 4), null), new TileShelf(new Pos(1, 5), null)},
+                {new TestTile(), new TestTile(),                     new TestTile(),                     new TestTile(),                      new TestTile(),                     new TileShelf(new Pos(2, 5), null)},
+                {new TestTile(), new TileShelf(new Pos(0, 1), null), new TileShelf(new Pos(0, 2), null), new TileShelf(new Pos(0, 3), null), new TileShelf(new Pos(0, 4), null), new TileShelf(new Pos(3, 5), null)},
         };
         for(GameTile[] row : tiles) {
             for (GameTile t : row)

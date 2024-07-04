@@ -1,14 +1,13 @@
-package game;
+package game.item;
 
-import game.tile.GameTile;
 import util.texture.TextureLoader;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
-public class TestTile extends GameTile {
+public class ItemTomato extends GameItem {
 
-    public TestTile() {
-        super(null);
+    public ItemTomato() {
+        super("tomato");
     }
 
     @Override
@@ -20,5 +19,4 @@ public class TestTile extends GameTile {
     public ITextureStrategy selectTexture() {
         return () -> null;
     }
-
 }

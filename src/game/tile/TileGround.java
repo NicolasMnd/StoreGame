@@ -2,8 +2,11 @@ package game.tile;
 
 import util.Pos;
 import util.texture.TextureLoader;
+import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
+
+import java.io.File;
 
 public class TileGround extends GameTile {
 
@@ -18,7 +21,7 @@ public class TileGround extends GameTile {
 
     @Override
     public ITextureStrategy selectTexture() {
-        return null;
+        return () -> new Texture(new File("tileground.png")).getImage();
     }
 
 }

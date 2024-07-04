@@ -65,7 +65,14 @@ public class MapReader implements Consumer<String> {
      * @return a {@link IContainerNotifier} object that is defined in this class itself and updates {@link MapReader#containers}
      */
     private IContainerNotifier addContainerListener() {
-        return (hashCode, tileCode) -> containers.add(new Container(hashCode, tileCode));
+        return containerCode -> {
+                Container newContainer = null;
+                if(!containers.stream().noneMatch(c -> c.getContainerCode() == containerCode)) {
+                    newContainer = new Container(containerCode);
+                    this.containers.add(newContainer);
+                }
+                return newContainer.getInteractor();
+        };
     }
 
 }
