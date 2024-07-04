@@ -8,11 +8,12 @@ import java.util.function.Predicate;
 
 public class ObjectLinker<T> {
 
-    private final T[][] matrix;
+    private T[][] matrix;
     private final Predicate<T> isPeerObject;
     private final BiPredicate<T, T> canBePeers;
     private final BiFunction<T, T, Boolean> action;
     private final BiPredicate<T, T> arePeers;
+    private List<T> unlinkedPeers = new ArrayList<>();
 
     /**
      * Object linker will try to connect objects on a very high level.
@@ -44,58 +45,90 @@ public class ObjectLinker<T> {
 
         List<T> unfinishedLinks = new ArrayList<>();
 
-        // Check all rows
+        // Check all rows & link early per row
         for(int i = 0; i < matrix.length; i++) {
 
-            unfinishedLinks = checkRow(matrix[i], unfinishedLinks);
+            checkRow(matrix[i]);
 
+        }
+
+        // Try to loop over the unfinished items & try to link them
+        for(int i = 0; i < unlinkedPeers.size(); i++) {
+            for(int j = 0; j < unlinkedPeers.size(); j++)
+                if(canBePeers.test(unlinkedPeers.get(i), unlinkedPeers.get(j)))
+                    action.apply(unlinkedPeers.get(i), unlinkedPeers.get(j));
         }
 
     }
 
     /**
+     * Sometimes the matrix has to be changed in order to let the algorithm work.
+     * We tread safely and make this method only accessible for child classes.
+     * @param matrix the new matrix
+     */
+    protected void setMatrix(T[][] matrix) {
+        this.matrix = matrix;
+    }
+
+    /**
+     * Retrieves the matrix to do modification
+     * @return the clone of the current matrix
+     */
+    protected T[][] getMatrix() {
+        return this.matrix.clone();
+    }
+
+    /**
      * This function will loop over the row and determine which objects T can be linked
      * @param row the row which is examined
-     * @param leftOvers the leftover objects T from past iterations
      * @return a list of leftover
      */
-    private List<T> checkRow(T[] row, List<T> leftOvers) {
+    private void checkRow(T[] row) {
 
+        // First we check if the row contains any peer objects
         if(containsPeers(row, 0) == -1)
-            return leftOvers;
+            return;
 
+        // This variable is used to skip an amount of objects when we found a group to link
         int waitUntil = 0;
 
         // We loop over the row and check for peer objects
         for(int i = 0; i < row.length; i++) {
+            System.out.println("Iteration: " + i);
+
+            // If we have not detected any peer objects, we skip until there is one
+            if(i < waitUntil)
+                continue;
 
             waitUntil = containsPeers(row, i);
 
             // We check if from this index there are still peer objects
             if(waitUntil == -1)
-                return leftOvers;
+                return;
 
-            // If we have not detected any peer objects, we skip until there is one
-            if(i != waitUntil)
-                continue;
-
+            // Get the length of peers ; this way we can differentiate whether we need to add
+            // insufficient amount to leftovers, or try attempt a sufficiently sized row
             Pair<Integer, Integer> peerInfo = getLengthPeers(row, i);
 
             // If the amount of peers in a row is acceptable, we link them.
             if(peerInfo.getSecond() >= getLinkRowAmount()) {
-                leftOvers = attemptLink(row, leftOvers, peerInfo);
+                System.out.println("> linking from " + peerInfo.getFirst() + " until " + (peerInfo.getFirst() + peerInfo.getSecond()-2));
+                waitUntil = attemptLink(row, peerInfo);
+                System.out.println("Supposed to wait until: " + waitUntil);
             }
             // Else we skip the amount and add them to the leftovers
             else {
-                int sizeBefore = leftOvers.size();
-                leftOvers = getPeerObjectsInRow(row, leftOvers, peerInfo.getFirst());
-                waitUntil = leftOvers.size() - sizeBefore;
+                waitUntil = getPeerObjectsInRow(row, peerInfo.getFirst());
             }
+
+            System.out.println("End iteration " + i);
 
         }
 
         //TODO
-        return null;
+        System.out.println("Leftovers: ");
+        for(T t : unlinkedPeers)
+            System.out.print(t + ", ");
     }
 
     /**
@@ -106,7 +139,6 @@ public class ObjectLinker<T> {
     Pair<Integer, Integer> getLengthPeers(T[] row, int start) {
         assert start < row.length;
         int amount = 0;
-        int startPeer = start;
         for(int i = start; i < row.length; i++) {
             if(!isPeerObject.test(row[i]))
                 return new Pair<>(start, amount);
@@ -136,35 +168,40 @@ public class ObjectLinker<T> {
      * of peers were insufficient in row to link them. They are added to the leftover list.
      * This will go until it finds a non peer object or until the end of the row has been reached.
      * @param row the row we currently operate
-     * @param list the peers from previous
      * @param startIndex the start index
      * @return a list of peer objects that cannot be grouped
      */
-    List<T> getPeerObjectsInRow(T[] row, List<T> list, int startIndex) {
+    int getPeerObjectsInRow(T[] row, int startIndex) {
+        int skip = startIndex;
         for(int i = startIndex; i < row.length; i++)
             if(!isPeerObject.test(row[i]))
-                return list;
-            else
-                list.add(row[i]);
-        return list;
+                return i;
+            else {
+                skip++;
+                unlinkedPeers.add(row[i]);
+            }
+        return skip;
     }
 
     /**
      * Given that we have a row with at least {@link ObjectLinker#getLinkRowAmount()} linkable peers,
      * we will now try to link them.
-     * @param row
-     * @param unlinkedPeers the list of unlinked peers
+     * @param row the row we will loop over
      * @param peerInfo the info for the peers: start index ; amount of peers
      */
-    List<T> attemptLink(T[] row, List<T> unlinkedPeers, Pair<Integer, Integer> peerInfo) {
+    int attemptLink(T[] row, Pair<Integer, Integer> peerInfo) {
 
-        for(int i = peerInfo.getFirst(); i < peerInfo.getFirst() + peerInfo.getSecond() - 1; i++)
-            if(canBePeers.test(row[i], row[i+1]))
-                action.apply(row[i], row[i+1]);
-            else
+        for(int i = peerInfo.getFirst(); i < peerInfo.getFirst() + getLinkRowAmount() - 1; i++)
+            if(canBePeers.test(row[i], row[i+1])) {
+                action.apply(row[i], row[i + 1]);
+                System.out.println("Linked " + i + " and " + (i+1));
+            }
+            else {
+                System.out.println("Added " + i + " to list");
                 unlinkedPeers.add(row[i]);
+            }
 
-        return unlinkedPeers;
+        return peerInfo.getFirst() + getLinkRowAmount();
 
     }
 

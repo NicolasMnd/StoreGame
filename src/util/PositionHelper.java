@@ -1,6 +1,5 @@
 package util;
 
-import com.misterl.location.positions.Pos2d;
 import com.misterl.location.positions.Pos2di;
 
 import java.util.function.Function;
@@ -55,8 +54,8 @@ public class PositionHelper {
             return Math.abs(subtracted.x()) == 1 || Math.abs(subtracted.y()) == 1;
         } else {
             Pair<Function<Integer, Integer>, Function<Integer, Integer>> functionPair = directionHelper.getFunction(new Pair<>(dir, null));
-            int x = functionPair.getFirst().apply(this.pos.x);
-            int y = functionPair.getSecond().apply(this.pos.y);
+            int x = functionPair.getFirst().apply(this.pos.x());
+            int y = functionPair.getSecond().apply(this.pos.y());
             return pos.equals(new Pos(x, y));
         }
     }
@@ -75,6 +74,13 @@ public class PositionHelper {
         return false;
     }
 
+    public boolean isXOrYLower(Pos reference, Pos test) {
+        return reference.x() > test.x() || reference.y() > test.y();
+    }
+
+    public boolean isXOrYHigher(Pos reference, Pos test) {
+        return reference.x() < test.x() || reference.y() < test.y();
+    }
 
 
 }

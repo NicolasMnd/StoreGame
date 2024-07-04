@@ -1,12 +1,17 @@
 package game.map;
 
-import util.texture.Texture;
+import game.GameObject;
+import game.GameObjectBuilder;
+import game.tile.TileShelf;
+import util.texture.TextureLoader;
+import util.texture.comp.Texture;
 import game.tile.GameTile;
 import game.tile.TileGround;
 import game.tile.TileWall;
 import listeners.IContainerNotifier;
 import util.Direction;
 import util.Pos;
+import util.texture.comp.TextureHolder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,47 +24,49 @@ import java.util.Map;
  */
 public class TileReader {
 
-    private final Map<String, Texture> textures;
     private List<IContainerNotifier> containerNotifiers = new ArrayList<>();
+    private Map<String, TextureHolder> textureRegistry;
 
     public TileReader(IContainerNotifier containerNotifier) {
         this.containerNotifiers.add(containerNotifier);
-        this.textures = loadTextures();
+        this.textureRegistry = new HashMap<>();
     }
 
-    public GameTile getTileFor(String code) {
+    /**
+     * Retrieves the {@link GameTile} given a code in the game map
+     * @param code the code in the game map
+     * @return a {@link GameTile} object corresponding to the code
+     */
+    public GameTile getTileFor(String code, Pos pos) {
+
+        switch(ripId(code)) {
+            case "shelf":
+                //notifyContainer();
+                return buildTile(code, new TileShelf(pos));
+                //TODO other tiles
+        }
+
         return null;
     }
 
     /**
-     * Handles the creation of a ground tile
+     * Contains the necessary logic to create
+     * @param code the rest of the code.
+     * @param o the type of the {@link GameTile}
+     * @return a {@link GameTile}
      */
-    public GameTile handleGround(Pos pos) {
-        return new TileGround(pos, textures.get("floor"));
-    }
+    public GameTile buildTile(String code, GameObject o) {
+        GameObjectBuilder s = new GameObjectBuilder(o);
 
-    public GameTile handleWall(Pos pos) {
-        return new TileWall(pos, textures.get("wall"));
-    }
+        if(textureRegistry.containsKey(o.getClass().getName()))
+            s.addTexture(textureRegistry.get(o.getClass().getName()));
+        else
+            this.textureRegistry.put(o.getClass().getName(), o.loadTexture(new TextureLoader()));
 
-    /**
-     * Loads all the textures in the specified file
-     * @return a list of {@link Texture} objects
-     */
-    private Map<String, Texture> loadTextures() {
+        s.setFacing(ripOrientation(code));
 
-        Map<String, Texture> textures = new HashMap<>();
-        File directory = new File("resources/tiles");
-        File[] allTextures = directory.listFiles();
+        return (GameTile) s.getFinishedObject();
 
-        for(File textureLocation : allTextures) {
-            textures.put(
-                    ripId(textureLocation.getName()),
-                    new Texture(textureLocation)
-            );
-        }
-
-        return textures;
     }
 
     /**
@@ -81,12 +88,18 @@ public class TileReader {
             case "S" -> Direction.SOUTH;
             case "W" -> Direction.WEST;
             case "E" -> Direction.EAST;
-            case "U" -> Direction.UP;
-            case "D" -> Direction.DOWN;
-            case "R" -> Direction.RIGHT;
-            case "L" -> Direction.LEFT;
             default -> Direction.NORTH;
         };
+    }
+
+    /**
+     * Notifies a container
+     * @param containerCode the code of the container
+     * @param tileCode the code of the tile
+     */
+    private void notifyContainer(int containerCode, int tileCode) {
+        for(IContainerNotifier notifier : containerNotifiers)
+            notifier.notifyContainer(containerCode, tileCode);
     }
 
 }

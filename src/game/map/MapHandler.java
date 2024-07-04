@@ -26,7 +26,7 @@ public class MapHandler {
      * @return a {@link GameTile} matrix
      */
     public GameTile[][] readMap(String tag) {
-        readLines(reader);
+        readLines(reader); //TODO link here
         //ObjectLinker<GameTile> objectLinker = new ObjectLinker<>(reader.getTiles());
         return reader.getTiles();
     }

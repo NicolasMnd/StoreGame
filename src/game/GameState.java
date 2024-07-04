@@ -1,13 +1,12 @@
 package game;
 
-import game.entity.Entity;
 import game.map.MapHandler;
 import game.tile.GameTile;
 
 public class GameState {
 
     private GameTile[][] tiles;
-    private Entity[] entities;
+    //private Entity[] entities;
 
     public GameState() {}
 

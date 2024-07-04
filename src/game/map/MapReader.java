@@ -4,6 +4,7 @@ import game.container.Container;
 import game.tile.GameTile;
 import listeners.IContainerNotifier;
 import util.Dimension;
+import util.Pos;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,7 +38,7 @@ public class MapReader implements Consumer<String> {
         String[] split = type.split(";");
 
         for(int i = 0; i < split.length; i++)
-            tiles[parseLine][i] = tileReader.getTileFor(split[i]);
+            tiles[parseLine][i] = tileReader.getTileFor(split[i], new Pos(i, parseLine));
 
         parseLine++;
 

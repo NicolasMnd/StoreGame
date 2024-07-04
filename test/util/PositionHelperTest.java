@@ -147,4 +147,19 @@ public class PositionHelperTest {
         assertFalse(helper.isConnected1D(new Pos(1,1), 5));
     }
 
+    @Test
+    public void isLowerTest_LowerTrue() {
+        assertTrue(helper.isXOrYLower(new Pos(1,0),new Pos(0, -1)));
+        assertTrue(helper.isXOrYLower(new Pos(1,0),new Pos(1, -1)));
+        assertTrue(helper.isXOrYLower(new Pos(1,0),new Pos(0, 0)));
+    }
+
+    @Test
+    public void isHigherTest_HigherTrue() {
+        assertTrue(helper.isXOrYHigher(new Pos(1,0),new Pos(2, 1)));
+        assertTrue(helper.isXOrYHigher(new Pos(1,0),new Pos(2, 0)));
+        assertTrue(helper.isXOrYHigher(new Pos(1,0),new Pos(1, 1)));
+    }
+
+
 }
