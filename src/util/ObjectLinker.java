@@ -10,7 +10,7 @@ public class ObjectLinker<T> {
 
     private T[][] matrix;
     private final Predicate<T> isPeerObject;
-    private final BiPredicate<T, T> canBePeers;
+    private final BiPredicate<T, T> canBePeers, leftOverCanBePeers;
     private final BiFunction<T, T, Boolean> action;
     private final BiPredicate<T, T> arePeers;
     private List<T> unlinkedPeers = new ArrayList<>();
@@ -22,10 +22,11 @@ public class ObjectLinker<T> {
      * @param action this function will trigger an action on object T
      * @param arePeers a predicate which determines if the parameter T already is a peer of a certain
      */
-    public ObjectLinker(T[][] matrix, Predicate<T> isPeerObject, BiFunction<T, T, Boolean> action, BiPredicate<T, T> arePeers, BiPredicate<T, T> canBePeers) {
+    public ObjectLinker(T[][] matrix, Predicate<T> isPeerObject, BiFunction<T, T, Boolean> action, BiPredicate<T, T> arePeers, BiPredicate<T, T> canBePeers, BiPredicate<T, T> leftOverCanBePeers) {
         this.matrix = matrix;
         this.isPeerObject = isPeerObject;
         this.canBePeers = canBePeers;
+        this.leftOverCanBePeers = leftOverCanBePeers;
         this.action = action;
         this.arePeers = arePeers;
     }
@@ -55,7 +56,8 @@ public class ObjectLinker<T> {
         // Try to loop over the unfinished items & try to link them
         for(int i = 0; i < unlinkedPeers.size(); i++) {
             for(int j = 0; j < unlinkedPeers.size(); j++)
-                if(canBePeers.test(unlinkedPeers.get(i), unlinkedPeers.get(j)))
+                if(canBePeers.test(unlinkedPeers.get(i), unlinkedPeers.get(j))
+                && leftOverCanBePeers.test(unlinkedPeers.get(i), unlinkedPeers.get(j)))
                     action.apply(unlinkedPeers.get(i), unlinkedPeers.get(j));
         }
 

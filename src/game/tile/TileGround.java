@@ -1,11 +1,9 @@
 package game.tile;
 
-import util.Direction;
-import util.texture.TextureLoader;
-import util.texture.comp.Texture;
 import util.Pos;
-
-import java.awt.image.BufferedImage;
+import util.texture.TextureLoader;
+import util.texture.textureinformation.ITextureLoader;
+import util.texture.textureinformation.ITextureStrategy;
 
 public class TileGround extends GameTile {
 
@@ -14,12 +12,12 @@ public class TileGround extends GameTile {
     }
 
     @Override
-    public Texture loadTexture(TextureLoader textureLoader) {
+    public ITextureLoader textureLoader(TextureLoader textureLoader) {
         return null;
     }
 
     @Override
-    public BufferedImage selectTexture(Direction viewDirection) {
+    public ITextureStrategy selectTexture() {
         return null;
     }
 

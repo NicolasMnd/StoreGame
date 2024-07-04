@@ -3,11 +3,11 @@ package game;
 import game.property.PropertyManager;
 import util.Direction;
 import util.Pos;
-import util.texture.comp.Texture;
 import util.texture.TextureLoader;
+import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
-
-import java.awt.image.BufferedImage;
+import util.texture.textureinformation.ITextureLoader;
+import util.texture.textureinformation.ITextureStrategy;
 
 public abstract class GameObject {
 
@@ -18,7 +18,7 @@ public abstract class GameObject {
 
     public GameObject(Pos pos) {
         this.pos = pos;
-        this.texture = loadTexture(new TextureLoader());
+        this.texture = textureLoader(new TextureLoader()).loadTexture();
         this.facing = Direction.NORTH;
         this.properties = new PropertyManager();
     }
@@ -67,7 +67,7 @@ public abstract class GameObject {
     /**
      * Allows subclasses to call upon their own algorithm that handles their {@link Texture} retrieval
      */
-    public abstract TextureHolder loadTexture(TextureLoader textureLoader);
+    public abstract ITextureLoader textureLoader(TextureLoader textureLoader);
 
     /**
      * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in {@link game.map.TileReader}
@@ -78,13 +78,17 @@ public abstract class GameObject {
     }
 
     /**
-     * Retrieves the texture for this object
+     * Retrieves the texture for this object, which is set by either {@link GameObject#textureLoader(TextureLoader)} or {@link GameObject#setTexture(TextureHolder)}
      * @return the {@link TextureHolder} object
      */
-    protected TextureHolder getTexture() {
+    public TextureHolder getTexture() {
         return this.texture;
     }
 
-    public abstract BufferedImage selectTexture(Direction viewDirection);
+    /**
+     * The method that selects textures dynamically based upon the rotation of the map.
+     * @return hello
+     */
+    public abstract ITextureStrategy selectTexture();
 
 }

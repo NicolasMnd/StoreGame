@@ -28,7 +28,7 @@ public class Texture extends TextureHolder {
     }
 
     //@Override
-    public BufferedImage getImage(String key) {
+    public BufferedImage getImage() {
         return this.image;
     }
 

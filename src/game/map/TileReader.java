@@ -2,18 +2,15 @@ package game.map;
 
 import game.GameObject;
 import game.GameObjectBuilder;
-import game.tile.TileShelf;
-import util.texture.TextureLoader;
-import util.texture.comp.Texture;
 import game.tile.GameTile;
-import game.tile.TileGround;
-import game.tile.TileWall;
+import game.tile.TileShelf;
 import listeners.IContainerNotifier;
 import util.Direction;
 import util.Pos;
+import util.texture.TextureLoader;
+import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +58,7 @@ public class TileReader {
         if(textureRegistry.containsKey(o.getClass().getName()))
             s.addTexture(textureRegistry.get(o.getClass().getName()));
         else
-            this.textureRegistry.put(o.getClass().getName(), o.loadTexture(new TextureLoader()));
+            this.textureRegistry.put(o.getClass().getName(), o.textureLoader(new TextureLoader()).loadTexture());
 
         s.setFacing(ripOrientation(code));
 

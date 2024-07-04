@@ -4,7 +4,9 @@ import game.property.PropertyPeer;
 import game.property.PropertyType;
 import game.tile.TileShelf;
 import util.Direction;
+import util.texture.comp.DirectedTexture;
 import util.texture.comp.MultiTexture;
+import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 
 import java.awt.image.BufferedImage;
@@ -48,13 +50,27 @@ public class ShelfTextureInformation extends TextureInformation {
     }
 
     @Override
-    public BufferedImage retrieveTexture(Direction viewDirection, TextureHolder holder) {
+    public BufferedImage retrieveTexture() {
 
         PropertyPeer propertyPeer = (PropertyPeer) shelf.getProperties().getProperty(PropertyType.SHELF_PEER);
+        MultiTexture textuur = (MultiTexture) shelf.getTexture();
 
+        if(propertyPeer.isLeftSide()) {
+            return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("left")).getImage();
+        }
+        else if(propertyPeer.isMiddle()) {
+            return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("mid")).getImage();
+        }
+        else if(propertyPeer.isRightSide()) {
+            return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("right")).getImage();
+        }
 
         return null;
 
+    }
+
+    private Texture selectDirection(Direction shelfDirection, DirectedTexture textuur) {
+        return (Texture) textuur.getTexture(shelfDirection);
     }
 
 }

@@ -1,6 +1,5 @@
 package util.texture.comp;
 
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class MultiTexture extends TextureHolder {
      * @param key the key of the multi-texture
      * @return a {@link TextureHolder}
      */
-    public TextureHolder getImage(String key) {
+    public TextureHolder getTexture(String key) {
         return variants.get(key);
     }
 
