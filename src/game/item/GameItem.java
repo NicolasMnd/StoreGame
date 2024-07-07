@@ -14,7 +14,7 @@ public abstract class GameItem extends GameObject {
     /**
      * @return the string id
      */
-    String getId() {
+    public String getId() {
         return new String(this.id);
     }
 

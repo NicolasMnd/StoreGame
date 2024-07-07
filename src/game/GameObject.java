@@ -3,6 +3,7 @@ package game;
 import game.property.PropertyManager;
 import util.Direction;
 import util.Pos;
+import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
 import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
@@ -15,6 +16,7 @@ public abstract class GameObject {
     private TextureHolder texture;
     private Direction facing;
     private final PropertyManager properties;
+    private int width, height;
 
     public GameObject(Pos pos) {
         this.pos = pos;
@@ -57,6 +59,22 @@ public abstract class GameObject {
     }
 
     /**
+     * Returns the height of this object
+     * @return the height of this object
+     */
+    public int getHeight() {
+        return this.height;
+    }
+
+    /**
+     * Returns the width of this object
+     * @return the width of this object
+     */
+    public int getWidth() {
+        return this.width;
+    }
+
+    /**
      * Returns the {@link PropertyManager} containing all assigned {@link game.property.Property} instances
      * @return the {@link PropertyManager}
      */
@@ -89,6 +107,30 @@ public abstract class GameObject {
      * The method that selects textures dynamically based upon the rotation of the map.
      * @return hello
      */
-    public abstract ITextureStrategy selectTexture();
+    public abstract ITextureStrategy textureSelector();
+
+    /**
+     * Sets the width of this game object
+     * @param width the width of the object
+     */
+    protected void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * Sets the height of this game object
+     * @param height the height of the object
+     */
+    protected void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
+     * returns the {@link Hitbox} of this object
+     * @return the {@link Hitbox} object
+     */
+    public Hitbox getHitbox() {
+        return new Hitbox(this.pos, (Pos) this.pos.add(new Pos(width, height)));
+    }
 
 }

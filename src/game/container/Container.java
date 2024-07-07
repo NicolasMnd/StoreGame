@@ -36,17 +36,17 @@ public class Container {
 
             @Override
             public GameItem removeItem(String id) {
-                return null;
+                return removeItem(id);
             }
 
             @Override
             public void addItem(GameItem item) {
-
+                this.addItem(item);
             }
 
             @Override
             public GameItem[] getContainerItems() {
-                return new GameItem[0];
+                return items.toArray(GameItem[]::new);
             }
         };
     }
@@ -89,7 +89,17 @@ public class Container {
      * @return a {@link GameItem} from the {@link Container#items}
      */
     private GameItem removeItem(String id) {
-        return null;
+        GameItem item = this.items.stream().filter(check -> check.getId().equals(id)).toList().get(0);
+        this.items.remove(item);
+        return item;
+    }
+
+    /**
+     * Adds an item to the {@link Container#items}
+     * @param item the item to be added
+     */
+    private void addItem(GameItem item) {
+        this.items.add(item);
     }
 
 }

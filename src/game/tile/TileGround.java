@@ -20,7 +20,7 @@ public class TileGround extends GameTile {
     }
 
     @Override
-    public ITextureStrategy selectTexture() {
+    public ITextureStrategy textureSelector() {
         return () -> new Texture(new File("tileground.png")).getImage();
     }
 

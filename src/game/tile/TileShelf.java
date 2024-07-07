@@ -23,7 +23,7 @@ public class TileShelf extends GameTile {
     }
 
     @Override
-    public ITextureStrategy selectTexture() {
+    public ITextureStrategy textureSelector() {
         return new ShelfTextureInformation(this);
     }
 

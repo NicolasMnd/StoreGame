@@ -17,7 +17,7 @@ public class TileWall extends GameTile {
     }
 
     @Override
-    public ITextureStrategy selectTexture() {
+    public ITextureStrategy textureSelector() {
         return null;
     }
 

@@ -16,7 +16,7 @@ public class ItemTomato extends GameItem {
     }
 
     @Override
-    public ITextureStrategy selectTexture() {
+    public ITextureStrategy textureSelector() {
         return () -> null;
     }
 }
