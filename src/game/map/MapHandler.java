@@ -25,7 +25,7 @@ public class MapHandler {
     private final MapRotator rotator;
     private final String mapName;
 
-    public MapHandler(String mapLocation) {
+    public MapHandler(String mapLocation, int tileSize) {
         this.reader = new MapReader(getMapDimensions(mapLocation));
         this.rotator = new MapRotator(getMapDimensions(mapLocation));
         this.mapName = mapLocation;

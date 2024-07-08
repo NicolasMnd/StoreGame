@@ -36,7 +36,7 @@ public class TestMapRotator {
     public void init() throws IOException {
         p = p.resolve("mapLocation.txt");
         Files.write(p, stringMap.getBytes());
-        MapHandler handler = new MapHandler(p.toString());
+        MapHandler handler = new MapHandler(p.toString(), 0);
         tiles = handler.readMap();
     }
 

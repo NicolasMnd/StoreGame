@@ -36,7 +36,7 @@ public class TestMapReader {
     public void init() throws IOException {
         p = p.resolve("mapLocation.txt");
         Files.write(p, stringMap.getBytes());
-        handler = new MapHandler(p.toString());
+        handler = new MapHandler(p.toString(), 0);
         tiles = handler.readMap();
     }
 

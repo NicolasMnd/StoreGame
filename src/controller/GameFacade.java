@@ -1,7 +1,7 @@
 package controller;
 
 import game.GameState;
-import listeners.MouseHandler;
+import listeners.InputHandler;
 import render.GameView;
 import render.View;
 
@@ -15,11 +15,13 @@ public class GameFacade {
 
     private final View view;
     private GameState state = new GameState();
+    private final int GAME_SIZE = 32;
 
-    public GameFacade(MouseHandler mouseHandler) {
-        this.view = new GameView();
-        view.registerMouseHandler(mouseHandler);
-        state.init();
+    public GameFacade(InputHandler inputHandler) {
+        this.view = new GameView(GAME_SIZE);
+        view.registerMouseHandler(inputHandler);
+        view.registerKeyHandler(inputHandler);
+        state.init(GAME_SIZE);
     }
 
     /**
@@ -39,6 +41,10 @@ public class GameFacade {
 
     public void hover(int x, int y) {
 
+    }
+
+    public void enterCharacter() {
+        System.out.println("Key pressed");
     }
 
     /**

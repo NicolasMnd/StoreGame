@@ -15,8 +15,8 @@ public class GameState {
     /**
      * Starts up the game.
      */
-    public void init() {
-        loadMap("resources/map/map.csv");
+    public void init(int tileSize) {
+        loadMap("resources/map/map.csv", tileSize);
     }
 
     /**
@@ -31,8 +31,8 @@ public class GameState {
      * Reads the map of a specific name.
      * @param mapName the name on disk
      */
-    private void loadMap(String mapName) {
-        MapHandler handler = new MapHandler(mapName);
+    private void loadMap(String mapName, int tileSize) {
+        MapHandler handler = new MapHandler(mapName, tileSize);
         this.tiles = handler.readMap();
         this.container = handler.getContainers();
     }

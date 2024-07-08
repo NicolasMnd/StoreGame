@@ -3,10 +3,12 @@ package controller;
 import com.misterc.controller.Controller;
 import com.misterc.controller.MisterC;
 import com.misterc.input.InputType;
-import listeners.MouseHandler;
-import listeners.IMouseNotifier;
+import listeners.InputHandler;
+import listeners.InputNotifier;
 
-public class GameController extends Controller {
+import java.awt.event.ActionEvent;
+
+public class GameController {
 
     /**
      * The facade which will connect all subsystems
@@ -16,28 +18,25 @@ public class GameController extends Controller {
     /**
      * Allows this class to receive mouse input requests
      */
-    private final MouseHandler mouseHandler;
+    private final InputHandler inputHandler;
 
-    public GameController(MisterC c) {
-        super(c, null);
-        this.mouseHandler = new MouseHandler();
-        this.mouseHandler.subscribeListener(getNotifier());
-        this.facade = new GameFacade(mouseHandler);
+    public GameController() {
+        this.inputHandler = new InputHandler();
+        this.inputHandler.subscribeListener(getNotifier());
+        this.facade = new GameFacade(inputHandler);
     }
 
-    @Override
-    public void handle(InputType inputType) {
-
+    public void idle(ActionEvent event) {
+        paint();
     }
 
-    @Override
-    public void paint() {
+    private void paint() {
         this.facade.render();
     }
 
     // Creates a mouse listener
-    private IMouseNotifier getNotifier() {
-        return new IMouseNotifier() {
+    private InputNotifier getNotifier() {
+        return new InputNotifier() {
             @Override
             public void hover(int x, int y) {
                 facade.hover(x, y);
@@ -51,6 +50,11 @@ public class GameController extends Controller {
             @Override
             public void rightClick(int x, int y) {
                 facade.rightClicked(x, y);
+            }
+
+            @Override
+            public void enterCharacter() {
+                facade.enterCharacter();
             }
         };
     }

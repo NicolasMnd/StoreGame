@@ -1,33 +1,31 @@
 package listeners;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class that will delegate mouse input to the controller layer
  */
-public class MouseHandler implements MouseListener, MouseMotionListener {
+public class InputHandler implements MouseListener, MouseMotionListener, KeyListener {
 
-    private List<IMouseNotifier> mouseListeners;
+    private List<InputNotifier> mouseListeners;
 
-    public MouseHandler() {
+    public InputHandler() {
         this.mouseListeners = new ArrayList<>();
     }
 
-    public void subscribeListener(IMouseNotifier listener) {
+    public void subscribeListener(InputNotifier listener) {
         this.mouseListeners.add(listener);
     }
 
-    public void unsubscribe(IMouseNotifier listener) {
+    public void unsubscribe(InputNotifier listener) {
         this.mouseListeners.remove(listener);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        for(IMouseNotifier listener : mouseListeners)
+        for(InputNotifier listener : mouseListeners)
             if(e.getButton() == 1)
                 listener.leftClick(e.getX(), e.getY());
             else if(e.getButton() == 2)
@@ -61,8 +59,23 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        for(IMouseNotifier listener : mouseListeners)
+        for(InputNotifier listener : mouseListeners)
             listener.hover(e.getX(), e.getY());
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        for(InputNotifier listener : mouseListeners)
+            listener.enterCharacter();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

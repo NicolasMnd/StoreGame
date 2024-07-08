@@ -3,7 +3,7 @@ package render;
 import game.GameObject;
 import game.GameState;
 import game.tile.GameTile;
-import listeners.MouseHandler;
+import listeners.InputHandler;
 import util.texture.TextureSelector;
 
 import javax.swing.*;
@@ -16,43 +16,39 @@ public class GameView extends JPanel implements View {
 
     private GameState latestGameState;
     private Graphics2D graphics;
-    private int size = 16;
+    private int size;
+    private JFrame frame;
 
-    public GameView() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
-        frame.setTitle("Colruyt Simulator");
-        frame.add(this);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setSize(192*4, 256*4);
+    public GameView(int size) {
+        this.size = size;
+        this.frame = initializeFrame();
     }
 
     @Override
-    public void paintComponents(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponents(g);
+        System.out.println("Painting components");
         this.graphics = (Graphics2D) g;
-        //renderGameState();
+        renderGameState();
+        g.dispose();
     }
 
     @Override
     public void render(GameState state) {
+        System.out.println("Painting componentssdfs");
         this.latestGameState = state;
         repaint();
     }
 
     @Override
-    public void registerMouseHandler(MouseHandler listener) {
+    public void registerMouseHandler(InputHandler listener) {
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
     }
 
-    /**
-     * @param newSize the new size of the game.
-     */
-    public void resize(int newSize) {
-        this.size = newSize;
+    @Override
+    public void registerKeyHandler(InputHandler listener) {
+        //this.frame.addKeyListener(listener);
     }
 
     /**
@@ -66,10 +62,10 @@ public class GameView extends JPanel implements View {
      * Renders all elements of the {@link GameState}
      */
     private void renderGameState() {
+        System.out.println("Gametiles: " + latestGameState.getTiles());
         for(GameTile[] tileArr : latestGameState.getTiles())
             for(GameTile tile : tileArr)
                 draw(tile);
-
     }
 
     /**
@@ -86,5 +82,19 @@ public class GameView extends JPanel implements View {
                 null
         );
     }
+
+    private JFrame initializeFrame() {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setTitle("Colruyt Simulator");
+        frame.getContentPane().add(this);
+        frame.revalidate();
+        frame.pack();
+        frame.setVisible(true);
+        frame.setSize(192*4, 256*4);
+        frame.setLocationRelativeTo(null);
+        return frame;
+    }
+
 
 }
