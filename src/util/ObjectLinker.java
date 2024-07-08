@@ -1,5 +1,9 @@
 package util;
 
+import game.property.PropertyPeer;
+import game.property.PropertyType;
+import game.tile.TileShelf;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -14,6 +18,7 @@ public class ObjectLinker<T> {
     private final BiFunction<T, T, Boolean> action;
     private final BiPredicate<T, T> arePeers;
     private List<T> unlinkedPeers = new ArrayList<>();
+    private boolean debug = false;
 
     /**
      * Object linker will try to connect objects on a very high level.
@@ -49,6 +54,8 @@ public class ObjectLinker<T> {
         // Check all rows & link early per row
         for(int i = 0; i < matrix.length; i++) {
 
+            if(i == 4) debug = true;
+            else debug = false;
             checkRow(matrix[i]);
 
         }
@@ -89,14 +96,14 @@ public class ObjectLinker<T> {
 
         // We loop over the row and check for peer objects
         for(int i = 0; i < row.length; i++) {
-            //System.out.println("i = " + i);
+            debug("i = " + i);
 
             // If we have not detected any peer objects, we skip until there is one
             if(i < waitUntil)
                 continue;
 
             waitUntil = containsPeers(row, i);
-            //System.out.println("Waiting until: " + waitUntil);
+            debug("Waiting until: " + waitUntil);
 
             // We check if from this index there are still peer objects
             if(waitUntil == -1)
@@ -105,7 +112,7 @@ public class ObjectLinker<T> {
             // Get the length of peers ; this way we can differentiate whether we need to add
             // insufficient amount to leftovers, or try attempt a sufficiently sized row
             Pair<Integer, Integer> peerInfo = getLengthPeers(row, i);
-            //System.out.println("GetLengthPeers: " + peerInfo.getFirst() + " -> " + peerInfo.getSecond());
+            debug("GetLengthPeers: " + peerInfo.getFirst() + " -> " + peerInfo.getSecond());
 
             // If the amount of peers in a row is acceptable, we link them.
             if(peerInfo.getSecond() >= getLinkRowAmount())
@@ -180,13 +187,35 @@ public class ObjectLinker<T> {
      * @param peerInfo the info for the peers: start index ; amount of peers
      */
     int attemptLink(T[] row, Pair<Integer, Integer> peerInfo) {
-        for(int i = peerInfo.getFirst(); i < peerInfo.getFirst() + getLinkRowAmount() - 1; i++)
-            if(canBePeers.test(row[i], row[i+1]))
+        for(int i = peerInfo.getFirst(); i < peerInfo.getFirst() + getLinkRowAmount() - 1; i++) {
+            debug("Testing if " + row[i] + " and " + row[i+1] + " can be peers: " + canBePeers.test(row[i], row[i + 1]));
+            test(row[i], row[i+1]);
+            if (canBePeers.test(row[i], row[i + 1])) {
+                debug("");
                 action.apply(row[i], row[i + 1]);
-            else
+            } else
                 unlinkedPeers.add(row[i]);
+        }
 
         return peerInfo.getFirst() + getLinkRowAmount();
+
+    }
+
+    private void debug(String message) {
+        if(debug)
+            System.out.println(message);
+    }
+
+    private void test(T t1, T t2) {
+        TileShelf tile1 = (TileShelf) t1;
+        TileShelf tile2 = (TileShelf) t2;
+        if(!debug) return;
+        System.out.println(
+                "connected: " +
+                tile1.getPosition().operation.isConnected1D(tile2.getPosition(), 32*4) + " -> pos1: " + tile1.getPosition().getFormat() + " vs pos2: " + tile2.getPosition().getFormat() +
+                " - facing: " +
+                tile1.getFacing().equals(tile2.getFacing()) + " - property peers okay: " +
+                        (((PropertyPeer) tile1.getProperties().getProperty(PropertyType.SHELF_PEER)).getPeers().size() < 4-1));
 
     }
 

@@ -21,15 +21,17 @@ public class MapReader implements Consumer<String> {
     private List<Container> containers;
     private int parseLine = 0;
     private TileReader tileReader;
+    private final int tileSize;
 
     /**
      * Class that handles the interpretation of lines to {@link GameTile}
      * @param dimensions the dimensions of the map contained in a {@link Dimension} object
      */
-    public MapReader(Dimension dimensions) {
+    public MapReader(Dimension dimensions, int tileSize) {
         this.tiles = new GameTile[dimensions.getHeight()][dimensions.getWidth()];
         this.containers = new ArrayList<>();
         this.tileReader = new TileReader(addContainerListener());
+        this.tileSize = tileSize;
     }
 
     /**
@@ -42,7 +44,7 @@ public class MapReader implements Consumer<String> {
         String[] split = type.split(";");
 
         for(int i = 0; i < split.length; i++)
-            tiles[parseLine][i] = tileReader.getTileFor(split[i], new Pos(i, parseLine));
+            tiles[parseLine][i] = tileReader.getTileFor(split[i], new Pos(i * tileSize, parseLine * tileSize));
 
         parseLine++;
 

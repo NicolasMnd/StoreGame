@@ -27,7 +27,7 @@ public class TestShelfLinker {
                 {new TestTile(), new TileShelf(new Pos(1, 3), null), new TileShelf(new Pos(2, 3), null), new TileShelf(new Pos(3, 3), null), new TileShelf(new Pos(4, 3), null), new TileShelf(new Pos(5, 3), null)},
         };
 
-        ShelfLinker linker = new ShelfLinker(tiles);
+        ShelfLinker linker = new ShelfLinker(tiles, 1);
         linker.findRelations();
     }
 

@@ -48,10 +48,10 @@ public class TestShelfInformation {
                 shelf_or:w_cc:ab;                ;                ;                ;                ;
                 shelf_or:w_cc:ab;                ;                ;                ;                ;
                 """).getBytes());
-        reader = new MapHandler(pa.toString(), 0);
+        reader = new MapHandler(pa.toString(), 1);
         tiles = reader.readMap();
 
-        reader = new MapHandler(pa2.toString(), 0);
+        reader = new MapHandler(pa2.toString(), 1);
         tiles2 = reader.readMap();
     }
 

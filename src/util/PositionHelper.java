@@ -67,10 +67,11 @@ public class PositionHelper {
      * @return a boolean
      */
     public boolean isConnected1D(Pos pos, int range) {
-        if(pos.x() == this.pos.x())
+        if(pos.x().equals(this.pos.x())) {
             return Math.abs(this.pos.subtract(pos).y()) <= range;
-        else if(pos.y() == this.pos.y())
+        } else if(pos.y().equals(this.pos.y())) {
             return Math.abs(this.pos.subtract(pos).x()) <= range;
+        }
         return false;
     }
 

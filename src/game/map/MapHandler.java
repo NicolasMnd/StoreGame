@@ -24,11 +24,13 @@ public class MapHandler {
      */
     private final MapRotator rotator;
     private final String mapName;
+    private final int tileSize;
 
     public MapHandler(String mapLocation, int tileSize) {
-        this.reader = new MapReader(getMapDimensions(mapLocation));
+        this.reader = new MapReader(getMapDimensions(mapLocation), tileSize);
         this.rotator = new MapRotator(getMapDimensions(mapLocation));
         this.mapName = mapLocation;
+        this.tileSize = tileSize;
     }
 
     /**
@@ -37,7 +39,7 @@ public class MapHandler {
      */
     public GameTile[][] readMap() {
         readLines(reader, mapName);
-        ShelfLinker linker = new ShelfLinker(reader.getTiles());
+        ShelfLinker linker = new ShelfLinker(reader.getTiles(), tileSize);
         linker.findRelations();
         return linker.getMatrix();
     }

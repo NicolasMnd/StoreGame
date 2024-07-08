@@ -17,7 +17,7 @@ public class TextureSelector {
     }
 
     public ITextureStrategy selectTexture(TileWall wall) {
-        return () -> null;
+        return () -> ((Texture) wall.getTexture()).getImage();
     }
 
     public ITextureStrategy selectTexture(TileShelf shelf) {

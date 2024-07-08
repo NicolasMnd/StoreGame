@@ -3,6 +3,8 @@ package util.texture;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
+import util.Direction;
+import util.texture.comp.DirectedTexture;
 import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ShelfTextureInformation;
@@ -21,9 +23,7 @@ public class TextureLoader {
     }
 
     public ITextureLoader loadTexture(TileWall wall) {
-        return () -> {
-            return null;
-        };
+        return () -> new Texture(new File("resources/tiles/wall.png"));
     }
 
     public ITextureLoader loadTexture(TileGround ground) {

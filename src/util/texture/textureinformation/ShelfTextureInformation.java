@@ -58,6 +58,10 @@ public class ShelfTextureInformation extends TextureInformation {
         PropertyPeer propertyPeer = (PropertyPeer) shelf.getProperties().getProperty(PropertyType.SHELF_PEER);
         MultiTexture textuur = (MultiTexture) shelf.getTexture();
 
+        if(shelf.getFacing().equals(NORTH)) {
+
+        }
+
         if(propertyPeer.isLeftSide()) {
             return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("left")).getImage();
         }
@@ -68,6 +72,7 @@ public class ShelfTextureInformation extends TextureInformation {
             return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("right")).getImage();
         }
 
+        System.out.println("null texture");
         return null;
 
     }

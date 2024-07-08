@@ -8,7 +8,7 @@ import util.ObjectLinker;
 
 public class ShelfLinker extends ObjectLinker<GameTile> {
 
-    public ShelfLinker(GameTile[][] matrix) {
+    public ShelfLinker(GameTile[][] matrix, int tileSize) {
         super(
                 matrix,
 
@@ -21,7 +21,7 @@ public class ShelfLinker extends ObjectLinker<GameTile> {
 
                 (tile1, tile2) -> ((PropertyPeer) tile1.getProperties().getProperty(PropertyType.SHELF_PEER)).containsPeer(tile2),
 
-                (tile1, tile2) -> tile1.getPosition().operation.isConnected1D(tile2.getPosition(), 4)
+                (tile1, tile2) -> tile1.getPosition().operation.isConnected1D(tile2.getPosition(), 32*4)
                         && tile1.getFacing().equals(tile2.getFacing())
                         && ((PropertyPeer) tile1.getProperties().getProperty(PropertyType.SHELF_PEER)).getPeers().size() < 4-1,
 
