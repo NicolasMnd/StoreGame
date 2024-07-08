@@ -5,6 +5,7 @@ import util.Direction;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
+import util.texture.TextureSelector;
 import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 import util.texture.textureinformation.ITextureLoader;
@@ -104,10 +105,10 @@ public abstract class GameObject {
     }
 
     /**
-     * The method that selects textures dynamically based upon the rotation of the map.
+     * The method that selects textures dynamically based upon the rotation of the map
      * @return hello
      */
-    public abstract ITextureStrategy textureSelector();
+    public abstract ITextureStrategy textureSelector(TextureSelector selector);
 
     /**
      * Sets the width of this game object

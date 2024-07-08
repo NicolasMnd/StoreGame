@@ -35,7 +35,7 @@ public class DirectionHelper {
      * @return
      */
     public boolean isCompDirection(Pair<Direction, Direction> direction) {
-        return !direction.getFirst().opposite(direction.getFirst()).equals(direction.getSecond()) && !direction.getFirst().equals(direction.getSecond());
+        return !direction.getFirst().opposite().equals(direction.getSecond()) && !direction.getFirst().equals(direction.getSecond());
     }
 
     /**

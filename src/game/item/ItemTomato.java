@@ -1,6 +1,7 @@
 package game.item;
 
 import util.texture.TextureLoader;
+import util.texture.TextureSelector;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
@@ -16,7 +17,7 @@ public class ItemTomato extends GameItem {
     }
 
     @Override
-    public ITextureStrategy textureSelector() {
-        return () -> null;
+    public ITextureStrategy textureSelector(TextureSelector selector) {
+        return selector.selectTexture(this);
     }
 }

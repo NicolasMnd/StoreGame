@@ -5,6 +5,7 @@ import game.property.PropertyPeer;
 import listeners.IContainerInteraction;
 import util.Pos;
 import util.texture.TextureLoader;
+import util.texture.TextureSelector;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 import util.texture.textureinformation.ShelfTextureInformation;
@@ -23,8 +24,8 @@ public class TileShelf extends GameTile {
     }
 
     @Override
-    public ITextureStrategy textureSelector() {
-        return new ShelfTextureInformation(this);
+    public ITextureStrategy textureSelector(TextureSelector selector) {
+        return selector.selectTexture(this);
     }
 
 }

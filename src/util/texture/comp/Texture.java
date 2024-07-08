@@ -1,5 +1,7 @@
 package util.texture.comp;
 
+import org.w3c.dom.Text;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,9 +13,11 @@ import java.io.IOException;
 public class Texture extends TextureHolder {
 
     private final BufferedImage image;
+    private final String location;
 
     public Texture(File location) {
         this.image = readImage(location);
+        this.location = location.getPath();
     }
 
     BufferedImage readImage(File location) {
@@ -27,9 +31,15 @@ public class Texture extends TextureHolder {
         return image1;
     }
 
-    //@Override
     public BufferedImage getImage() {
         return this.image;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Texture t) {
+            return location.equalsIgnoreCase(t.location);
+        }
+        return false;
+    }
 }

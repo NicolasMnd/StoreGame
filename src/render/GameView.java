@@ -4,6 +4,7 @@ import game.GameObject;
 import game.GameState;
 import game.tile.GameTile;
 import listeners.MouseHandler;
+import util.texture.TextureSelector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,14 +19,21 @@ public class GameView extends JPanel implements View {
     private int size = 16;
 
     public GameView() {
-
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(true);
+        frame.setTitle("Colruyt Simulator");
+        frame.add(this);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setSize(192*4, 256*4);
     }
 
     @Override
     public void paintComponents(Graphics g) {
         super.paintComponents(g);
         this.graphics = (Graphics2D) g;
-        renderGameState();
+        //renderGameState();
     }
 
     @Override
@@ -70,7 +78,7 @@ public class GameView extends JPanel implements View {
      */
     private void draw(GameObject object) {
         this.graphics.drawImage(
-                object.textureSelector().retrieveTexture(),
+                object.textureSelector(new TextureSelector()).retrieveTexture(),
                 object.getPosition().x(),
                 object.getPosition().y(),
                 object.getWidth()*getGameSize(),

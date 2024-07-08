@@ -14,7 +14,7 @@ import render.View;
 public class GameFacade {
 
     private final View view;
-    private GameState state;
+    private GameState state = new GameState();
 
     public GameFacade(MouseHandler mouseHandler) {
         this.view = new GameView();

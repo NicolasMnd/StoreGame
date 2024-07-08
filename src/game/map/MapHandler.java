@@ -1,6 +1,6 @@
 package game.map;
 
-import game.map.linkers.ShelfLinker;
+import game.container.Container;
 import game.tile.GameTile;
 import util.Dimension;
 import util.Direction;
@@ -14,23 +14,40 @@ import java.util.function.Consumer;
  */
 public class MapHandler {
 
+    /**
+     * A specific class that implements a {@link Consumer}. It will provide a {@link GameTile}[][] and do other operations
+     * like {@link listeners.IContainerNotifier}
+     */
     private final MapReader reader;
+    /**
+     * A class that will rotate a given {@link GameTile}[][].
+     */
     private final MapRotator rotator;
+    private final String mapName;
 
-    public MapHandler() {
-        this.reader = new MapReader(getMapDimensions());
-        this.rotator = new MapRotator(getMapDimensions());
+    public MapHandler(String mapLocation) {
+        this.reader = new MapReader(getMapDimensions(mapLocation));
+        this.rotator = new MapRotator(getMapDimensions(mapLocation));
+        this.mapName = mapLocation;
     }
 
     /**
      * Reads a map on disk & transforms it to a {@link GameTile} matrix
-     * @param tag the string name of the map on disk
      * @return a {@link GameTile} matrix
      */
-    public GameTile[][] readMap(String tag) {
-        readLines(reader);
+    public GameTile[][] readMap() {
+        readLines(reader, mapName);
         ShelfLinker linker = new ShelfLinker(reader.getTiles());
+        linker.findRelations();
         return linker.getMatrix();
+    }
+
+    /**
+     * Retrieves the {@link Container} list from the {@link MapReader}'s {@link MapReader#getContainers()};
+     * @return the {@link Container} array
+     */
+    public Container[] getContainers() {
+        return reader.getContainers().toArray(new Container[0]);
     }
 
     /**
@@ -47,7 +64,7 @@ public class MapHandler {
      * Reads through the map once and retrieves the dimensions of the map
      * @return gives a {@link Pair} object containing width height of the map
      */
-    private Dimension getMapDimensions() {
+    Dimension getMapDimensions(String mapLocation) {
         int[] amountLines = {0};
         int[] maxColumns = {0};
 
@@ -58,15 +75,15 @@ public class MapHandler {
             amountLines[0]++;
         };
 
-        readLines(count);
+        readLines(count, mapLocation);
         return new Dimension(amountLines[0], maxColumns[0]);
     }
 
     /**
      * Reads a line in the map and lets a function handle any logic behind handling that line
      */
-    private void readLines(Consumer<String> f) {
-        new FileHelper().readAndConsume(f, "/resources/map/map.csv");
+    void readLines(Consumer<String> f, String location) {
+        new FileHelper().readAndConsume(f, location);
     }
 
 }

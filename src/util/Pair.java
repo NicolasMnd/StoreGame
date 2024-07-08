@@ -18,10 +18,6 @@ public class Pair<S, T> {
         return second;
     }
 
-    public boolean equals(Pair<S, T> compare) {
-        return compare.getFirst().equals(first) && compare.getSecond().equals(second);
-    }
-
     public String toString() {
         return "<" + first.toString() + ", " + second.toString() + ">";
     }

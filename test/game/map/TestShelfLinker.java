@@ -1,4 +1,4 @@
-package game.map.linkers;
+package game.map;
 
 import game.TestTile;
 import game.property.PropertyPeer;
@@ -21,16 +21,12 @@ public class TestShelfLinker {
     @BeforeEach
     public void init() {
         tiles = new GameTile[][] {
-                {new TestTile(), new TileShelf(new Pos(0, 1), null), new TileShelf(new Pos(0, 2), null), new TileShelf(new Pos(0, 3), null), new TileShelf(new Pos(0, 4), null), new TileShelf(new Pos(0, 5), null)},
-                {new TestTile(), new TileShelf(new Pos(1, 1), null), new TileShelf(new Pos(1, 2), null), new TileShelf(new Pos(1, 3), null), new TileShelf(new Pos(1, 4), null), new TileShelf(new Pos(1, 5), null)},
-                {new TestTile(), new TestTile(),                     new TestTile(),                     new TestTile(),                      new TestTile(),                     new TileShelf(new Pos(2, 5), null)},
-                {new TestTile(), new TileShelf(new Pos(0, 1), null), new TileShelf(new Pos(0, 2), null), new TileShelf(new Pos(0, 3), null), new TileShelf(new Pos(0, 4), null), new TileShelf(new Pos(3, 5), null)},
+                {new TestTile(), new TileShelf(new Pos(1, 0), null), new TileShelf(new Pos(2, 0), null), new TileShelf(new Pos(3, 0), null), new TileShelf(new Pos(4, 0), null), new TileShelf(new Pos(5, 0), null)},
+                {new TestTile(), new TileShelf(new Pos(1, 1), null), new TileShelf(new Pos(2, 1), null), new TileShelf(new Pos(3, 1), null), new TileShelf(new Pos(4, 1), null), new TileShelf(new Pos(5, 1), null)},
+                {new TestTile(), new TestTile(),                                         new TestTile(),                                        new TestTile(),                                         new TestTile(),                                         new TileShelf(new Pos(5, 2), null)},
+                {new TestTile(), new TileShelf(new Pos(1, 3), null), new TileShelf(new Pos(2, 3), null), new TileShelf(new Pos(3, 3), null), new TileShelf(new Pos(4, 3), null), new TileShelf(new Pos(5, 3), null)},
         };
-        for(GameTile[] row : tiles) {
-            for (GameTile t : row)
-                System.out.print(t + ", ");
-            System.out.println();
-        }
+
         ShelfLinker linker = new ShelfLinker(tiles);
         linker.findRelations();
     }

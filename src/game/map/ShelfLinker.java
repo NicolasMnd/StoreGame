@@ -1,4 +1,4 @@
-package game.map.linkers;
+package game.map;
 
 import game.property.PropertyPeer;
 import game.property.PropertyType;

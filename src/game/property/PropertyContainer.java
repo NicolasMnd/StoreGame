@@ -20,6 +20,12 @@ public class PropertyContainer extends Property {
         this.containerInteractor = containerInteractor;
     }
 
-
+    /**
+     * Returns the interface that lets you interact with the corresponding {@link game.container.Container} object
+     * @return the {@link IContainerInteraction} to interact with the {@link game.container.Container}
+     */
+    public IContainerInteraction getContainerInteracter() {
+        return this.containerInteractor;
+    }
 
 }

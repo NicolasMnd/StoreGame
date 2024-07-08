@@ -10,6 +10,9 @@ import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+
+import static util.Direction.*;
 
 public class ShelfTextureInformation extends TextureInformation {
 
@@ -21,30 +24,30 @@ public class ShelfTextureInformation extends TextureInformation {
 
     @Override
     public TextureHolder loadTexture() {
-        /*
+
         DirectedTexture leftSide = new DirectedTexture();
-        leftSide.addTexture(NORTH, new File("/resources/tiles/shelf_n_left.png"));
-        leftSide.addTexture(SOUTH, new File("/resources/tiles/shelf_s_left.png"));
-        leftSide.addTexture(WEST, new File("/resources/tiles/shelf_w_left.png"));
-        leftSide.addTexture(EAST, new File("/resources/tiles/shelf_e_left.png"));
+        leftSide.addTexture(NORTH, new File("resources/tiles/shelf_n_left.png"));
+        leftSide.addTexture(SOUTH, new File("resources/tiles/shelf_s_left.png"));
+        leftSide.addTexture(WEST, new File("resources/tiles/shelf_e_left.png"));
+        leftSide.addTexture(EAST, new File("resources/tiles/shelf_e_left.png"));
 
         DirectedTexture rightSide = new DirectedTexture();
-        rightSide.addTexture(NORTH, new File("/resources/tiles/shelf_n_right.png"));
-        rightSide.addTexture(SOUTH, new File("/resources/tiles/shelf_s_right.png"));
-        rightSide.addTexture(WEST, new File("/resources/tiles/shelf_w_right.png"));
-        rightSide.addTexture(EAST, new File("/resources/tiles/shelf_e_right.png"));
+        rightSide.addTexture(NORTH, new File("resources/tiles/shelf_n_right.png"));
+        rightSide.addTexture(SOUTH, new File("resources/tiles/shelf_s_right.png"));
+        rightSide.addTexture(WEST, new File("resources/tiles/shelf_e_right.png"));
+        rightSide.addTexture(EAST, new File("resources/tiles/shelf_e_right.png"));
 
         DirectedTexture mid = new DirectedTexture();
-        mid.addTexture(NORTH, new File("/resources/tiles/shelf_n_mid.png"));
-        mid.addTexture(SOUTH, new File("/resources/tiles/shelf_s_mid.png"));
-        mid.addTexture(WEST, new File("/resources/tiles/shelf_w_mid.png"));
-        mid.addTexture(EAST, new File("/resources/tiles/shelf_e_mid.png"));*/
+        mid.addTexture(NORTH, new File("resources/tiles/shelf_n_mid.png"));
+        mid.addTexture(SOUTH, new File("resources/tiles/shelf_s_mid.png"));
+        mid.addTexture(WEST, new File("resources/tiles/shelf_e_mid.png"));
+        mid.addTexture(EAST, new File("resources/tiles/shelf_e_mid.png"));
 
         MultiTexture multiTexture = new MultiTexture();
-        /*
+
         multiTexture.addTexture("right", rightSide);
         multiTexture.addTexture("mid", mid);
-        multiTexture.addTexture("left", leftSide);*/
+        multiTexture.addTexture("left", leftSide);
 
         return multiTexture;
     }

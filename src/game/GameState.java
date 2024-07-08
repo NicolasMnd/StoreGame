@@ -1,11 +1,13 @@
 package game;
 
+import game.container.Container;
 import game.map.MapHandler;
 import game.tile.GameTile;
 
 public class GameState {
 
     private GameTile[][] tiles;
+    private Container[] container;
     //private Entity[] entities;
 
     public GameState() {}
@@ -14,7 +16,7 @@ public class GameState {
      * Starts up the game.
      */
     public void init() {
-        loadMap("map/map.csv");
+        loadMap("resources/map/map.csv");
     }
 
     /**
@@ -30,7 +32,9 @@ public class GameState {
      * @param mapName the name on disk
      */
     private void loadMap(String mapName) {
-        this.tiles = new MapHandler().readMap(mapName);
+        MapHandler handler = new MapHandler(mapName);
+        this.tiles = handler.readMap();
+        this.container = handler.getContainers();
     }
 
     private void loadEntities() {

@@ -47,7 +47,7 @@ public class RotatorTest {
 
         assertTrue(
                 new ArrayTestHelper<Integer>().arraysEquals2D(
-                        new Rotator<Integer>(Integer.class).rotateLeft(map, new Dimension(2,3)),
+                        new Rotator<Integer>(Integer.class).rotateLeft(map, new Dimension(3,2)),
                         out
                 )
         );
@@ -93,7 +93,7 @@ public class RotatorTest {
 
         assertTrue(
                 new ArrayTestHelper<Integer>().arraysEquals2D(
-                        new Rotator<Integer>(Integer.class).rotateRight(map, new Dimension(2,3)),
+                        new Rotator<Integer>(Integer.class).rotateRight(map, new Dimension(3,2)),
                         out
                 )
         );

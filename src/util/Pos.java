@@ -51,4 +51,10 @@ public class Pos extends Pos2di {
         return new Pos(x(), y());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Pos p)
+            return this.x().equals(p.x()) && this.y().equals(p.y());
+        return false;
+    }
 }

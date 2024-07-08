@@ -6,11 +6,14 @@ import listeners.IContainerNotifier;
 import util.Dimension;
 import util.Pos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * This class contains the logic to create {@link GameTile} from a string retrieved from a text file
+ * This class will be called upon on each line that is read from the csv file.
+ * Call happens in {@link MapHandler#readMap()}. It will split a line, then use {@link TileReader}
+ * to convert a code into a {@link GameTile} and use {@link game.GameObjectBuilder} to set its {@link util.Direction}.
  */
 public class MapReader implements Consumer<String> {
 
@@ -24,8 +27,9 @@ public class MapReader implements Consumer<String> {
      * @param dimensions the dimensions of the map contained in a {@link Dimension} object
      */
     public MapReader(Dimension dimensions) {
-        tiles = new GameTile[dimensions.getHeight()][dimensions.getWidth()];
-        tileReader = new TileReader(addContainerListener());
+        this.tiles = new GameTile[dimensions.getHeight()][dimensions.getWidth()];
+        this.containers = new ArrayList<>();
+        this.tileReader = new TileReader(addContainerListener());
     }
 
     /**
@@ -67,10 +71,12 @@ public class MapReader implements Consumer<String> {
     private IContainerNotifier addContainerListener() {
         return containerCode -> {
                 Container newContainer = null;
-                if(!containers.stream().noneMatch(c -> c.getContainerCode() == containerCode)) {
+                if(containers.stream().noneMatch(c -> c.getContainerCode().equals(containerCode))) {
                     newContainer = new Container(containerCode);
                     this.containers.add(newContainer);
                 }
+                else
+                    newContainer = containers.stream().filter(c -> c.getContainerCode().equals(containerCode)).toList().get(0);
                 return newContainer.getInteractor();
         };
     }

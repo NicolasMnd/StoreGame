@@ -2,6 +2,7 @@ package game.tile;
 
 import util.Pos;
 import util.texture.TextureLoader;
+import util.texture.TextureSelector;
 import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
@@ -16,12 +17,12 @@ public class TileGround extends GameTile {
 
     @Override
     public ITextureLoader textureLoader(TextureLoader textureLoader) {
-        return null;
+        return textureLoader.loadTexture(this);
     }
 
     @Override
-    public ITextureStrategy textureSelector() {
-        return () -> new Texture(new File("tileground.png")).getImage();
+    public ITextureStrategy textureSelector(TextureSelector selector) {
+        return selector.selectTexture(this);
     }
 
 }

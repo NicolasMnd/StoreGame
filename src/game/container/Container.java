@@ -11,10 +11,10 @@ import java.util.function.Consumer;
 
 public class Container {
 
-    private final int codeContainer;
+    private final String codeContainer;
     private List<GameItem> items;
 
-    public Container(int codeContainer) {
+    public Container(String codeContainer) {
         this.codeContainer = codeContainer;
         this.items = new ArrayList<>();
         this.initializeContainer();
@@ -24,7 +24,7 @@ public class Container {
      * The integer that represents the identity of the {@link Container}
      * @return the container code
      */
-    public int getContainerCode() {
+    public String getContainerCode() {
         return this.codeContainer;
     }
 
@@ -36,12 +36,12 @@ public class Container {
 
             @Override
             public GameItem removeItem(String id) {
-                return removeItem(id);
+                return remove(id);
             }
 
             @Override
             public void addItem(GameItem item) {
-                this.addItem(item);
+                add(item);
             }
 
             @Override
@@ -52,12 +52,20 @@ public class Container {
     }
 
     /**
+     * Returns the array of items
+     * @return the {@link GameItem}s in the {@link Container}
+     */
+    public List<GameItem> getItems() {
+        return items;
+    }
+
+    /**
      * Reads data from save files
      */
     private void initializeContainer() {
         Consumer<String> stringConsumer = string -> {
             String[] split = string.split("/");
-            if(Integer.parseInt(split[0]) == this.codeContainer) {
+            if(split[0].equals(this.codeContainer)) {
 
                 String[] itemArray = split[1].split(";");
                 for(int i = 0; i < itemArray.length; i++) {
@@ -71,7 +79,7 @@ public class Container {
 
             }
         };
-        new FileHelper().readAndConsume(stringConsumer, "/resources/container/containerregistry.txt");
+        new FileHelper().readAndConsume(stringConsumer, "resources/container/containerregistry.txt");
     }
 
     /**
@@ -88,7 +96,7 @@ public class Container {
      * @param id the id that should be removed
      * @return a {@link GameItem} from the {@link Container#items}
      */
-    private GameItem removeItem(String id) {
+    private GameItem remove(String id) {
         GameItem item = this.items.stream().filter(check -> check.getId().equals(id)).toList().get(0);
         this.items.remove(item);
         return item;
@@ -98,7 +106,7 @@ public class Container {
      * Adds an item to the {@link Container#items}
      * @param item the item to be added
      */
-    private void addItem(GameItem item) {
+    private void add(GameItem item) {
         this.items.add(item);
     }
 

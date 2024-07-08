@@ -3,7 +3,9 @@ package game.map;
 import game.GameObject;
 import game.GameObjectBuilder;
 import game.tile.GameTile;
+import game.tile.TileGround;
 import game.tile.TileShelf;
+import game.tile.TileWall;
 import listeners.IContainerInteraction;
 import listeners.IContainerNotifier;
 import util.Direction;
@@ -35,16 +37,17 @@ public class TileReader {
      */
     public GameTile getTileFor(String code, Pos pos) {
 
-        switch(ripId(code)) {
-            case "shelf":
-                return buildTile(code, new TileShelf(pos, notifyContainer(ripContainerCode(code))));
-        }
+        return switch (ripId(code).toLowerCase()) {
+            case "shelf" -> buildTile(code, new TileShelf(pos, notifyContainer(ripContainerCode(code))));
+            case "ground" -> buildTile(code, new TileGround(pos));
+            case "wall" -> buildTile(code, new TileWall(pos));
+            default -> null;
+        };
 
-        return null;
     }
 
     /**
-     * Contains the necessary logic to create
+     * Contains the necessary logic to create a tile, while preserving memory. The {@link TileReader#textureRegistry} contains only one entry of each texture.
      * @param code the rest of the code.
      * @param o the type of the {@link GameTile}
      * @return a {@link GameTile}
@@ -55,7 +58,7 @@ public class TileReader {
         if(textureRegistry.containsKey(o.getClass().getName()))
             s.addTexture(textureRegistry.get(o.getClass().getName()));
         else
-            this.textureRegistry.put(o.getClass().getName(), o.textureLoader(new TextureLoader()).loadTexture());
+            this.textureRegistry.put(o.getClass().getName(), o.getTexture());
 
         s.setFacing(ripOrientation(code));
 
@@ -74,11 +77,12 @@ public class TileReader {
 
     /**
      * Returns the orientation of the tile
-     * @param name the name of the file
+     * @param code the code in the file
      * @return the orientation
      */
-    private Direction ripOrientation(String name) {
-        return switch (name.split("_")[1].toUpperCase()) {
+    private Direction ripOrientation(String code) {
+        String direction = getValue(code, "or", "no_orientation");
+        return switch (direction.toUpperCase()) {
             case "S" -> Direction.SOUTH;
             case "W" -> Direction.WEST;
             case "E" -> Direction.EAST;
@@ -86,8 +90,8 @@ public class TileReader {
         };
     }
 
-    private int ripContainerCode(String name) {
-        return Integer.parseInt(name.split("_")[2]);
+    private String ripContainerCode(String code) {
+        return getValue(code, "cc", "nocontainer");
     }
 
     /**
@@ -95,8 +99,16 @@ public class TileReader {
      * @param containerCode the code of the tile
      * @return a {@link IContainerNotifier} that allows the receiver of the value to interact with the {@link game.container.Container}
      */
-    private IContainerInteraction notifyContainer(int containerCode) {
+    private IContainerInteraction notifyContainer(String containerCode) {
         return this.containerNotifier.notifyContainer(containerCode);
+    }
+
+    String getValue(String code, String key, String def) {
+        String[] codeParts = code.split("_");
+        for(int i = 0; i < codeParts.length; i++)
+            if(codeParts[i].split(":")[0].equalsIgnoreCase(key))
+                return codeParts[i].split(":")[1];
+        return def;
     }
 
 }

@@ -12,7 +12,7 @@ public abstract class GameItem extends GameObject {
     }
 
     /**
-     * @return the string id
+     * @return the item id
      */
     public String getId() {
         return new String(this.id);

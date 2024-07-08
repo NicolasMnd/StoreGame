@@ -15,9 +15,4 @@ public abstract class GameTile extends GameObject {
         return;
     }
 
-    @Override
-    public void setFacing(Direction dir) {
-        return;
-    }
-
 }
