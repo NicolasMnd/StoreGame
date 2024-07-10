@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Class that will delegate mouse input to the controller layer
  */
-public class InputHandler implements MouseListener, MouseMotionListener, KeyListener {
+public class InputHandler implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
     private List<InputNotifier> mouseListeners;
 
@@ -78,4 +78,17 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
     public void keyReleased(KeyEvent e) {
 
     }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if(e.getWheelRotation() == -1) {
+            for(InputNotifier listener : mouseListeners)
+                listener.scrollUp();
+        }
+        else if(e.getWheelRotation() == 1) {
+            for(InputNotifier listener : mouseListeners)
+                listener.scrollDown();
+        }
+    }
+
 }

@@ -21,7 +21,7 @@ public class GameController {
     private final InputHandler inputHandler;
 
     public GameController() {
-        this.inputHandler = new InputHandler();
+        this.inputHandler = new InputHandler();  // input handler is passed down to GameView (JPanel listeners)
         this.inputHandler.subscribeListener(getNotifier());
         this.facade = new GameFacade(inputHandler);
     }
@@ -55,6 +55,17 @@ public class GameController {
             @Override
             public void enterCharacter() {
                 facade.enterCharacter();
+            }
+
+            @Override
+            public void scrollDown() {
+                facade.decreaseSize();
+            }
+
+            @Override
+            public void scrollUp() {
+                System.out.println("Scrolled");
+                facade.increaseSize();
             }
         };
     }

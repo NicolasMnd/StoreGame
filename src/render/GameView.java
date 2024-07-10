@@ -9,7 +9,10 @@ import util.texture.TextureSelector;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import util.Dimension;
+import util.texture.comp.Texture;
 
 /**
  * All graphic related items are processed here.
@@ -18,13 +21,15 @@ public class GameView extends JPanel implements View {
 
     private GameState latestGameState;
     private Graphics2D graphics;
+    private Camera camera;
     private final int tileSize;
-    private final int gameSize = 2;
+    private double gameSize = 1.0d;
     private JFrame frame;
 
-    public GameView(int size, Dimension windowSize) {
+    public GameView(int size, Dimension windowSize, Camera camera) {
         this.tileSize = size;
         this.frame = initializeFrame(windowSize);
+        this.camera = camera;
     }
 
     @Override
@@ -45,6 +50,7 @@ public class GameView extends JPanel implements View {
     public void registerMouseHandler(InputHandler listener) {
         this.addMouseListener(listener);
         this.addMouseMotionListener(listener);
+        this.addMouseWheelListener(listener);
     }
 
     @Override
@@ -52,21 +58,24 @@ public class GameView extends JPanel implements View {
         this.frame.addKeyListener(listener);
     }
 
-    /**
-     * @return the scale of the game
-     */
-    public int getGameSize() {
-        return this.gameSize;
+    public void increaseSize() {
+        this.gameSize += 0.25d;
+    }
+
+    public void decreaseSize() {
+        this.gameSize -= 0.25d;
     }
 
     /**
      * Renders all elements of the {@link GameState}
      */
     private void renderGameState() {
-        for(GameTile[] tileArr : latestGameState.getTiles())
-            for(GameTile tile : tileArr)
-                if(tile != null)
-                    draw(tile);
+        for(GameObject[] oArr : camera.getRenderTiles(latestGameState.getTiles(), gameSize))
+            for(GameObject object : oArr)
+                if(object != null) {
+                    draw(object);
+                }
+        printCenter(latestGameState.getPlayerPosition());
     }
 
     /**
@@ -77,15 +86,33 @@ public class GameView extends JPanel implements View {
         Pos drawPosition = object.getPosition();
         drawPosition.addY(-object.getHeight() + tileSize);
 
+        BufferedImage im = object.textureSelector(new TextureSelector()).retrieveTexture();
+        graphics.setStroke(new BasicStroke(5));
 
-
+        if(im != null)
         this.graphics.drawImage(
-                object.textureSelector(new TextureSelector()).retrieveTexture(),
-                object.getPosition().x()*getGameSize(),
-                drawPosition.y()*getGameSize(),
-                object.getWidth()*getGameSize(),
-                object.getHeight()*getGameSize(),
+                im,
+                (int) (object.getPosition().x()*gameSize),
+                (int) (drawPosition.y()*gameSize),
+                (int) (object.getWidth()*gameSize),
+                (int) (object.getHeight()*gameSize),
                 null
+        );
+        else
+            this.graphics.drawRect(
+                    (int) (object.getPosition().x()*gameSize),
+                    (int) (drawPosition.y()*gameSize),
+                    (int) (object.getWidth()*gameSize),
+                    (int) (object.getHeight()*gameSize)
+            );
+    }
+
+    private void printCenter(Pos pos) {
+        this.graphics.drawOval(
+                (int) (getWidth()*gameSize/2),
+                (int) (getHeight()*gameSize/2),
+                (int) (16),
+                (int) (16)
         );
     }
 

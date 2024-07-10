@@ -92,7 +92,7 @@ public abstract class GameObject {
      * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in {@link game.map.TileReader}
      * @param texture the texture for the {@link GameObject}
      */
-    void setTexture(TextureHolder texture) {
+    protected void setTexture(TextureHolder texture) {
         this.texture = texture;
     }
 

@@ -9,7 +9,7 @@ import util.Pos;
 
 public class GameState {
 
-    private Camera camera;
+    private Pos cameraPosition;
     private GameTile[][] tiles;
     private Container[] container;
     private final int tileSize;
@@ -19,7 +19,15 @@ public class GameState {
     public GameState(int tileSize, Dimension windowsSize) {
         this.tileSize = tileSize;
         this.windowSize = windowsSize;
+        this.cameraPosition = new Pos(10*tileSize, 10*tileSize);
         init();
+    }
+
+    /**
+     * Determines the player position
+     */
+    public Pos getPlayerPosition() {
+        return this.cameraPosition;
     }
 
     /**
@@ -28,7 +36,7 @@ public class GameState {
     public void init() {
         loadMap("resources/map/map.csv", tileSize);
         // First argument is a 'starting position', center of the camera
-        this.camera = new Camera(new Pos(3*tileSize, 3*tileSize), windowSize.getWidth(), windowSize.getHeight(), tileSize);
+        this.cameraPosition = new Pos(3*tileSize, 3*tileSize);
     }
 
     /**

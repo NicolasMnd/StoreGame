@@ -20,6 +20,11 @@ public class Texture extends TextureHolder {
         this.location = location.getPath();
     }
 
+    public Texture(BufferedImage image) {
+        this.image = image;
+        this.location = null;
+    }
+
     BufferedImage readImage(File location) {
         BufferedImage image1;
         try {
@@ -31,8 +36,16 @@ public class Texture extends TextureHolder {
         return image1;
     }
 
+    public String getLocation() {
+        return this.location;
+    }
+
     public BufferedImage getImage() {
         return this.image;
+    }
+
+    public static Texture getBackground(int tileSize) {
+        return new Texture(new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_3BYTE_BGR));
     }
 
     @Override

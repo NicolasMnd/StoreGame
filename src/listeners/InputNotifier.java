@@ -10,4 +10,8 @@ public interface InputNotifier {
 
     void enterCharacter();
 
+    void scrollUp();
+
+    void scrollDown();
+
 }
