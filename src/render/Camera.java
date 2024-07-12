@@ -5,47 +5,71 @@ import game.tile.GameTile;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
-import util.texture.TextureSelector;
+import util.texture.comp.TextureSelector;
+import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
+import util.texture.textureinformation.RenderStrategy;
 
 public class Camera {
 
-    private Pos middle;
+    private Pos center;
     private Hitbox camera;
     private final int tileSize;
+    private Pos latestZeroPos;
 
-    public Camera(Pos start, int cameraWidth, int cameraHeight, int tileSize) {
-        this.middle = start;
-        System.out.println("Start: " + start.getFormat() + " diff: " + start.x() + " - " + (cameraWidth / 2) + " = " + (start.x() - (cameraWidth / 2)));
+    public Camera(Pos center, View view) {
+        this.center = center;
+        this.tileSize = view.getTileSize();
+        int cameraWidth = view.getDimension().getWidth();
+        int cameraHeight = view.getDimension().getHeight();
+        double gameSize = view.getGameSize();
         this.camera = new Hitbox(
-                new Pos(start.x() - (cameraWidth / 2), start.y() - (cameraHeight / 2)),
-                new Pos(start.x() + (cameraWidth / 2), start.y() + (cameraHeight / 2))
+                new Pos(center.x() - (int) (cameraWidth*gameSize / 2), center.y() - (int) (cameraHeight*gameSize / 2)),
+                new Pos(center.x() + (int) (cameraWidth*gameSize / 2), center.y() + (int) (cameraHeight*gameSize / 2))
         );
-        System.out.println("Hitbox: " + camera.getPrint());
-        this.tileSize = tileSize;
+    }
+
+    /**
+     * @return The middle of the camera
+     */
+    public Pos getCenter() {
+        return this.camera.getCenterPos();
+    }
+
+    /**
+     * Updates the {@link Hitbox}
+     * @param center the new center of the camera
+     * @param view the {@link View} reference which has details about {@link GameView#getGameSize()}
+     */
+    public void updateCenter(Pos center, GameView view) {
+        int cameraWidth = view.getDimension().getWidth();
+        int cameraHeight = view.getDimension().getHeight();
+        double gameSize = view.getGameSize();
+        this.camera = new Hitbox(
+                new Pos(center.x() - (int) (cameraWidth*gameSize / 2), center.y() - (int) (cameraHeight*gameSize / 2)),
+                new Pos(center.x() + (int) (cameraWidth*gameSize / 2), center.y() + (int) (cameraHeight*gameSize / 2))
+        );
     }
 
     /**
      * Retrieves a list of {@link Camera.RenderedGameTile} objects, which has render positions.
      * @param originalMap the {@link GameTile} double array which is inspected to fit the camera
      * @param mapTileSize the extra amplification of the game size.
-     * @return a list of {@link Camera.RenderedGameTile} objects
+     * @return a double array of {@link Camera.RenderedGameTile} objects
      */
     public GameObject[][] getRenderTiles(GameTile[][] originalMap, double mapTileSize) {
 
         int tileSize = (int) (this.tileSize * mapTileSize);
 
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
-        int xResidu = middle.x() % tileSize;
-        int yResidu = middle.y() % tileSize;
+        int xResidu = center.x() % (tileSize);
+        int yResidu = center.y() % (tileSize);
 
-        // We calculate indexes to find tiles overlapping with the camera.
-        // Directly calling the hitbox positions can save up about 10k nanoseconds!
-        int iStart = floor(camera.getUpperleft().y(), tileSize);
-        int iEnd = floor(camera.getLowerright().y(), tileSize);
-        int jStart = floor(camera.getUpperleft().x(), tileSize);
-        int jEnd = floor(camera.getLowerright().x(), tileSize);
+        int iStart = floor(camera.getUpperleft().y(), tileSize)-3;
+        int iEnd = floor(camera.getLowerright().y(), tileSize)+3;
+        int jStart = floor(camera.getUpperleft().x()+1, tileSize)-3;
+        int jEnd = floor(camera.getLowerright().x()+1, tileSize)+3;
 
         int screenX = -3, screenY = -3;
         int line = 0, col = 0;
@@ -59,6 +83,10 @@ public class Camera {
             for (int j = jStart; j < jEnd; j++) {
 
                 Pos drawPos = new Pos((screenX * tileSize) - xResidu, (screenY * tileSize) - yResidu);
+                if(i == 0 && j == 0) {
+                    //System.out.println("DrawPos: " + drawPos.getFormat() + screenX + " * " + tileSize + " - " + xResidu + " = " + ((screenX *tileSize) - xResidu) + " ; lowerRightX: " + camera.getLowerright().x());
+                    //System.out.println("jStart = " + jStart + " ---> " + (camera.getUpperleft().x()+1) + " / " + tileSize + " = " + ((double) (camera.getUpperleft().x()+1)/tileSize) + " \n");
+                }
 
                 if (i < 0 || j < 0)
                     tiles[line][col] = new RenderedGameTile(tileSize, drawPos);
@@ -66,6 +94,8 @@ public class Camera {
                 else if (i >= 0 && j >= 0 && i < originalMap.length && j < originalMap[i].length)
                     tiles[line][col] = new RenderedGameTile(originalMap[i][j], drawPos);
 
+                else
+                    tiles[line][col] = new RenderedGameTile(tileSize, drawPos);
 
                 col++;
                 screenX += 1;
@@ -78,23 +108,13 @@ public class Camera {
 
         }
 
-        printTiles(tiles);
-
         return tiles;
-    }
-
-    /**
-     * Modifies the game size
-     * @return
-     */
-    public void modifySize(int newSize) {
-
     }
 
     /**
      * Checks how many times b fits in a.
      */
-    private int floor(int a, int b) {
+    int floor(int a, int b) {
         return Math.floorDiv(a, b);
     }
 
@@ -114,7 +134,7 @@ public class Camera {
      */
     public static class RenderedGameTile extends GameObject {
         private final GameObject parent;
-        private final Pos renderPosition;
+        final Pos renderPosition;
         private int tileSize = 0;
 
         public RenderedGameTile(GameObject parent, Pos renderPosition) {
@@ -136,6 +156,10 @@ public class Camera {
             this.setWidth(32);
         }
 
+        GameObject parent() {
+            return this.parent;
+        }
+
         @Override
         public Pos getPosition() {
             return this.renderPosition;
@@ -152,6 +176,23 @@ public class Camera {
             if(parent == null) return () -> null;/*((Texture) (Texture.getBackground(tileSize))).getImage();*/
             return parent.textureSelector(selector);
         }
+
+        @Override
+        public IRender getRenderStrategy() {
+            if(this.textureSelector(new TextureSelector()).retrieveTexture() == null)
+                return new RenderStrategy().rectangleRenderer(this);
+            else
+                return new RenderStrategy().imageRenderer(this);
+        }
+
+    }
+
+    private Save save(int residu, int a, int b, int c, int d) {
+        return new Save(center, camera, residu, a, b, c, d);
+    }
+
+    private Save save(int residu, int a, int b, int c, int d, GameObject[][] t) {
+        return new Save(center, camera, residu, a, b, c, d, t);
     }
 
 }

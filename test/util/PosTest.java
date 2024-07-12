@@ -22,28 +22,28 @@ public class PosTest {
 
     @Test
     public void testMoveDown() {
-        this.pos.moveDown();
+        this.pos.moveDown(1);
         assertEquals(pos.x(), 0);
         assertEquals(pos.y(), 2);
     }
 
     @Test
     public void testMoveUp() {
-        this.pos.moveUp();
+        this.pos.moveUp(1);
         assertEquals(pos.x(), 0);
         assertEquals(pos.y(), 0);
     }
 
     @Test
     public void testMoveRight() {
-        this.pos.moveRight();
+        this.pos.moveRight(1);
         assertEquals(pos.x(), 1);
         assertEquals(pos.y(), 1);
     }
 
     @Test
     public void testMoveLeft() {
-        this.pos.moveLeft();
+        this.pos.moveLeft(1);
         assertEquals(pos.x(), -1);
         assertEquals(pos.y(), 1);
     }

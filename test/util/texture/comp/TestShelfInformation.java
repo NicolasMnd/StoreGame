@@ -1,8 +1,7 @@
-package util.texture.textureinformation;
+package util.texture.comp;
 
 import game.item.GameItem;
 import game.map.MapHandler;
-import game.map.TileReader;
 import game.property.PropertyPeer;
 import game.property.PropertyType;
 import game.tile.GameTile;
@@ -15,9 +14,6 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.api.io.TempDir;
 import util.ImageHelper;
-import util.Pos;
-import util.texture.TextureSelector;
-import util.texture.comp.Texture;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -66,7 +66,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
     @Override
     public void keyTyped(KeyEvent e) {
         for(InputNotifier listener : mouseListeners)
-            listener.enterCharacter();
+            listener.enterCharacter(e);
     }
 
     @Override

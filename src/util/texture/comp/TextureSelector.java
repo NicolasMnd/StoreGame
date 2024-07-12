@@ -1,14 +1,10 @@
-package util.texture;
+package util.texture.comp;
 
 import game.item.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
-import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureStrategy;
-import util.texture.textureinformation.ShelfTextureInformation;
-
-import java.awt.image.BufferedImage;
 
 public class TextureSelector {
 

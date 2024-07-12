@@ -54,8 +54,6 @@ public class ObjectLinker<T> {
         // Check all rows & link early per row
         for(int i = 0; i < matrix.length; i++) {
 
-            if(i == 4) debug = true;
-            else debug = false;
             checkRow(matrix[i]);
 
         }

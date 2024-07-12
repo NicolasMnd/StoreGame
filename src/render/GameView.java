@@ -5,11 +5,9 @@ import game.GameState;
 import listeners.InputHandler;
 import util.Dimension;
 import util.Pos;
-import util.texture.TextureSelector;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * All graphic related items are processed here.
@@ -21,12 +19,14 @@ public class GameView extends JPanel implements View {
     private Camera camera;
     private final int tileSize;
     private double gameSize = 1.0d;
+    private final Dimension windowsSize;
     private JFrame frame;
 
-    public GameView(int size, Dimension windowSize, Camera camera) {
+    public GameView(int size, Dimension windowSize, Pos center) {
         this.tileSize = size;
         this.frame = initializeFrame(windowSize);
-        this.camera = camera;
+        this.windowsSize = windowSize;
+        this.camera = new Camera(center, this);
     }
 
     @Override
@@ -45,6 +45,11 @@ public class GameView extends JPanel implements View {
     @Override
     public void update(GameState state) {
         this.latestGameState = state;
+
+        // Update camera if necessary.
+        if(!state.getPlayerPosition().equals(camera.getCenter()))
+            this.camera.updateCenter(state.getPlayerPosition(), this);
+
     }
 
     @Override
@@ -57,6 +62,21 @@ public class GameView extends JPanel implements View {
     @Override
     public void registerKeyHandler(InputHandler listener) {
         this.frame.addKeyListener(listener);
+    }
+
+    @Override
+    public double getGameSize() {
+        return this.gameSize;
+    }
+
+    @Override
+    public int getTileSize() {
+        return this.tileSize;
+    }
+
+    @Override
+    public Dimension getDimension() {
+        return this.windowsSize;
     }
 
     @Override
@@ -73,6 +93,7 @@ public class GameView extends JPanel implements View {
      * Renders all elements of the {@link GameState}
      */
     private void renderGameState() {
+        if(this.latestGameState == null) return;
         for(GameObject[] oArr : camera.getRenderTiles(latestGameState.getTiles(), gameSize))
             for(GameObject object : oArr)
                 if(object != null) {
@@ -86,34 +107,13 @@ public class GameView extends JPanel implements View {
      * @param object an object to be printed
      */
     private void draw(GameObject object) {
-        Pos drawPosition = object.getPosition();
-        drawPosition.addY(-object.getHeight() + tileSize);
-
-        BufferedImage im = object.textureSelector(new TextureSelector()).retrieveTexture();
-        graphics.setStroke(new BasicStroke(5));
-
-        if(im != null)
-        this.graphics.drawImage(
-                im,
-                (int) (object.getPosition().x()*gameSize),
-                (int) (drawPosition.y()*gameSize),
-                (int) (object.getWidth()*gameSize),
-                (int) (object.getHeight()*gameSize),
-                null
-        );
-        else
-            this.graphics.drawRect(
-                    (int) (object.getPosition().x()*gameSize),
-                    (int) (drawPosition.y()*gameSize),
-                    (int) (object.getWidth()*gameSize),
-                    (int) (object.getHeight()*gameSize)
-            );
+        object.getRenderStrategy().render(graphics, gameSize, tileSize);
     }
 
     private void printCenter(Pos pos) {
         this.graphics.drawOval(
-                (int) (getWidth()*gameSize/2),
-                (int) (getHeight()*gameSize/2),
+                (int) (getWidth()/2),
+                (int) (getHeight()/2),
                 (int) (16),
                 (int) (16)
         );

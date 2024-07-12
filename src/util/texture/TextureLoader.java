@@ -3,11 +3,9 @@ package util.texture;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
-import util.Direction;
-import util.texture.comp.DirectedTexture;
 import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
-import util.texture.textureinformation.ShelfTextureInformation;
+import util.texture.comp.ShelfTextureInformation;
 
 import java.io.File;
 

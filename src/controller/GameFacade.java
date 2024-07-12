@@ -3,10 +3,10 @@ package controller;
 import controller.tasks.TaskManager;
 import game.GameState;
 import listeners.InputHandler;
-import render.Camera;
 import render.GameView;
 import render.View;
 import util.Dimension;
+import util.Direction;
 
 /**
  * The first layer where we will connect subsystems.
@@ -25,13 +25,14 @@ public class GameFacade {
     public GameFacade(InputHandler inputHandler) {
         this.state = new GameState(GAME_SIZE, windowSize);
         this.taskManager = new TaskManager();
-        this.view = new GameView(GAME_SIZE, windowSize, new Camera(state.getPlayerPosition(), windowSize.getWidth(), windowSize.getHeight(), GAME_SIZE));
+        this.view = new GameView(GAME_SIZE, windowSize, state.getPlayerPosition());
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
     }
 
     private void tick() {
-
+        //System.out.println("Center: " + state.getPlayerPosition().getFormat());
+        //state.getPlayerPosition().moveRight(1);
     }
 
     public void leftClicked(int x, int y) {
@@ -46,8 +47,13 @@ public class GameFacade {
 
     }
 
-    public void enterCharacter() {
-
+    public void move(Direction dir) {
+        switch(dir) {
+            case Direction.UP -> state.getPlayerPosition().moveUp(1);
+            case Direction.DOWN -> state.getPlayerPosition().moveDown(1);
+            case Direction.RIGHT -> state.getPlayerPosition().moveRight(1);
+            case Direction.LEFT -> state.getPlayerPosition().moveLeft(1);
+        }
     }
 
     public void increaseSize() {

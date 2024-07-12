@@ -1,13 +1,10 @@
-package util.texture.textureinformation;
+package util.texture.comp;
 
 import game.property.PropertyPeer;
 import game.property.PropertyType;
 import game.tile.TileShelf;
 import util.Direction;
-import util.texture.comp.DirectedTexture;
-import util.texture.comp.MultiTexture;
-import util.texture.comp.Texture;
-import util.texture.comp.TextureHolder;
+import util.texture.textureinformation.TextureInformation;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

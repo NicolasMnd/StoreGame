@@ -1,7 +1,5 @@
 package util.texture.comp;
 
-import org.w3c.dom.Text;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,7 +38,7 @@ public class Texture extends TextureHolder {
         return this.location;
     }
 
-    public BufferedImage getImage() {
+    BufferedImage getImage() {
         return this.image;
     }
 

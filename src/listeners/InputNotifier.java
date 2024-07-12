@@ -1,5 +1,7 @@
 package listeners;
 
+import java.awt.event.KeyEvent;
+
 public interface InputNotifier {
 
     void hover(int x, int y);
@@ -8,7 +10,7 @@ public interface InputNotifier {
 
     void rightClick(int x, int y);
 
-    void enterCharacter();
+    void enterCharacter(KeyEvent event);
 
     void scrollUp();
 

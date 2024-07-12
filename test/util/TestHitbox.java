@@ -123,4 +123,15 @@ public class TestHitbox {
         assertEquals(h0.getHeight(), 5);
     }
 
+    @Test
+    public void testGetCenter_1() {
+        assertEquals(h0.getCenterPos(), new Pos(3, 3));
+    }
+
+    @Test
+    public void testGetCenter_2() {
+        h0 = new Hitbox(new Pos(0, 0), new Pos(10, 10));
+        assertEquals(h0.getCenterPos(), new Pos(5, 5));
+    }
+
 }

@@ -4,6 +4,7 @@ import listeners.InputHandler;
 import listeners.InputNotifier;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class GameController {
 
@@ -24,7 +25,8 @@ public class GameController {
     }
 
     public void idle(ActionEvent event) {
-        paint();
+        update();
+        //paint();
     }
 
     public void update() {
@@ -54,8 +56,9 @@ public class GameController {
             }
 
             @Override
-            public void enterCharacter() {
-                facade.enterCharacter();
+            public void enterCharacter(KeyEvent e) {
+                new InputTranslator().translate(facade, e);
+                paint();
             }
 
             @Override
@@ -65,7 +68,6 @@ public class GameController {
 
             @Override
             public void scrollUp() {
-                System.out.println("Scrolled");
                 facade.increaseSize();
             }
         };

@@ -14,33 +14,33 @@ public class Pos extends Pos2di {
     /**
      * Moves this position to up
      */
-    public Pos moveUp() {
-        this.addY(-1);
-        return new Pos(x(), y());
+    public void moveUp(int multiplier) {
+        this.addY(-1*multiplier);
+        new Pos(x(), y());
     }
 
     /**
      * Moves this position down
      */
-    public Pos moveDown() {
-        this.addY(1);
-        return new Pos(x(), y());
+    public void moveDown(int multiplier) {
+        this.addY(multiplier);
+        new Pos(x(), y());
     }
 
     /**
      * Moves this position to the right
      */
-    public Pos moveRight() {
-        this.addX(1);
-        return new Pos(x(), y());
+    public void moveRight(int multiplier) {
+        this.addX(multiplier);
+        new Pos(x(), y());
     }
 
     /**
      * Moves this position to the left
      */
-    public Pos moveLeft() {
-        this.addX(-1);
-        return new Pos(x(), y());
+    public void moveLeft(int multiplier) {
+        this.addX(-1*multiplier);
+        new Pos(x(), y());
     }
 
     /**

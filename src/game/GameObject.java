@@ -5,11 +5,13 @@ import util.Direction;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
-import util.texture.TextureSelector;
+import util.texture.comp.TextureSelector;
 import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
+import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
+import util.texture.textureinformation.RenderStrategy;
 
 public abstract class GameObject {
 
@@ -84,19 +86,6 @@ public abstract class GameObject {
     }
 
     /**
-     * Allows subclasses to call upon their own algorithm that handles their {@link Texture} retrieval
-     */
-    public abstract ITextureLoader textureLoader(TextureLoader textureLoader);
-
-    /**
-     * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in {@link game.map.TileReader}
-     * @param texture the texture for the {@link GameObject}
-     */
-    protected void setTexture(TextureHolder texture) {
-        this.texture = texture;
-    }
-
-    /**
      * Retrieves the texture for this object, which is set by either {@link GameObject#textureLoader(TextureLoader)} or {@link GameObject#setTexture(TextureHolder)}
      * @return the {@link TextureHolder} object
      */
@@ -105,10 +94,38 @@ public abstract class GameObject {
     }
 
     /**
+     * returns the {@link Hitbox} of this object
+     * @return the {@link Hitbox} object
+     */
+    public Hitbox getHitbox() {
+        return new Hitbox(this.pos, (Pos) this.pos.add(new Pos(width, height)));
+    }
+
+    /**
+     * Get render strategy
+     */
+    public IRender getRenderStrategy() {
+        return new RenderStrategy().imageRenderer(this);
+    }
+
+    /**
+     * Allows subclasses to call upon their own algorithm that handles their {@link Texture} retrieval
+     */
+    public abstract ITextureLoader textureLoader(TextureLoader textureLoader);
+
+    /**
      * The method that selects textures dynamically based upon the rotation of the map
      * @return hello
      */
     public abstract ITextureStrategy textureSelector(TextureSelector selector);
+
+    /**
+     * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in {@link game.map.TileReader}
+     * @param texture the texture for the {@link GameObject}
+     */
+    protected void setTexture(TextureHolder texture) {
+        this.texture = texture;
+    }
 
     /**
      * Sets the width of this game object
@@ -124,14 +141,6 @@ public abstract class GameObject {
      */
     protected void setHeight(int height) {
         this.height = height;
-    }
-
-    /**
-     * returns the {@link Hitbox} of this object
-     * @return the {@link Hitbox} object
-     */
-    public Hitbox getHitbox() {
-        return new Hitbox(this.pos, (Pos) this.pos.add(new Pos(width, height)));
     }
 
 }

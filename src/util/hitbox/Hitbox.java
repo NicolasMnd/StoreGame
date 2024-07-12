@@ -17,6 +17,15 @@ public class Hitbox {
         return pos.x() <= end.x() && pos.x() >= start.x() && pos.y() <= end.y() && pos.y() >= start.y();
     }
 
+    public Pos getCenterPos() {
+        int addToEndX = ((start.x() - end.x()) / 2);
+        int addToEndY = ((start.y() - end.y()) / 2);
+        return new Pos(
+                end.x() + addToEndX,
+                end.y() + addToEndY
+        );
+    }
+
     /*
     public void drawHitbox(Graphics2D graphics, Color color) {
 

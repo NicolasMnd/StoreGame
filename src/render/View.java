@@ -2,6 +2,7 @@ package render;
 
 import game.GameState;
 import listeners.InputHandler;
+import util.Dimension;
 
 public interface View {
 
@@ -16,5 +17,11 @@ public interface View {
     void registerMouseHandler(InputHandler listener);
 
     void registerKeyHandler(InputHandler listener);
+
+    double getGameSize();
+
+    int getTileSize();
+
+    Dimension getDimension();
 
 }
