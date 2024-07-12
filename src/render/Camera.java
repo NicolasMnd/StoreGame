@@ -9,8 +9,6 @@ import util.texture.TextureSelector;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
-import java.awt.image.BufferedImage;
-
 public class Camera {
 
     private Pos middle;
@@ -30,11 +28,16 @@ public class Camera {
 
     /**
      * Retrieves a list of {@link Camera.RenderedGameTile} objects, which has render positions.
+     * @param originalMap the {@link GameTile} double array which is inspected to fit the camera
+     * @param mapTileSize the extra amplification of the game size.
+     * @return a list of {@link Camera.RenderedGameTile} objects
      */
-    public GameObject[][] getRenderTiles(GameTile[][] originalMap) {
+    public GameObject[][] getRenderTiles(GameTile[][] originalMap, double mapTileSize) {
+
+        int tileSize = (int) (this.tileSize * mapTileSize);
 
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
-        int xResidu = middle.x() % tileSize ;
+        int xResidu = middle.x() % tileSize;
         int yResidu = middle.y() % tileSize;
 
         // We calculate indexes to find tiles overlapping with the camera.

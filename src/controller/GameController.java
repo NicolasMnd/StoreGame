@@ -1,8 +1,5 @@
 package controller;
 
-import com.misterc.controller.Controller;
-import com.misterc.controller.MisterC;
-import com.misterc.input.InputType;
 import listeners.InputHandler;
 import listeners.InputNotifier;
 
@@ -28,6 +25,10 @@ public class GameController {
 
     public void idle(ActionEvent event) {
         paint();
+    }
+
+    public void update() {
+        this.facade.update();
     }
 
     private void paint() {

@@ -2,17 +2,14 @@ package render;
 
 import game.GameObject;
 import game.GameState;
-import game.tile.GameTile;
 import listeners.InputHandler;
+import util.Dimension;
 import util.Pos;
 import util.texture.TextureSelector;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-import util.Dimension;
-import util.texture.comp.Texture;
 
 /**
  * All graphic related items are processed here.
@@ -42,8 +39,12 @@ public class GameView extends JPanel implements View {
 
     @Override
     public void render(GameState state) {
-        this.latestGameState = state;
         repaint();
+    }
+
+    @Override
+    public void update(GameState state) {
+        this.latestGameState = state;
     }
 
     @Override
@@ -58,10 +59,12 @@ public class GameView extends JPanel implements View {
         this.frame.addKeyListener(listener);
     }
 
+    @Override
     public void increaseSize() {
         this.gameSize += 0.25d;
     }
 
+    @Override
     public void decreaseSize() {
         this.gameSize -= 0.25d;
     }

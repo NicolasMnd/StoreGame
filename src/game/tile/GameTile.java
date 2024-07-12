@@ -1,7 +1,6 @@
 package game.tile;
 
 import game.GameObject;
-import util.Direction;
 import util.Pos;
 
 public abstract class GameTile extends GameObject {
