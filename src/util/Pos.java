@@ -1,5 +1,6 @@
 package util;
 
+import com.misterl.location.positions.Pos2d;
 import com.misterl.location.positions.Pos2di;
 
 public class Pos extends Pos2di {
@@ -41,6 +42,11 @@ public class Pos extends Pos2di {
     public void moveLeft(int multiplier) {
         this.addX(-1*multiplier);
         new Pos(x(), y());
+    }
+
+    @Override
+    public Pos add(Pos2d<Integer> pos) {
+        return new Pos(this.x() + pos.x(), this.y() + pos.y());
     }
 
     /**

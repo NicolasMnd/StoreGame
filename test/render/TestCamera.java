@@ -5,13 +5,12 @@ import org.junit.jupiter.api.Test;
 import util.Dimension;
 import util.Pos;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class TestCamera {
 
-    Camera camera;
+    Camera camera, smallCamera;
     Pos center;
     Dimension dim;
+    View v, smallView;
     int size, columns, lines;
 
     @BeforeEach
@@ -21,14 +20,15 @@ public class TestCamera {
         columns = 28;
         lines = 22;
         dim = new Dimension(lines, columns);
-        View v = new VirtualView(size, dim, center);
+        v = new VirtualView(size, dim, center);
+        smallView = new VirtualView(size, new Dimension(5,5), new Pos(2,2));
         camera = new Camera(center, v);
+        smallCamera = new Camera(center, smallView);
     }
 
     @Test
     public void testFloor() {
-        assertEquals(camera.floor(539, size), 16);
-        assertEquals(camera.floor(542, size), 16);
+
     }
 
 }

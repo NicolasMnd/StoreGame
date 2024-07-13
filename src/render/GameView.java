@@ -94,11 +94,14 @@ public class GameView extends JPanel implements View {
      */
     private void renderGameState() {
         if(this.latestGameState == null) return;
+
         for(GameObject[] oArr : camera.getRenderTiles(latestGameState.getTiles(), gameSize))
             for(GameObject object : oArr)
                 if(object != null) {
                     draw(object);
                 }
+
+
         printCenter(latestGameState.getPlayerPosition());
     }
 

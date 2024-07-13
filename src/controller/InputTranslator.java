@@ -6,6 +6,10 @@ import java.awt.event.KeyEvent;
 
 public class InputTranslator {
 
+    public InputTranslator() {
+
+    }
+
     public void translate(GameFacade facade, KeyEvent event) {
 
         switch(event.getKeyChar()) {

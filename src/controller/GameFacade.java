@@ -48,11 +48,12 @@ public class GameFacade {
     }
 
     public void move(Direction dir) {
+        int speed = 20;
         switch(dir) {
-            case Direction.UP -> state.getPlayerPosition().moveUp(1);
-            case Direction.DOWN -> state.getPlayerPosition().moveDown(1);
-            case Direction.RIGHT -> state.getPlayerPosition().moveRight(2);
-            case Direction.LEFT -> state.getPlayerPosition().moveLeft(1);
+            case Direction.UP -> state.getPlayerPosition().moveUp(speed);
+            case Direction.DOWN -> state.getPlayerPosition().moveDown(speed);
+            case Direction.RIGHT -> state.getPlayerPosition().moveRight(speed);
+            case Direction.LEFT -> state.getPlayerPosition().moveLeft(speed);
         }
     }
 

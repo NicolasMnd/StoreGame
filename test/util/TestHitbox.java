@@ -16,6 +16,22 @@ public class TestHitbox {
     }
 
     @Test
+    public void testCenterConstructor() {
+        assertEquals(
+                new Hitbox(new Pos(-2, -2), new Pos(2, 2)),
+                new Hitbox(new Pos(0, 0), 2, 2)
+        );
+    }
+
+    @Test
+    public void testCenterConstructor2() {
+        assertEquals(
+                new Hitbox(new Pos(-2, -3), new Pos(2, 3)),
+                new Hitbox(new Pos(0, 0), 2, 3)
+        );
+    }
+
+    @Test
     public void testOutside_1() {
         Hitbox h1 = new Hitbox(new Pos(6, 6), new Pos(10, 10));
         assertFalse(h0.hasOverlap(h1));

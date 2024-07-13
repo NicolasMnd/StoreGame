@@ -55,61 +55,72 @@ public class Camera {
 
     /**
      * Retrieves a list of {@link Camera.RenderedGameTile} objects, which has render positions.
+     * [50,000 -> 500,000] nanoseconds time consumption Mostly around 100-200k
      * @param originalMap the {@link GameTile} double array which is inspected to fit the camera
      * @param mapTileSize the extra amplification of the game size.
      * @return a double array of {@link Camera.RenderedGameTile} objects
      */
     public GameObject[][] getRenderTiles(GameTile[][] originalMap, double mapTileSize) {
-
-        int tileSize = (int) (this.tileSize * mapTileSize);
+        int tileSize = (int) (mapTileSize * this.tileSize);
 
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
-        int xResidu = center.x() % (tileSize);
-        int yResidu = center.y() % (tileSize);
+        int xResidu = camera.getCenterPos().x() % tileSize;
+        int yResidu = camera.getCenterPos().y() % tileSize;
 
-        int iStart = floor(camera.getUpperleft().y(), tileSize)-3;
-        int iEnd = floor(camera.getLowerright().y(), tileSize)+3;
-        int jStart = floor(camera.getUpperleft().x()+1, tileSize)-3;
-        int jEnd = floor(camera.getLowerright().x()+1, tileSize)+3;
+        // We calculate indexes to find tiles overlapping with the camera.
+        // Directly calling the hitbox positions can save up about 10k nanoseconds!
+        int iStart = floor(camera.getUpperleft().y(), tileSize) - 3;
+        int iEnd = floor(camera.getLowerright().y(), tileSize) + 3;
+        int jStart = floor(camera.getUpperleft().x(), tileSize) - 3;
+        int jEnd = floor(camera.getLowerright().x(), tileSize) + 3;
 
+        // We create a list with all our possible tiles
+        GameObject[] tiles = new GameObject[(iEnd - iStart)*(jEnd - jStart)];
+
+        // Helper variables
+        int count = 0;
         int screenX = -3, screenY = -3;
-        int line = 0, col = 0;
 
-        GameObject[][] tiles = new GameObject[(iEnd - iStart)][(jEnd - jStart)];
+        // We find all tiles
+        for(int i = iStart; i < iEnd; i++) {
 
-        for (int i = iStart; i < iEnd; i++) {
-
-            col = 0;
-
-            for (int j = jStart; j < jEnd; j++) {
+            for(int j = jStart; j < jEnd; j++) {
 
                 Pos drawPos = new Pos((screenX * tileSize) - xResidu, (screenY * tileSize) - yResidu);
-                if(i == 0 && j == 0) {
-                    System.out.println("DrawPos: " + drawPos.getFormat() + screenX + " * " + tileSize + " - " + xResidu + " = " + ((screenX *tileSize) - xResidu) + " ; lowerRightX: " + camera.getLowerright().x());
-                    System.out.println("jStart = " + jStart + " ---> " + (camera.getUpperleft().x()+1) + " / " + tileSize + " = " + ((double) (camera.getUpperleft().x()+1)/tileSize) + " \n");
+
+                if (i >= 0 && j >= 0 && i < originalMap.length && j < originalMap[i].length) {
+                    tiles[count++] = new RenderedGameTile(originalMap[i][j], drawPos);
+                }
+                else {
+                    tiles[count++] = new RenderedGameTile(tileSize, drawPos);
                 }
 
-                if (i < 0 || j < 0)
-                    tiles[line][col] = new RenderedGameTile(tileSize, drawPos);
-
-                else if (i >= 0 && j >= 0 && i < originalMap.length && j < originalMap[i].length)
-                    tiles[line][col] = new RenderedGameTile(originalMap[i][j], drawPos);
-
-                else
-                    tiles[line][col] = new RenderedGameTile(tileSize, drawPos);
-
-                col++;
                 screenX += 1;
 
             }
 
             screenY += 1;
             screenX = -3;
-            line++;
 
         }
+        return getMap(tiles, (iEnd-iStart), (jEnd-jStart));
+    }
 
-        return tiles;
+    public GameObject[][] getMap(GameObject[] tiles, int amountRow, int amountColumn) {
+        GameObject[][] map = new GameObject[amountRow+1][amountColumn+1];
+
+        int col = 0, row = 0;
+        for(int i = 0; i < tiles.length; i++) {
+            map[row][col] = tiles[i];
+
+            if(i % amountColumn == 0) {
+                col = 0;
+                row++;
+            } else
+                col++;
+        }
+
+        return map;
     }
 
     /**
@@ -142,7 +153,7 @@ public class Camera {
             super(parent.getPosition());
             this.parent = parent;
             this.renderPosition = renderPosition;
-            setTexture(textureLoader(new TextureLoader()).loadTexture());
+            setTexture(parent.getTexture());
             this.setHeight(parent.getHeight());
             this.setWidth(parent.getWidth());
         }
@@ -186,14 +197,6 @@ public class Camera {
                 return new RenderStrategy().imageRenderer(this);
         }
 
-    }
-
-    private Save save(int residu, int a, int b, int c, int d) {
-        return new Save(center, camera, residu, a, b, c, d);
-    }
-
-    private Save save(int residu, int a, int b, int c, int d, GameObject[][] t) {
-        return new Save(center, camera, residu, a, b, c, d, t);
     }
 
 }

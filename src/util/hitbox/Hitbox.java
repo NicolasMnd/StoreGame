@@ -2,8 +2,6 @@ package util.hitbox;
 
 import util.Pos;
 
-import java.awt.*;
-
 public class Hitbox {
 
     private final Pos start, end;
@@ -11,6 +9,11 @@ public class Hitbox {
     public Hitbox(Pos pos1, Pos pos2) {
         this.start = pos1;
         this.end = pos2;
+    }
+
+    public Hitbox(Pos center, int sizeX, int sizeY) {
+        this.start = center.add(new Pos(-sizeX, -sizeY));
+        this.end = center.add(new Pos(sizeX, sizeY));
     }
 
     public boolean isInHitbox(Pos pos) {
@@ -88,4 +91,10 @@ public class Hitbox {
         return "[" + start.x() + ", " + start.y() + "]:[" + end.x() + ", " + end.y() + "]";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Hitbox b)
+            return b.getCenterPos().equals(this.getCenterPos());
+        return false;
+    }
 }

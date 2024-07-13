@@ -26,7 +26,7 @@ public class GameController {
 
     public void idle(ActionEvent event) {
         update();
-        //paint();
+        paint();
     }
 
     public void update() {
@@ -40,6 +40,8 @@ public class GameController {
     // Creates a mouse listener
     private InputNotifier getNotifier() {
         return new InputNotifier() {
+            private InputTranslator translator = new InputTranslator();
+
             @Override
             public void hover(int x, int y) {
                 facade.hover(x, y);
@@ -57,8 +59,7 @@ public class GameController {
 
             @Override
             public void enterCharacter(KeyEvent e) {
-                new InputTranslator().translate(facade, e);
-                paint();
+                translator.translate(facade, e);
             }
 
             @Override
