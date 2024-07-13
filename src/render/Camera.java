@@ -46,6 +46,7 @@ public class Camera {
         int cameraWidth = view.getDimension().getWidth();
         int cameraHeight = view.getDimension().getHeight();
         double gameSize = view.getGameSize();
+        this.center = center;
         this.camera = new Hitbox(
                 new Pos(center.x() - (int) (cameraWidth*gameSize / 2), center.y() - (int) (cameraHeight*gameSize / 2)),
                 new Pos(center.x() + (int) (cameraWidth*gameSize / 2), center.y() + (int) (cameraHeight*gameSize / 2))
@@ -84,8 +85,8 @@ public class Camera {
 
                 Pos drawPos = new Pos((screenX * tileSize) - xResidu, (screenY * tileSize) - yResidu);
                 if(i == 0 && j == 0) {
-                    //System.out.println("DrawPos: " + drawPos.getFormat() + screenX + " * " + tileSize + " - " + xResidu + " = " + ((screenX *tileSize) - xResidu) + " ; lowerRightX: " + camera.getLowerright().x());
-                    //System.out.println("jStart = " + jStart + " ---> " + (camera.getUpperleft().x()+1) + " / " + tileSize + " = " + ((double) (camera.getUpperleft().x()+1)/tileSize) + " \n");
+                    System.out.println("DrawPos: " + drawPos.getFormat() + screenX + " * " + tileSize + " - " + xResidu + " = " + ((screenX *tileSize) - xResidu) + " ; lowerRightX: " + camera.getLowerright().x());
+                    System.out.println("jStart = " + jStart + " ---> " + (camera.getUpperleft().x()+1) + " / " + tileSize + " = " + ((double) (camera.getUpperleft().x()+1)/tileSize) + " \n");
                 }
 
                 if (i < 0 || j < 0)

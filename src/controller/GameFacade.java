@@ -51,7 +51,7 @@ public class GameFacade {
         switch(dir) {
             case Direction.UP -> state.getPlayerPosition().moveUp(1);
             case Direction.DOWN -> state.getPlayerPosition().moveDown(1);
-            case Direction.RIGHT -> state.getPlayerPosition().moveRight(1);
+            case Direction.RIGHT -> state.getPlayerPosition().moveRight(2);
             case Direction.LEFT -> state.getPlayerPosition().moveLeft(1);
         }
     }
