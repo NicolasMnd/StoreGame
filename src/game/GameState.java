@@ -2,6 +2,7 @@ package game;
 
 import game.container.Container;
 import game.entity.Entity;
+import game.entity.EntityLoader;
 import game.entity.PlayerEntity;
 import game.map.MapHandler;
 import game.tile.GameTile;
@@ -83,9 +84,11 @@ public class GameState {
     }
 
     private void loadEntities() {
+        EntityLoader entityLoader = new EntityLoader(setupMoveChecker());
         this.player = new PlayerEntity(this.cameraPosition, setupMoveChecker());
     }
 
+    //TODO optimisation...
     private IMoveValidity setupMoveChecker() {
         return new IMoveValidity() {
             @Override

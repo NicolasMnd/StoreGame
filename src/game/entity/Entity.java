@@ -10,7 +10,7 @@ public abstract class Entity extends GameObject {
     private final IMoveValidity validMoveChecker;
     private boolean isJumping = false;
     private final int speed;
-    private int walkVersion = 0;
+    private int walkVersion = 0, idleVersion = 0;
     final int walkModulo = 15;
     final int runModulo = 10;
     final int idleModulo = 25;
@@ -63,6 +63,20 @@ public abstract class Entity extends GameObject {
         if(isJumping)
             return;
         isJumping = true;
+    }
+
+    /**
+     * @return the walk version integer
+     */
+    public int getWalkVersion() {
+        return this.walkVersion;
+    }
+
+    /**
+     * @return the idle version integer
+     */
+    public int getIdleVersion() {
+        return this.idleVersion;
     }
 
 }

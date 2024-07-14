@@ -15,6 +15,7 @@ public class PlayerTextureInformation extends TextureInformation {
 
     @Override
     public TextureHolder loadTexture() {
+
         return null;
     }
 
