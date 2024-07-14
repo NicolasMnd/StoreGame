@@ -23,7 +23,6 @@ public class OperationTime {
         hasEndTime = true;
         isDone = true;
         seconds = (endTime-startTime)/(1000000000);
-        verslag(this.name);
     }
 
     public long getNano() {
@@ -36,7 +35,7 @@ public class OperationTime {
 
     public void verslag(String name) {
         if(isDone && hasEndTime && hasStartTime)
-            System.out.println(name + " duurde " + getNano());
+            System.out.println(name + " duurde " + getNano() + "ns of " + (getNano()/1000000) + "ms");
     }
 
 }

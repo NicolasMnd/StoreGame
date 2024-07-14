@@ -2,6 +2,8 @@ package render;
 
 import game.GameObject;
 import game.tile.GameTile;
+import util.Logger;
+import util.OperationTime;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
@@ -16,7 +18,7 @@ public class Camera {
     private Pos center;
     private Hitbox camera;
     private final int tileSize;
-    private Pos latestZeroPos;
+    private Logger logger = new Logger("render times");
 
     public Camera(Pos center, View view) {
         this.center = center;
@@ -61,6 +63,8 @@ public class Camera {
      * @return a double array of {@link Camera.RenderedGameTile} objects
      */
     public GameObject[][] getRenderTiles(GameTile[][] originalMap, double mapTileSize) {
+        OperationTime time = new OperationTime("Rendering");
+        time.start();
         int tileSize = (int) (mapTileSize * this.tileSize);
 
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
@@ -103,6 +107,9 @@ public class Camera {
             screenX = -3;
 
         }
+        time.stop();
+        logger.log(time.getNano() + "ns = " + (time.getNano()/1000000) + "ms ");
+        logger.time(time.getNano());
         return getMap(tiles, (iEnd-iStart), (jEnd-jStart));
     }
 

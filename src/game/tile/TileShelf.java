@@ -15,7 +15,7 @@ public class TileShelf extends GameTile {
         super(pos);
         this.getProperties().addProperty(new PropertyPeer(this));
         this.getProperties().addProperty(new PropertyContainer(this, containerNotifier));
-        setHeight(96);
+        setHeight(128);
     }
 
     @Override

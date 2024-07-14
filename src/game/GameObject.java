@@ -24,7 +24,6 @@ public abstract class GameObject {
     public GameObject(Pos pos) {
         this.pos = pos;
         this.texture = textureLoader(new TextureLoader()).loadTexture();
-        this.facing = Direction.NORTH;
         this.properties = new PropertyManager();
     }
 
@@ -50,7 +49,7 @@ public abstract class GameObject {
      * @return the {@link Direction}
      */
     public Direction getFacing() {
-        return  this.facing;
+        return this.facing;
     }
 
     /**
