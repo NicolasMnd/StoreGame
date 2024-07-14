@@ -1,8 +1,9 @@
-package util.texture.textureinformation;
+package render;
 
 import game.GameObject;
 import util.Pos;
 import util.texture.comp.TextureSelector;
+import util.texture.textureinformation.IRender;
 
 import java.awt.*;
 
@@ -59,6 +60,24 @@ public class RenderStrategy {
                     (int) (object.getWidth()*gameSize),
                     (int) (object.getHeight()*gameSize)
             );
+
+        };
+    }
+
+    public IRender hitboxRenderer(GameObject object) {
+        return (graphics, gameSize, tileSize) -> {
+            this.imageRenderer(object).render(graphics, gameSize, tileSize);
+
+            Pos start = object.getHitbox().getUpperleft();
+            int x = start.x();
+            int y = start.y();
+            int width = object.getHitbox().getLowerright().x() - object.getHitbox().getUpperleft().x();
+            int height = object.getHitbox().getLowerright().y() - object.getHitbox().getUpperleft().y();
+
+            Stroke stroke1 = new BasicStroke(2f);
+            graphics.setColor(Color.RED);
+            graphics.setStroke(stroke1);
+            graphics.drawRect(x, y, width, height);
 
         };
     }

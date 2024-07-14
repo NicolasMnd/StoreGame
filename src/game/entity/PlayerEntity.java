@@ -1,20 +1,26 @@
-package game.tile;
+package game.entity;
 
+import listeners.IMoveValidity;
 import util.Pos;
+import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
-public class TileWall extends GameTile {
+public class PlayerEntity extends Entity {
 
-    public TileWall(Pos pos) {
-        super(pos);
+    private final int PLAYER_SPEED;
+
+    public PlayerEntity(Pos pos, IMoveValidity listener) {
+        super(pos, 4, listener);
+        this.PLAYER_SPEED = 4;
     }
 
     @Override
-    public boolean canCollide() {
-        return false;
+    public Hitbox getHitbox() {
+        Pos pos = this.getPosition().add(new Pos(0, 32));
+        return new Hitbox(pos, pos.add(new Pos(getWidth(), -getHeight())));
     }
 
     @Override

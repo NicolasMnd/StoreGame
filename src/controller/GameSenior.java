@@ -13,7 +13,7 @@ public class GameSenior {
     }
 
     private void startRefresh() {
-        double drawInterval = (double) 1000 /60;
+        double drawInterval = (double) 1000/60;
         javax.swing.Timer t = new javax.swing.Timer((int) drawInterval,
                 (e) -> controller.idle(e)
         );

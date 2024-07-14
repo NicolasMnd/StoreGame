@@ -11,7 +11,6 @@ import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
-import util.texture.textureinformation.RenderStrategy;
 
 public class Camera {
 
@@ -110,6 +109,7 @@ public class Camera {
         time.stop();
         logger.log(time.getNano() + "ns = " + (time.getNano()/1000000) + "ms ");
         logger.time(time.getNano());
+        printTiles(getMap(tiles, (iEnd-iStart), (jEnd-jStart)));
         return getMap(tiles, (iEnd-iStart), (jEnd-jStart));
     }
 
@@ -197,11 +197,11 @@ public class Camera {
         }
 
         @Override
-        public IRender getRenderStrategy() {
+        public IRender getRenderStrategy(GameObject object) {
             if(this.textureSelector(new TextureSelector()).retrieveTexture() == null)
                 return new RenderStrategy().rectangleRenderer(this);
             else
-                return new RenderStrategy().imageRenderer(this);
+                return parent.getRenderStrategy(this);
         }
 
     }

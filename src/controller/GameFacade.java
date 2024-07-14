@@ -2,11 +2,14 @@ package controller;
 
 import controller.tasks.TaskManager;
 import game.GameState;
+import game.entity.Entity;
 import listeners.InputHandler;
 import render.GameView;
 import render.View;
 import util.Dimension;
 import util.Direction;
+
+import java.util.function.Consumer;
 
 /**
  * The first layer where we will connect subsystems.
@@ -25,14 +28,12 @@ public class GameFacade {
     public GameFacade(InputHandler inputHandler) {
         this.state = new GameState(TILE_SIZE, windowSize);
         this.taskManager = new TaskManager();
-        this.view = new GameView(TILE_SIZE, windowSize, state.getPlayerPosition());
+        this.view = new GameView(TILE_SIZE, windowSize, state.getCameraPosition());
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
     }
 
     private void tick() {
-        //System.out.println("Center: " + state.getPlayerPosition().getFormat());
-        //state.getPlayerPosition().moveRight(1);
     }
 
     public void leftClicked(int x, int y) {
@@ -47,14 +48,12 @@ public class GameFacade {
 
     }
 
-    public void move(Direction dir) {
-        int speed = 4;
-        switch(dir) {
-            case Direction.UP -> state.getPlayerPosition().moveUp(speed);
-            case Direction.DOWN -> state.getPlayerPosition().moveDown(speed);
-            case Direction.RIGHT -> state.getPlayerPosition().moveRight(speed);
-            case Direction.LEFT -> state.getPlayerPosition().moveLeft(speed);
-        }
+    public void move(Direction d) {
+        this.state.move(d);
+    }
+
+    public void playerCommand(Consumer<Entity> command) {
+        command.accept(this.state.getPlayer());
     }
 
     public void increaseSize() {

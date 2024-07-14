@@ -47,8 +47,8 @@ public class GameView extends JPanel implements View {
         this.latestGameState = state;
 
         // Update camera if necessary.
-        if(!state.getPlayerPosition().equals(camera.getCenter()))
-            this.camera.updateCenter(state.getPlayerPosition(), this);
+        if(!state.getCameraPosition().equals(camera.getCenter()))
+            this.camera.updateCenter(state.getCameraPosition(), this);
 
     }
 
@@ -102,7 +102,7 @@ public class GameView extends JPanel implements View {
                 }
 
 
-        printCenter(latestGameState.getPlayerPosition());
+        printCenter(latestGameState.getCameraPosition());
     }
 
     /**
@@ -110,7 +110,7 @@ public class GameView extends JPanel implements View {
      * @param object an object to be printed
      */
     private void draw(GameObject object) {
-        object.getRenderStrategy().render(graphics, gameSize, tileSize);
+        object.getRenderStrategy(object).render(graphics, gameSize, tileSize);
     }
 
     private void printCenter(Pos pos) {

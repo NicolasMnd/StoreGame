@@ -27,6 +27,7 @@ public class GameController {
     public void idle(ActionEvent event) {
         update();
         paint();
+        System.out.println();
     }
 
     public void update() {

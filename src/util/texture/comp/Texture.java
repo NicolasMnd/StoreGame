@@ -38,7 +38,7 @@ public class Texture extends TextureHolder {
         return this.location;
     }
 
-    BufferedImage getImage() {
+    public BufferedImage getImage() {
         return this.image;
     }
 

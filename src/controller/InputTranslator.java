@@ -1,5 +1,6 @@
 package controller;
 
+import game.entity.Entity;
 import util.Direction;
 
 import java.awt.event.KeyEvent;
@@ -17,7 +18,7 @@ public class InputTranslator {
     private long entryTime;
 
     public InputTranslator() {
-        this.cooldown = 5;
+        this.cooldown = 20;
         this.entryTime = System.currentTimeMillis();
     }
 
@@ -26,20 +27,27 @@ public class InputTranslator {
         switch(event.getKeyChar()) {
 
             case 'q':
-                sendToFacade(() -> facade.move(Direction.LEFT));
+                facade.move(Direction.LEFT);
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.LEFT)));
                 return;
 
             case 's':
-                sendToFacade(() -> facade.move(Direction.DOWN));
+                facade.move(Direction.DOWN);
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.DOWN)));
                 return;
 
             case 'z':
-                sendToFacade(() -> facade.move(Direction.UP));
+                facade.move(Direction.UP);
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.UP)));
                 return;
 
             case 'd':
-                sendToFacade(() -> facade.move(Direction.RIGHT));
+                facade.move(Direction.RIGHT);
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.RIGHT)));
                 return;
+
+            case KeyEvent.VK_SPACE:
+                sendToFacade(() -> facade.playerCommand(Entity::jump));
 
         }
 

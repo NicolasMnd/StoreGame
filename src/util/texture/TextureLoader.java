@@ -1,11 +1,13 @@
 package util.texture;
 
+import game.entity.PlayerEntity;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
 import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
-import util.texture.comp.ShelfTextureInformation;
+import util.texture.textureinformation.PlayerTextureInformation;
+import util.texture.textureinformation.ShelfTextureInformation;
 
 import java.io.File;
 
@@ -26,6 +28,10 @@ public class TextureLoader {
 
     public ITextureLoader loadTexture(TileGround ground) {
         return () -> new Texture(new File("resources/tiles/floor.png"));
+    }
+
+    public ITextureLoader loadTexture(PlayerEntity player) {
+        return new PlayerTextureInformation(player);
     }
 
 }

@@ -1,6 +1,6 @@
-package util.texture.comp;
+package util.texture.textureinformation;
 
-import util.texture.textureinformation.TextureInformation;
+import util.texture.comp.TextureHolder;
 
 import java.awt.image.BufferedImage;
 

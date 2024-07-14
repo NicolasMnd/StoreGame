@@ -1,14 +1,19 @@
 package game;
 
 import game.container.Container;
+import game.entity.Entity;
+import game.entity.PlayerEntity;
 import game.map.MapHandler;
 import game.tile.GameTile;
-import render.Camera;
+import listeners.IMoveValidity;
 import util.Dimension;
+import util.Direction;
+import util.OperationTime;
 import util.Pos;
 
 public class GameState {
 
+    private PlayerEntity player;
     private Pos cameraPosition;
     private GameTile[][] tiles;
     private Container[] container;
@@ -19,24 +24,44 @@ public class GameState {
     public GameState(int tileSize, Dimension windowsSize) {
         this.tileSize = tileSize;
         this.windowSize = windowsSize;
-        this.cameraPosition = new Pos(10*tileSize, 10*tileSize);
+        this.cameraPosition = new Pos(3*tileSize, 3*tileSize);
         init();
+    }
+
+    public void move(Direction d) {
+        System.out.println("Previous: " + cameraPosition.getFormat());
+        switch(d) {
+            case Direction.UP -> cameraPosition = cameraPosition.add(new Pos(0, -4));
+            case Direction.DOWN -> cameraPosition = cameraPosition.add(new Pos(0, 4));
+            case Direction.RIGHT -> cameraPosition = cameraPosition.add(new Pos(4, 0));
+            case Direction.LEFT -> cameraPosition = cameraPosition.add(new Pos(-4, 0));
+        }
+        System.out.println("Result: " + cameraPosition.getFormat());
+    }
+
+    /**
+     * @return the player {@link game.entity.Entity}
+     */
+    public Entity getPlayer() {
+        return this.player;
     }
 
     /**
      * Determines the player position
      */
-    public Pos getPlayerPosition() {
-        return this.cameraPosition;
+    public Pos getCameraPosition() {
+        return this.player.getPosition();
     }
 
     /**
      * Starts up the game.
      */
     public void init() {
-        loadMap("resources/map/map.csv", tileSize);
-        // First argument is a 'starting position', center of the camera
-        this.cameraPosition = new Pos(3*tileSize, 3*tileSize);
+        // 1. Load map
+        this.loadMap("resources/map/map.csv", tileSize);
+
+        // 2. Load entities & player
+        this.loadEntities();
     }
 
     /**
@@ -58,7 +83,27 @@ public class GameState {
     }
 
     private void loadEntities() {
+        this.player = new PlayerEntity(this.cameraPosition, setupMoveChecker());
+    }
 
+    private IMoveValidity setupMoveChecker() {
+        return new IMoveValidity() {
+            @Override
+            public boolean canMoveTo(Pos pos) {
+                OperationTime time = new OperationTime("check move validity");
+                time.start();
+
+                // check for all tiles
+                for(GameTile[] tileArr : tiles)
+                    for(GameTile tile : tileArr)
+                        if(tile.getHitbox().isInHitbox(pos) && !tile.canCollide())
+                            return false;
+
+                time.stop();
+                //time.verslag("Checking position validity");
+                return true;
+            }
+        };
     }
 
 }

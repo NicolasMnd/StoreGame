@@ -11,7 +11,7 @@ import util.texture.comp.TextureHolder;
 import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
-import util.texture.textureinformation.RenderStrategy;
+import render.RenderStrategy;
 
 public abstract class GameObject {
 
@@ -101,10 +101,11 @@ public abstract class GameObject {
     }
 
     /**
-     * Get render strategy
+     * Get render strategy.
+     * Watch out, by passing 'this' object you will get the real map positions. The {@link render.Camera.RenderedGameTile} will make sure to put relative positions in respect to the player position...
      */
-    public IRender getRenderStrategy() {
-        return new RenderStrategy().imageRenderer(this);
+    public IRender getRenderStrategy(GameObject object) {
+        return new RenderStrategy().imageRenderer(object);
     }
 
     /**
