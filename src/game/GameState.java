@@ -7,10 +7,7 @@ import game.entity.PlayerEntity;
 import game.map.MapHandler;
 import game.tile.GameTile;
 import listeners.IMoveValidity;
-import util.Dimension;
-import util.Direction;
-import util.OperationTime;
-import util.Pos;
+import util.*;
 
 public class GameState {
 
@@ -20,6 +17,7 @@ public class GameState {
     private Container[] container;
     private final int tileSize;
     private final Dimension windowSize;
+    private final Logger performanceLogger = new Logger("Check collision");
     //private Entity[] entities;
 
     public GameState(int tileSize, Dimension windowsSize) {
@@ -30,14 +28,12 @@ public class GameState {
     }
 
     public void move(Direction d) {
-        System.out.println("Previous: " + cameraPosition.getFormat());
         switch(d) {
             case Direction.UP -> cameraPosition = cameraPosition.add(new Pos(0, -4));
             case Direction.DOWN -> cameraPosition = cameraPosition.add(new Pos(0, 4));
             case Direction.RIGHT -> cameraPosition = cameraPosition.add(new Pos(4, 0));
             case Direction.LEFT -> cameraPosition = cameraPosition.add(new Pos(-4, 0));
         }
-        System.out.println("Result: " + cameraPosition.getFormat());
     }
 
     /**
@@ -88,22 +84,34 @@ public class GameState {
         this.player = new PlayerEntity(this.cameraPosition, setupMoveChecker());
     }
 
-    //TODO optimisation...
+    /**
+     * Returns a listener of {@link Entity} objects to check if they are colliding with a {@link GameTile#getHitbox()}
+     * Performance by looping through all tiles:    0.1ms  - 2ms   overhead
+     *                checking only relevant tiles: 0.01ms - 0.1ms overhead
+     *                checking relevants with try/catch:
+     *                                              0.01ms - 0.5ms overhead
+     * @return listener for determining collision with {@link util.hitbox.Hitbox}
+     */
     private IMoveValidity setupMoveChecker() {
         return new IMoveValidity() {
             @Override
             public boolean canMoveTo(Pos pos) {
                 OperationTime time = new OperationTime("check move validity");
                 time.start();
-
+                int gridLocationX = Math.floorDiv(pos.x(), 32);
+                int gridLocationY = Math.floorDiv(pos.y(), 32);
                 // check for all tiles
-                for(GameTile[] tileArr : tiles)
-                    for(GameTile tile : tileArr)
-                        if(tile.getHitbox().isInHitbox(pos) && !tile.canCollide())
+                for(int x = -4; x < 5; x++)
+                    for(int y = -4; y < 4; y++) {
+                        if(gridLocationY+y < 0 || gridLocationY+y > tiles.length || gridLocationX+x < 0 || gridLocationX+x > tiles[0].length)
+                            continue;
+                        GameTile selection = tiles[gridLocationY+y][gridLocationX+x];
+                        if(selection.getHitbox().isInHitbox(pos) && !selection.canCollide())
                             return false;
+                    }
 
                 time.stop();
-                //time.verslag("Checking position validity");
+                performanceLogger.time(time.getNano());
                 return true;
             }
         };

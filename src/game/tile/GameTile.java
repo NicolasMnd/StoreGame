@@ -1,6 +1,7 @@
 package game.tile;
 
 import game.GameObject;
+import util.Direction;
 import util.Pos;
 
 public abstract class GameTile extends GameObject {
@@ -9,6 +10,7 @@ public abstract class GameTile extends GameObject {
         super(pos);
         setWidth(32);
         setHeight(32);
+        setFacing(Direction.NORTH);
     }
 
     /**

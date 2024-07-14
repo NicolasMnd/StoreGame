@@ -15,6 +15,9 @@ class TickTask implements Task {
                 if(obj.getProperties().getProperty(PropertyType.TICKABLE) != null)
                     ((PropertyTickable) obj.getProperties().getProperty(PropertyType.TICKABLE)).execute();
 
+        if(state.getPlayer().getProperties().getProperty(PropertyType.TICKABLE) != null)
+            ((PropertyTickable) state.getPlayer().getProperties().getProperty(PropertyType.TICKABLE)).execute();
+
     }
 
 }

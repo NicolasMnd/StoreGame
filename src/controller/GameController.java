@@ -11,7 +11,7 @@ public class GameController {
     /**
      * The facade which will connect all subsystems
      */
-    private final GameFacade facade;
+    final GameFacade facade;
 
     /**
      * Allows this class to receive mouse input requests
@@ -27,7 +27,6 @@ public class GameController {
     public void idle(ActionEvent event) {
         update();
         paint();
-        System.out.println();
     }
 
     public void update() {

@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public class GameFacade {
 
     private final View view;
-    private GameState state;
+    GameState state;
     private final int TILE_SIZE = 32;
     private final Dimension windowSize = new Dimension(30*TILE_SIZE, 24*TILE_SIZE);
     private final TaskManager taskManager;
@@ -28,12 +28,13 @@ public class GameFacade {
     public GameFacade(InputHandler inputHandler) {
         this.state = new GameState(TILE_SIZE, windowSize);
         this.taskManager = new TaskManager();
-        this.view = new GameView(TILE_SIZE, windowSize, state.getCameraPosition());
+        this.view = new GameView(TILE_SIZE, windowSize);
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
     }
 
     private void tick() {
+        taskManager.updateTickables(state);
     }
 
     public void leftClicked(int x, int y) {

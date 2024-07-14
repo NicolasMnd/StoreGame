@@ -1,17 +1,18 @@
 package game;
 
 import game.property.PropertyManager;
+import render.RenderStrategy;
+import render.RenderableGameObject;
 import util.Direction;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
-import util.texture.comp.TextureSelector;
 import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
+import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
-import render.RenderStrategy;
 
 public abstract class GameObject {
 
@@ -102,7 +103,7 @@ public abstract class GameObject {
 
     /**
      * Get render strategy.
-     * Watch out, by passing 'this' object you will get the real map positions. The {@link render.Camera.RenderedGameTile} will make sure to put relative positions in respect to the player position...
+     * Watch out, by passing 'this' object you will get the real map positions. The {@link RenderableGameObject} will make sure to put relative positions in respect to the player position...
      */
     public IRender getRenderStrategy(GameObject object) {
         return new RenderStrategy().imageRenderer(object);

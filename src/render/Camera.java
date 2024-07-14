@@ -6,11 +6,6 @@ import util.Logger;
 import util.OperationTime;
 import util.Pos;
 import util.hitbox.Hitbox;
-import util.texture.TextureLoader;
-import util.texture.comp.TextureSelector;
-import util.texture.textureinformation.IRender;
-import util.texture.textureinformation.ITextureLoader;
-import util.texture.textureinformation.ITextureStrategy;
 
 public class Camera {
 
@@ -55,11 +50,11 @@ public class Camera {
     }
 
     /**
-     * Retrieves a list of {@link Camera.RenderedGameTile} objects, which has render positions.
+     * Retrieves a list of {@link RenderableGameObject} objects, which has render positions.
      * [50,000 -> 500,000] nanoseconds time consumption Mostly around 100-200k
      * @param originalMap the {@link GameTile} double array which is inspected to fit the camera
      * @param mapTileSize the extra amplification of the game size.
-     * @return a double array of {@link Camera.RenderedGameTile} objects
+     * @return a double array of {@link RenderableGameObject} objects
      */
     public GameObject[][] getRenderTiles(GameTile[][] originalMap, double mapTileSize) {
         OperationTime time = new OperationTime("Rendering");
@@ -92,10 +87,10 @@ public class Camera {
                 Pos drawPos = new Pos((screenX * tileSize) - xResidu, (screenY * tileSize) - yResidu);
 
                 if (i >= 0 && j >= 0 && i < originalMap.length && j < originalMap[i].length) {
-                    tiles[count++] = new RenderedGameTile(originalMap[i][j], drawPos);
+                    tiles[count++] = new RenderableGameObject(originalMap[i][j], drawPos);
                 }
                 else {
-                    tiles[count++] = new RenderedGameTile(tileSize, drawPos);
+                    tiles[count++] = new RenderableGameObject(tileSize, drawPos);
                 }
 
                 screenX += 1;
@@ -109,7 +104,6 @@ public class Camera {
         time.stop();
         logger.log(time.getNano() + "ns = " + (time.getNano()/1000000) + "ms ");
         logger.time(time.getNano());
-        printTiles(getMap(tiles, (iEnd-iStart), (jEnd-jStart)));
         return getMap(tiles, (iEnd-iStart), (jEnd-jStart));
     }
 
@@ -146,64 +140,6 @@ public class Camera {
                     System.out.print("null, ");
             System.out.println();
         }
-    }
-
-    /**
-     * Decorator class for {@link GameObject}.
-     */
-    public static class RenderedGameTile extends GameObject {
-        private final GameObject parent;
-        final Pos renderPosition;
-        private int tileSize = 0;
-
-        public RenderedGameTile(GameObject parent, Pos renderPosition) {
-            super(parent.getPosition());
-            this.parent = parent;
-            this.renderPosition = renderPosition;
-            setTexture(parent.getTexture());
-            this.setHeight(parent.getHeight());
-            this.setWidth(parent.getWidth());
-        }
-
-        public RenderedGameTile(int tileSize, Pos renderPosition) {
-            super(null);
-            this.tileSize = tileSize;
-            this.parent = null;
-            this.renderPosition = renderPosition;
-            setTexture(textureLoader(new TextureLoader()).loadTexture());
-            this.setHeight(32);
-            this.setWidth(32);
-        }
-
-        GameObject parent() {
-            return this.parent;
-        }
-
-        @Override
-        public Pos getPosition() {
-            return this.renderPosition;
-        }
-
-        @Override
-        public ITextureLoader textureLoader(TextureLoader textureLoader) {
-            if(parent == null) return () -> null;
-            return parent.textureLoader(textureLoader);
-        }
-
-        @Override
-        public ITextureStrategy textureSelector(TextureSelector selector) {
-            if(parent == null) return () -> null;/*((Texture) (Texture.getBackground(tileSize))).getImage();*/
-            return parent.textureSelector(selector);
-        }
-
-        @Override
-        public IRender getRenderStrategy(GameObject object) {
-            if(this.textureSelector(new TextureSelector()).retrieveTexture() == null)
-                return new RenderStrategy().rectangleRenderer(this);
-            else
-                return parent.getRenderStrategy(this);
-        }
-
     }
 
 }

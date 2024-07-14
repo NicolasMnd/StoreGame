@@ -1,49 +1,74 @@
 package game.entity;
 
 import game.GameObject;
+import game.entity.property.PropertyWalkState;
+import game.property.PropertyTickable;
 import listeners.IMoveValidity;
 import util.Direction;
 import util.Pos;
 
 public abstract class Entity extends GameObject {
 
+    /**
+     * Callable object defined in {@link game.GameState}. Used to check collision
+     */
     private final IMoveValidity validMoveChecker;
+    /**
+     * Object that registers ticks and cares for walk state
+     */
+    private PropertyWalkState walkManager;
+    /**
+     * Booleans determining the state of the entity, used for texture selection
+     */
     private boolean isJumping = false;
+    private boolean isWalking = false;
     private final int speed;
     private int walkVersion = 0, idleVersion = 0;
-    final int walkModulo = 15;
-    final int runModulo = 10;
-    final int idleModulo = 25;
+    final int walkModulo = 20, runModulo = 10, idleModulo = 30;
 
     public Entity(Pos pos, int speed, IMoveValidity validMoveChecker) {
         super(pos);
+        this.setFacing(Direction.RIGHT);
         this.validMoveChecker = validMoveChecker;
         this.speed = speed;
+        this.walkManager = new PropertyWalkState();
+        this.getProperties().addProperty(new PropertyTickable(this::tick));
+        this.setWidth(32);
+        this.setHeight(32);
     }
 
     /**
      * Moves the entity in a certain direction
      */
     public void move(Direction dir) {
-        System.out.println("Requested to move in " + dir.name() + " from " + getPosition().getFormat());
         // Generate new position
         Pos updatedPosition = getPosition();
         switch(dir) {
-            case Direction.UP -> updatedPosition = getPosition().add(new Pos(0, -speed));
-            case Direction.DOWN -> updatedPosition = getPosition().add(new Pos(0, speed));
-            case Direction.RIGHT -> updatedPosition = getPosition().add(new Pos(speed, 0));
-            case Direction.LEFT -> updatedPosition = getPosition().add(new Pos(-speed, 0));
+            case Direction.UP:
+                this.setFacing(Direction.UP);
+                updatedPosition = getPosition().add(new Pos(0, -speed));
+                break;
+            case Direction.DOWN:
+                this.setFacing(Direction.DOWN);
+                updatedPosition = getPosition().add(new Pos(0, speed));
+                break;
+            case Direction.RIGHT:
+                this.setFacing(Direction.RIGHT);
+                updatedPosition = getPosition().add(new Pos(speed, 0));
+                break;
+            case Direction.LEFT:
+                this.setFacing(Direction.LEFT);
+                updatedPosition = getPosition().add(new Pos(-speed, 0));
+                break;
         }
-        System.out.println("updated: " + updatedPosition.getFormat());
 
         // Ask GameState for validity and update
         if(canMoveTo(updatedPosition)) {
-            System.out.println("The position is valid");
             updatePosition(updatedPosition);
+            this.walkManager.setWalking();
+            walkVersion++;
+            walkVersion %= walkModulo;
         }
-        else System.out.println("The position is invalid");
-
-        System.out.println("New Position = " + getPosition().getFormat());
 
     }
 
@@ -69,7 +94,7 @@ public abstract class Entity extends GameObject {
      * @return the walk version integer
      */
     public int getWalkVersion() {
-        return this.walkVersion;
+        return this.walkVersion < walkModulo/2 ? 1 : 2;
     }
 
     /**
@@ -77,6 +102,38 @@ public abstract class Entity extends GameObject {
      */
     public int getIdleVersion() {
         return this.idleVersion;
+    }
+
+    /**
+     * TODO a property should create a timer of 2 seconds which sets a boolean in this class to false after walking
+     * @return a boolean determining if the player is in a walking state.
+     */
+    public boolean isWalking() {
+        return !this.walkManager.isIdling();
+    }
+
+    /**
+     * @return the speed of the player
+     */
+    public int getSpeed() {
+        return this.speed;
+    }
+
+    /**
+     * TODO a property should handle the jumping animation
+     * @return a boolean determining if the player is in a jumping state.
+     */
+    public boolean isJumping() {
+        return this.isJumping;
+    }
+
+    private void tick() {
+
+        walkManager.tick();
+
+        if(this.walkManager.isIdling())
+            this.isWalking = false;
+
     }
 
 }

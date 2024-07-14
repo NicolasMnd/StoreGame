@@ -22,11 +22,10 @@ public class GameView extends JPanel implements View {
     private final Dimension windowsSize;
     private JFrame frame;
 
-    public GameView(int size, Dimension windowSize, Pos center) {
+    public GameView(int size, Dimension windowSize) {
         this.tileSize = size;
         this.frame = initializeFrame(windowSize);
         this.windowsSize = windowSize;
-        this.camera = new Camera(center, this);
     }
 
     @Override
@@ -44,6 +43,9 @@ public class GameView extends JPanel implements View {
 
     @Override
     public void update(GameState state) {
+        if(this.camera == null)
+            this.camera = new Camera(state.getCameraPosition(), this);
+
         this.latestGameState = state;
 
         // Update camera if necessary.
@@ -102,7 +104,11 @@ public class GameView extends JPanel implements View {
                 }
 
 
+
         printCenter(latestGameState.getCameraPosition());
+
+        draw(new RenderableGameObject(latestGameState.getPlayer(), new Pos(getWidth()/2, getHeight()/2)));
+
     }
 
     /**
