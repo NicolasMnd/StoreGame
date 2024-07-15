@@ -23,6 +23,7 @@ public abstract class Entity extends GameObject {
      */
     private PropertyJumpState jumpManager;
     private final int speed;
+    private int height = 0;
     private int walkVersion = 0, idleVersion = 0;
     final int walkModulo = 20, runModulo = 10, idleModulo = 30;
 
@@ -32,7 +33,7 @@ public abstract class Entity extends GameObject {
         this.validMoveChecker = validMoveChecker;
         this.speed = speed;
         this.walkManager = new PropertyWalkState();
-        this.jumpManager = new PropertyJumpState(64, 40, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
+        this.jumpManager = new PropertyJumpState(64, 40, validMoveChecker, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
         this.getProperties().addProperty(new PropertyTickable(this::tick));
         this.setWidth(32);
         this.setHeight(32);
@@ -88,7 +89,7 @@ public abstract class Entity extends GameObject {
     public void jump() {
         if(jumpManager.isJumping())
             return;
-        jumpManager.jump(this.getPosition());
+        jumpManager.jump(this::getPosition);
     }
 
     /**

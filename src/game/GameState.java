@@ -102,7 +102,7 @@ public class GameState {
                 int gridLocationY = Math.floorDiv(pos.y(), 32);
                 // check for all tiles
                 for(int x = -4; x < 5; x++)
-                    for(int y = -4; y < 4; y++) {
+                    for(int y = -4; y < 5; y++) {
                         if(gridLocationY+y < 0 || gridLocationY+y > tiles.length || gridLocationX+x < 0 || gridLocationX+x > tiles[0].length)
                             continue;
                         GameTile selection = tiles[gridLocationY+y][gridLocationX+x];

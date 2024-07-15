@@ -5,6 +5,7 @@ import game.property.PropertyPeer;
 import listeners.IContainerInteraction;
 import util.Pos;
 import util.hitbox.Hitbox;
+import util.hitbox.TopHitbox;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.ITextureLoader;
@@ -17,6 +18,12 @@ public class TileShelf extends GameTile {
         this.getProperties().addProperty(new PropertyPeer(this));
         this.getProperties().addProperty(new PropertyContainer(this, containerNotifier));
         setHeight(128);
+        setTileHeight(96);
+    }
+
+    @Override
+    public TopHitbox getTopHitbox() {
+        return super.getTopHitbox();
     }
 
     @Override

@@ -1,9 +1,22 @@
 package game.entity.property;
 
+import controller.GameController;
+import game.entity.Entity;
+import game.property.PropertyTickable;
+import listeners.IMoveValidity;
 import util.Pos;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
+/**
+ * This class is used by {@link game.entity.Entity} to allow it to jump.
+ * The jump animation consists of gradually updating the {@link Entity#getPosition()} by {@link Entity#updatePosition(Pos)}.
+ * We do this gradually by making sure this class is called each 'tick', a refresh in {@link GameController#update()}, which
+ * will loop over items in {@link game.GameState} and call upon {@link PropertyTickable#execute()}.
+ * The {@link Entity} will have to add {@link PropertyTickable} by {@link Entity#getProperties()} and adding an instance.
+ * Upon adding the property, a {@link Runnable} should be defined in the class itself. A listener of some sort which is called from higher layers.
+ */
 public class PropertyJumpState {
 
     /**
@@ -19,9 +32,11 @@ public class PropertyJumpState {
     private final int jumpDuration;
     private int jumpTime;
     private Consumer<Pos> positionUpdater;
+    private Supplier<Pos> positionGetter;
+    private final IMoveValidity moveChecker;
     private Pos startPosition;
 
-    public PropertyJumpState(int jumpHeight, int jumpDuration, Consumer<Pos> playerLocationModifier) {
+    public PropertyJumpState(int jumpHeight, int jumpDuration, IMoveValidity validMoveChecker, Consumer<Pos> playerLocationModifier) {
         this.jumpHeight = jumpHeight;
         this.playerStartY = 0;
         this.isJumping = false;
@@ -29,20 +44,19 @@ public class PropertyJumpState {
         this.jumpDuration = jumpDuration;
         this.jumpTime = 0;
         this.positionUpdater = playerLocationModifier;
+        this.moveChecker = validMoveChecker;
     }
 
-    public void jump(Pos playerJumpPosition) {
-        System.out.println("Registered jump");
+    public void jump(Supplier<Pos> getPosition) {
         if(this.isJumping)
             return;
 
-        System.out.println("Setting variables");
         // Reset jump help variables
-        this.playerStartY = playerJumpPosition.y();
+        this.playerStartY = getPosition.get().y();
         this.isJumping = true;
         this.startJumpTime = System.currentTimeMillis();
         this.jumpTime = 0;
-        this.startPosition = playerJumpPosition;
+        this.positionGetter = getPosition;
     }
 
     public void tick() {
@@ -62,9 +76,9 @@ public class PropertyJumpState {
 
             // First stage
             if(jumpTime < jumpDuration/2)
-                positionUpdater.accept(new Pos(0, -(int) increase));
+                this.updatePosition(new Pos(0, -(int) increase));
             else
-                positionUpdater.accept(new Pos(0, (int) increase));
+                this.updatePosition(new Pos(0, (int) increase));
 
             jumpTime++;
 
@@ -72,12 +86,26 @@ public class PropertyJumpState {
 
     }
 
+    /**
+     * @return boolean determining if the player is jumping
+     */
     public boolean isJumping() {
         return this.isJumping;
     }
 
+    /**
+     * @return amount of height should be gained per tick
+     */
     double getJumpIncrease() {
         return (double) jumpHeight / (jumpDuration / 2);
+    }
+
+    void updatePosition(Pos addition) {
+        if(moveChecker.canMoveTo(positionGetter.get().add(addition)))
+            positionUpdater.accept(addition);
+        else {
+            jumpTime += 2*(jumpDuration - jumpTime);
+        }
     }
 
     /**

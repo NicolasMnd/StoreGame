@@ -3,8 +3,11 @@ package game.tile;
 import game.GameObject;
 import util.Direction;
 import util.Pos;
+import util.hitbox.TopHitbox;
 
 public abstract class GameTile extends GameObject {
+
+    private int height;
 
     public GameTile(Pos pos) {
         super(pos);
@@ -20,9 +23,24 @@ public abstract class GameTile extends GameObject {
         return true;
     }
 
+    /**
+     * @return the hitbox of the top of the tile
+     */
+    public TopHitbox getTopHitbox() {
+        return null;
+    }
+
     @Override
-    public void updatePosition(Pos pos) {
+    public final void updatePosition(Pos pos) {
         return;
+    }
+
+    /**
+     * Sets the height of this {@link GameTile}
+     * @param height the height
+     */
+    protected final void setTileHeight(int height) {
+        this.height = height;
     }
 
 }

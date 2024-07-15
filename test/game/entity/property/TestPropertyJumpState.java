@@ -1,5 +1,6 @@
 package game.entity.property;
 
+import listeners.IMoveValidity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.Pos;
@@ -19,13 +20,13 @@ public class TestPropertyJumpState {
     public void init() {
         jumpHeight = 20;
         jumpDuration = 40;
-        this.jumpHelper = new PropertyJumpState(jumpHeight, jumpDuration, updatePositionListener());
+        this.jumpHelper = new PropertyJumpState(jumpHeight, jumpDuration, getMoveChecker(), updatePositionListener());
         this.pos = new Pos(0,0);
     }
 
     @Test
     public void testJump_StartY() {
-        this.jumpHelper.jump(pos);
+        this.jumpHelper.jump(() -> pos);
         assertEquals(jumpHelper.playerStartY, pos.y());
     }
 
@@ -41,54 +42,54 @@ public class TestPropertyJumpState {
     @Test
     public void testJump_1() {
         Pos startPos = pos;
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         jumpHelper.tick();
-        assertEquals(pos, startPos.add(new Pos(0, (jumpHeight/(jumpDuration/2)))));
+        assertEquals(pos, startPos.add(new Pos(0, -(jumpHeight/(jumpDuration/2)))));
     }
 
     @Test
     public void testJump_2() {
         Pos startPos = pos;
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         tick(this.jumpHelper, 2);
-        assertEquals(pos, startPos.add(new Pos(0, 2*(jumpHeight/(jumpDuration/2)))));
+        assertEquals(pos, startPos.add(new Pos(0, -2*(jumpHeight/(jumpDuration/2)))));
     }
 
     @Test
     public void testJump_Highest() {
         Pos startPos = pos;
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         tick(this.jumpHelper, jumpDuration/2);
-        assertEquals(pos, startPos.add(new Pos(0, jumpHeight)));
+        assertEquals(pos, startPos.add(new Pos(0, -jumpHeight)));
     }
 
     @Test
     public void testJump_Highest_Down_1() {
         Pos startPos = pos;
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         tick(this.jumpHelper, (jumpDuration/2) + 1);
-        assertEquals(pos, startPos.add(new Pos(0, jumpHeight - (jumpHeight/(jumpDuration/2)))));
+        assertEquals(pos, startPos.add(new Pos(0, -jumpHeight + (jumpHeight/(jumpDuration/2)))));
     }
 
     @Test
     public void testJump_Highest_Down_2() {
         Pos startPos = pos;
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         tick(this.jumpHelper, (jumpDuration/2) + 2);
-        assertEquals(pos, startPos.add(new Pos(0, jumpHeight - 2*(jumpHeight/(jumpDuration/2)))));
+        assertEquals(pos, startPos.add(new Pos(0, -jumpHeight + 2*(jumpHeight/(jumpDuration/2)))));
     }
 
     @Test
     public void testJump_Lowest() {
         Pos startPos = pos;
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         tick(this.jumpHelper, jumpDuration);
         assertEquals(pos, startPos.add(new Pos(0, 0)));
     }
 
     @Test
     public void testJump_Lowest_jumpingFalse() {
-        jumpHelper.jump(pos);
+        jumpHelper.jump(() -> pos);
         tick(this.jumpHelper, jumpDuration+1);
         assertFalse(jumpHelper.isJumping());
         assertEquals(pos, new Pos(0, 0));
@@ -96,47 +97,58 @@ public class TestPropertyJumpState {
 
     @Test
     public void testGetValue() {
-        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, updatePositionListener());
+        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, getMoveChecker(), updatePositionListener());
         assertEquals(jumpState.getModulo(), 79);
     }
 
     @Test
     public void testIncreaseValueAfter_ModuloTicks_1_tick() {
-        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, updatePositionListener());
-        jumpState.jump(pos);
+        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, getMoveChecker(), updatePositionListener());
+        jumpState.jump(() -> pos);
         tick(jumpState, 1);
         assertEquals(this.pos, new Pos(0,0));
     }
 
     @Test
     public void testIncreaseValueAfter_ModuloTicks_5_tick() {
-        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, updatePositionListener());
-        jumpState.jump(pos);
+        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, getMoveChecker(), updatePositionListener());
+        jumpState.jump(() -> pos);
         tick(jumpState, 5);
-        System.out.println("Pos: " + this.pos.getFormat());
         assertEquals(this.pos, new Pos(0,0));
     }
 
     @Test
     public void testIncreaseValueAfter_ModuloTicks_76_tick() {
-        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, updatePositionListener());
-        jumpState.jump(pos);
+        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, getMoveChecker(), updatePositionListener());
+        jumpState.jump(() -> pos);
         tick(jumpState, 76);
         assertEquals(this.pos, new Pos(0,0));
     }
 
     @Test
     public void testIncreaseValueAfter_ModuloTicks_79_tick() {
-        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, updatePositionListener());
-        jumpState.jump(pos);
+        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, getMoveChecker(), updatePositionListener());
+        jumpState.jump(() -> pos);
         tick(jumpState, 80);
-        assertEquals(this.pos, new Pos(0,1));
+        assertEquals(this.pos, new Pos(0,-1));
+    }
+
+    @Test
+    public void hitboxJump() {
+        PropertyJumpState jumpState = new PropertyJumpState(32, 5000, (pos) -> pos.y() > -5, updatePositionListener());
+        jumpState.jump(() -> pos);
+        tick(jumpState, 11);
+
     }
 
     private Consumer<Pos> updatePositionListener() {
         return (addPos) -> {
             this.pos = this.pos.add(addPos);
         };
+    }
+
+    private IMoveValidity getMoveChecker() {
+        return (pos) -> true;
     }
 
     private void tick(PropertyJumpState jumpState, int amount) {

@@ -13,5 +13,5 @@ public class TopHitbox extends Hitbox {
         super(start, end);
         this.height = height;
     }
-    
+
 }
