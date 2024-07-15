@@ -1,6 +1,7 @@
 package game.entity;
 
 import game.GameObject;
+import game.entity.property.PropertyJumpState;
 import game.entity.property.PropertyWalkState;
 import game.property.PropertyTickable;
 import listeners.IMoveValidity;
@@ -18,10 +19,9 @@ public abstract class Entity extends GameObject {
      */
     private PropertyWalkState walkManager;
     /**
-     * Booleans determining the state of the entity, used for texture selection
+     * Objects that handles the jump animation
      */
-    private boolean isJumping = false;
-    private boolean isWalking = false;
+    private PropertyJumpState jumpManager;
     private final int speed;
     private int walkVersion = 0, idleVersion = 0;
     final int walkModulo = 20, runModulo = 10, idleModulo = 30;
@@ -32,6 +32,7 @@ public abstract class Entity extends GameObject {
         this.validMoveChecker = validMoveChecker;
         this.speed = speed;
         this.walkManager = new PropertyWalkState();
+        this.jumpManager = new PropertyJumpState(64, 40, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
         this.getProperties().addProperty(new PropertyTickable(this::tick));
         this.setWidth(32);
         this.setHeight(32);
@@ -85,9 +86,9 @@ public abstract class Entity extends GameObject {
      * Makes this entity jump
      */
     public void jump() {
-        if(isJumping)
+        if(jumpManager.isJumping())
             return;
-        isJumping = true;
+        jumpManager.jump(this.getPosition());
     }
 
     /**
@@ -124,16 +125,19 @@ public abstract class Entity extends GameObject {
      * @return a boolean determining if the player is in a jumping state.
      */
     public boolean isJumping() {
-        return this.isJumping;
+        return this.jumpManager.isJumping();
     }
 
     private void tick() {
-
         walkManager.tick();
+        jumpManager.tick();
+        this.updateListener();
+    }
 
-        if(this.walkManager.isIdling())
-            this.isWalking = false;
-
+    /**
+     * Children class access to use {@link PropertyTickable}
+     */
+    protected void updateListener() {
     }
 
 }

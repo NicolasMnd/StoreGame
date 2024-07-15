@@ -1,6 +1,5 @@
 package game.entity;
 
-import game.property.PropertyTickable;
 import listeners.IMoveValidity;
 import util.Pos;
 import util.hitbox.Hitbox;
@@ -16,7 +15,6 @@ public class PlayerEntity extends Entity {
     public PlayerEntity(Pos pos, IMoveValidity listener) {
         super(pos, 4, listener);
         this.PLAYER_SPEED = 4;
-        this.getProperties().addProperty(new PropertyTickable(this::tick));
     }
 
     @Override
@@ -35,8 +33,9 @@ public class PlayerEntity extends Entity {
         return selector.selectTexture(this);
     }
 
-    private void tick() {
-
+    @Override
+    protected void updateListener() {
+        super.updateListener();
     }
 
 }

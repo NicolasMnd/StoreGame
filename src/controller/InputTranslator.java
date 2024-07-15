@@ -46,7 +46,7 @@ public class InputTranslator {
                 sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.RIGHT)));
                 return;
 
-            case KeyEvent.VK_SPACE:
+            case ' ':
                 sendToFacade(() -> facade.playerCommand(Entity::jump));
 
         }
@@ -57,6 +57,7 @@ public class InputTranslator {
         if(this.entryTime + cooldown < System.currentTimeMillis()) {
             this.entryTime = System.currentTimeMillis();
             command.run();
+            return;
         }
     }
 

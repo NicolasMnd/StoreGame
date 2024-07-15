@@ -31,6 +31,7 @@ public class GameController {
 
     public void update() {
         this.facade.update();
+        this.inputHandler.resendActiveKeys();
     }
 
     private void paint() {

@@ -2,7 +2,9 @@ package listeners;
 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class that will delegate mouse input to the controller layer
@@ -10,9 +12,11 @@ import java.util.List;
 public class InputHandler implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
     private List<InputNotifier> mouseListeners;
+    private List<KeyEvent> repeatedCommandSenders;
 
     public InputHandler() {
         this.mouseListeners = new ArrayList<>();
+        this.repeatedCommandSenders = new ArrayList<>();
     }
 
     public void subscribeListener(InputNotifier listener) {
@@ -71,12 +75,17 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if(this.repeatedCommandSenders.stream().map(KeyEvent::getKeyChar).noneMatch(entry -> entry.equals(e.getKeyChar())))
+            this.repeatedCommandSenders.add(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        System.out.println("KeyReleased: " + repeatedCommandSenders.stream().map(event -> String.valueOf(event.getKeyChar())).collect(Collectors.joining(", ")));
+        this.repeatedCommandSenders = new ArrayList<>(this.repeatedCommandSenders.stream()
+                .filter(keyEvent -> !String.valueOf(keyEvent.getKeyChar()).equalsIgnoreCase(String.valueOf(e.getKeyChar())))
+                .toList()
+        );
     }
 
     @Override
@@ -91,4 +100,10 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
         }
     }
 
+    public void resendActiveKeys() {
+        for (KeyEvent e : repeatedCommandSenders)
+            for (InputNotifier listener : mouseListeners)
+                listener.enterCharacter(e);
+        Collections.shuffle(repeatedCommandSenders);
+    }
 }
