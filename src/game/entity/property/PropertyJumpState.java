@@ -63,7 +63,7 @@ public class PropertyJumpState {
 
         if(this.isJumping) {
 
-            if(this.startJumpTime + this.jumpTime >= this.startJumpTime + jumpDuration) {
+            if(this.startJumpTime + this.jumpTime >= this.startJumpTime + jumpDuration ) {
                 this.isJumping = false;
                 return;
             }
@@ -101,10 +101,10 @@ public class PropertyJumpState {
     }
 
     void updatePosition(Pos addition) {
-        if(moveChecker.canMoveTo(positionGetter.get().add(addition)))
+        if(moveChecker.canMoveTo(positionGetter.get().add(addition))) {
             positionUpdater.accept(addition);
-        else {
-            jumpTime += 2*(jumpDuration - jumpTime);
+        } else {
+            jumpTime += 2*((jumpDuration/2) - jumpTime)-1;
         }
     }
 

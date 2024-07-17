@@ -24,29 +24,29 @@ public class InputTranslator {
 
     public void translate(GameFacade facade, KeyEvent event) {
 
-        switch(event.getKeyChar()) {
+        switch(event.getKeyCode()) {
 
-            case 'q':
+            case KeyEvent.VK_Q:
                 facade.move(Direction.LEFT);
                 sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.LEFT)));
                 return;
 
-            case 's':
+            case KeyEvent.VK_S:
                 facade.move(Direction.DOWN);
                 sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.DOWN)));
                 return;
 
-            case 'z':
+            case KeyEvent.VK_Z:
                 facade.move(Direction.UP);
                 sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.UP)));
                 return;
 
-            case 'd':
+            case KeyEvent.VK_D:
                 facade.move(Direction.RIGHT);
                 sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.RIGHT)));
                 return;
 
-            case ' ':
+            case KeyEvent.VK_SPACE:
                 sendToFacade(() -> facade.playerCommand(Entity::jump));
 
         }

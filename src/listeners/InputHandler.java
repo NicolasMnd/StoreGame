@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Class that will delegate mouse input to the controller layer
@@ -81,7 +80,6 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("KeyReleased: " + repeatedCommandSenders.stream().map(event -> String.valueOf(event.getKeyChar())).collect(Collectors.joining(", ")));
         this.repeatedCommandSenders = new ArrayList<>(this.repeatedCommandSenders.stream()
                 .filter(keyEvent -> !String.valueOf(keyEvent.getKeyChar()).equalsIgnoreCase(String.valueOf(e.getKeyChar())))
                 .toList()
@@ -105,5 +103,6 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
             for (InputNotifier listener : mouseListeners)
                 listener.enterCharacter(e);
         Collections.shuffle(repeatedCommandSenders);
+        //TODO interpret combinations and use DirectionInput
     }
 }

@@ -62,6 +62,10 @@ public abstract class Entity extends GameObject {
                 this.setFacing(Direction.LEFT);
                 updatedPosition = getPosition().add(new Pos(-speed, 0));
                 break;
+            case Direction.NORTH_EAST:
+            case Direction.NORTH_WEST:
+            case Direction.SOUTH_EAST:
+            case Direction.SOUTH_WEST:
         }
 
         // Ask GameState for validity and update

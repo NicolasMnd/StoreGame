@@ -8,7 +8,11 @@ public enum Direction {
     NORTH("north"),
     EAST("east"),
     WEST("west"),
-    SOUTH("south");
+    SOUTH("south"),
+    NORTH_EAST("north_east"),
+    NORTH_WEST("north_west"),
+    SOUTH_EAST("south_east"),
+    SOUTH_WEST("south_west");
 
     private final String stringValue;
 

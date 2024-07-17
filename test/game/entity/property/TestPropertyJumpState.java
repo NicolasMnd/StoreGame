@@ -134,11 +134,43 @@ public class TestPropertyJumpState {
     }
 
     @Test
-    public void hitboxJump() {
+    public void hitboxJump_MaxHeight_Tick() {
+        PropertyJumpState jumpState = new PropertyJumpState(32, 32, (pos) -> pos.y() > -5, updatePositionListener());
+        jumpState.jump(() -> pos);
+        tick(jumpState, 2);
+        assertEquals(pos, new Pos(0, -4));
+    }
+
+    @Test
+    public void hitboxJump_MaxHeight_SameHeightAfterMax() {
+        PropertyJumpState jumpState = new PropertyJumpState(32, 32, (pos) -> pos.y() > -5, updatePositionListener());
+        jumpState.jump(() -> pos);
+        tick(jumpState, 3);
+        assertEquals(pos, new Pos(0, -4));
+    }
+
+    @Test
+    public void hitboxJump_MaxHeight_SameHeightAfterMax2() {
+        PropertyJumpState jumpState = new PropertyJumpState(32, 32, (pos) -> pos.y() > -5, updatePositionListener());
+        jumpState.jump(() -> pos);
+        tick(jumpState, 4);
+        assertEquals(pos, new Pos(0, -2));
+    }
+
+    @Test
+    public void hitboxJump_MaxHeight_DescendingAfter() {
+        PropertyJumpState jumpState = new PropertyJumpState(32, 32, (pos) -> pos.y() > -5, updatePositionListener());
+        jumpState.jump(() -> pos);
+        tick(jumpState, 7);
+        assertEquals(pos, new Pos(0, 0));
+    }
+
+    @Test
+    public void hitboxJump_soonerDown() {
         PropertyJumpState jumpState = new PropertyJumpState(32, 5000, (pos) -> pos.y() > -5, updatePositionListener());
         jumpState.jump(() -> pos);
         tick(jumpState, 11);
-
+        assertEquals(pos, new Pos(0,0));
     }
 
     private Consumer<Pos> updatePositionListener() {
