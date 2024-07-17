@@ -1,5 +1,8 @@
 package listeners;
 
+import controller.input.DirectionInput;
+import util.Direction;
+
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,6 +87,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
                 .filter(keyEvent -> !String.valueOf(keyEvent.getKeyChar()).equalsIgnoreCase(String.valueOf(e.getKeyChar())))
                 .toList()
         );
+        removeCombination(e.getKeyChar());
     }
 
     @Override
@@ -103,6 +107,6 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
             for (InputNotifier listener : mouseListeners)
                 listener.enterCharacter(e);
         Collections.shuffle(repeatedCommandSenders);
-        //TODO interpret combinations and use DirectionInput
     }
+
 }

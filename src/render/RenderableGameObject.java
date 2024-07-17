@@ -8,6 +8,10 @@ import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
+/**
+ * A {@link GameObject} which {@link Pos} is set to a relative position for the camera.
+ * It decorates the {@link GameObject}
+ */
 public class RenderableGameObject extends GameObject {
     
     private final GameObject parent;

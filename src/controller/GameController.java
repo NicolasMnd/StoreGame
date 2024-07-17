@@ -1,5 +1,6 @@
 package controller;
 
+import controller.input.InputTranslator;
 import listeners.InputHandler;
 import listeners.InputNotifier;
 

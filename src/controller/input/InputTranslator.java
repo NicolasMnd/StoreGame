@@ -1,5 +1,6 @@
-package controller;
+package controller.input;
 
+import controller.GameFacade;
 import game.entity.Entity;
 import util.Direction;
 
@@ -22,6 +23,11 @@ public class InputTranslator {
         this.entryTime = System.currentTimeMillis();
     }
 
+    /**
+     * Method that will translate a {@link KeyEvent} to an action
+     * @param facade the control layer of the game
+     * @param event the {@link KeyEvent} that will be translated
+     */
     public void translate(GameFacade facade, KeyEvent event) {
 
         switch(event.getKeyCode()) {
