@@ -1,7 +1,7 @@
 package render;
 
 import game.GameState;
-import listeners.InputHandler;
+import controller.input.InputHandler;
 import util.Dimension;
 
 public interface View {

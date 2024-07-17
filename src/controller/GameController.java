@@ -1,7 +1,7 @@
 package controller;
 
-import controller.input.InputTranslator;
-import listeners.InputHandler;
+import controller.input.InputCommandeer;
+import controller.input.InputHandler;
 import listeners.InputNotifier;
 
 import java.awt.event.ActionEvent;
@@ -42,7 +42,7 @@ public class GameController {
     // Creates a mouse listener
     private InputNotifier getNotifier() {
         return new InputNotifier() {
-            private InputTranslator translator = new InputTranslator();
+            private InputCommandeer translator = new InputCommandeer();
 
             @Override
             public void hover(int x, int y) {

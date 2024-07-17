@@ -3,7 +3,7 @@ package controller;
 import controller.tasks.TaskManager;
 import game.GameState;
 import game.entity.Entity;
-import listeners.InputHandler;
+import controller.input.InputHandler;
 import render.GameView;
 import render.View;
 import util.Dimension;

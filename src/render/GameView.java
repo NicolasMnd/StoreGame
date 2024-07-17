@@ -2,7 +2,7 @@ package render;
 
 import game.GameObject;
 import game.GameState;
-import listeners.InputHandler;
+import controller.input.InputHandler;
 import util.Dimension;
 import util.Pos;
 

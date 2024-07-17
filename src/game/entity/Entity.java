@@ -63,9 +63,17 @@ public abstract class Entity extends GameObject {
                 updatedPosition = getPosition().add(new Pos(-speed, 0));
                 break;
             case Direction.NORTH_EAST:
+                updatedPosition = getPosition().add(new Pos(speed, -speed));
+                break;
             case Direction.NORTH_WEST:
+                updatedPosition = getPosition().add(new Pos(-speed, -speed));
+                break;
             case Direction.SOUTH_EAST:
+                updatedPosition = getPosition().add(new Pos(speed, speed));
+                break;
             case Direction.SOUTH_WEST:
+                updatedPosition = getPosition().add(new Pos(-speed, speed));
+                break;
         }
 
         // Ask GameState for validity and update

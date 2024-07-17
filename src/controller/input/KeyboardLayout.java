@@ -12,9 +12,9 @@ public class KeyboardLayout {
 
     public KeyEvent getKey(KeyEvent key) {
         if(type == LayoutType.AZERTY)
-            return new AzertyLayout().translateKey(key);
+            return new AzertyTranslator().translateKey(key);
         else if(type == LayoutType.QWERTY)
-            return new QwertyLayout().translateKey(key);
+            return new QwertyTranslator().translateKey(key);
         return key;
     }
 

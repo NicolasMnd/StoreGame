@@ -1,9 +1,11 @@
-package listeners;
+package controller.input;
+
+import listeners.InputNotifier;
 
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class that will delegate mouse input to the controller layer
@@ -12,10 +14,12 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     private List<InputNotifier> mouseListeners;
     private List<KeyEvent> repeatedCommandSenders;
+    private final IKeyTranslator translator;
 
     public InputHandler() {
         this.mouseListeners = new ArrayList<>();
         this.repeatedCommandSenders = new ArrayList<>();
+        this.translator = new AzertyTranslator();
     }
 
     public void subscribeListener(InputNotifier listener) {
@@ -68,22 +72,29 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     @Override
     public void keyTyped(KeyEvent e) {
-        for(InputNotifier listener : mouseListeners)
-            listener.enterCharacter(e);
+
+        //for(InputNotifier listener : mouseListeners)
+            //listener.enterCharacter(translator.translateKey(e));
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if(this.repeatedCommandSenders.stream().map(KeyEvent::getKeyChar).noneMatch(entry -> entry.equals(e.getKeyChar())))
-            this.repeatedCommandSenders.add(e);
+            this.repeatedCommandSenders.add(translator.translateKey(e));
+        repeatedCommandSenders = new KeyCompoundHelper().translateKeys(repeatedCommandSenders);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        e = translator.translateKey(e);
+        KeyEvent finalE = e; // ?
         this.repeatedCommandSenders = new ArrayList<>(this.repeatedCommandSenders.stream()
-                .filter(keyEvent -> !String.valueOf(keyEvent.getKeyChar()).equalsIgnoreCase(String.valueOf(e.getKeyChar())))
+                .filter(keyEvent -> !String.valueOf(keyEvent.getKeyChar()).equalsIgnoreCase(String.valueOf(finalE.getKeyChar())))
                 .toList()
         );
+        repeatedCommandSenders = new KeyCompoundHelper().removeCombination(repeatedCommandSenders, finalE.getKeyChar());
+        System.out.println("Remaining: " + repeatedCommandSenders.stream().map(KeyEvent::getKeyChar).map(String::valueOf).collect(Collectors.joining(", ")));
     }
 
     @Override
@@ -98,11 +109,13 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
         }
     }
 
+    /**
+     * Keys that are still pressed will be resent for function
+     */
     public void resendActiveKeys() {
         for (KeyEvent e : repeatedCommandSenders)
             for (InputNotifier listener : mouseListeners)
                 listener.enterCharacter(e);
-        Collections.shuffle(repeatedCommandSenders);
     }
 
 }

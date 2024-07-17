@@ -2,7 +2,7 @@ package controller.input;
 
 import java.awt.event.KeyEvent;
 
-public class QwertyLayout implements IKeyTranslator {
+public class QwertyTranslator implements IKeyTranslator {
 
     @Override
     public KeyEvent translateKey(KeyEvent key) {

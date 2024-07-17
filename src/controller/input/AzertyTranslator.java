@@ -2,7 +2,7 @@ package controller.input;
 
 import java.awt.event.KeyEvent;
 
-public class AzertyLayout implements IKeyTranslator {
+public class AzertyTranslator implements IKeyTranslator {
 
     @Override
     public KeyEvent translateKey(KeyEvent key) {

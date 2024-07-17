@@ -68,7 +68,7 @@ public class KeyCompoundHelper {
                 ) {
                     keyEventList.remove(event);
                     char replaceCharacter = charsEqual(releasedCharacter, mapEntry.getValue()[0]) ? mapEntry.getValue()[1] : mapEntry.getValue()[0];
-                    return replace(event.getKeyChar(), event.getKeyChar(), new KeyEvent(dummy, 1, 20, 1, 10, replaceCharacter), keyEventList);
+                    return replace(event.getKeyChar(), event.getKeyChar(), new KeyEvent(dummy, 1, 20, 1, KeyEvent.getExtendedKeyCodeForChar((int) replaceCharacter), replaceCharacter), keyEventList);
                 }
 
         return keyEventList;
