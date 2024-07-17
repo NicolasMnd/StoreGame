@@ -66,13 +66,10 @@ public class KeyCompoundHelper {
                 if(isCharCombinationForThisEntry(mapEntry, event.getKeyChar())
                     && (charsEqual(releasedCharacter, mapEntry.getValue()[0]) || charsEqual(releasedCharacter, mapEntry.getValue()[1]))
                 ) {
-                    System.out.println("Found entry to replace");
                     keyEventList.remove(event);
                     char replaceCharacter = charsEqual(releasedCharacter, mapEntry.getValue()[0]) ? mapEntry.getValue()[1] : mapEntry.getValue()[0];
-                    System.out.println("The replaced character will be : " + String.valueOf(replaceCharacter));
                     return replace(event.getKeyChar(), event.getKeyChar(), new KeyEvent(dummy, 1, 20, 1, 10, replaceCharacter), keyEventList);
                 }
-                else System.out.println("Checking entry " + mapEntry.getKey() + isCharCombinationForThisEntry(mapEntry, event.getKeyChar()) + " plus " + ((charsEqual(releasedCharacter, mapEntry.getValue()[0]) || charsEqual(releasedCharacter, mapEntry.getValue()[1]))));
 
         return keyEventList;
 

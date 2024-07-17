@@ -17,7 +17,6 @@ public class DirectionInput extends KeyEvent {
     }
 
     public static KeyEvent getKeyInput(Direction dir, Component comp) {
-        System.out.println("Direction:"  + dir);
         switch(dir) {
             case NORTH_EAST:
                 return new DirectionInput(comp, NORTH_EAST, (char) 0xfff1);
