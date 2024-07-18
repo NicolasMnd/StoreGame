@@ -28,7 +28,7 @@ public class Logger {
         long sum = 0;
         for(int i = 0; i < nums.size(); i++)
             sum += nums.get(i);
-        System.out.println("Average rendering time was " + (sum / nums.size()) + "ns or " + ((sum/nums.size())/1000000) + "ms");
+        System.out.println("Average " + logType + " was " + (sum / nums.size()) + "ns or " + ((sum/nums.size())/1000000) + "ms");
         nums.clear();
     }
 

@@ -68,11 +68,15 @@ public class RenderStrategy {
         return (graphics, gameSize, tileSize) -> {
             this.imageRenderer(object).render(graphics, gameSize, tileSize);
 
-            Pos start = object.getHitbox().getUpperleft();
+            Pos offsetRenderScreen = object.getPosition();
+            GameObject parent = ((RenderableGameObject) object).parent();
+
+            Pos start = object.getHitbox().getUpperleft().subtract(parent.getPosition()).add(offsetRenderScreen);
+            Pos end = object.getHitbox().getLowerright().subtract(parent.getPosition()).add(offsetRenderScreen);
             int x = start.x();
             int y = start.y();
-            int width = object.getHitbox().getLowerright().x() - object.getHitbox().getUpperleft().x();
-            int height = object.getHitbox().getLowerright().y() - object.getHitbox().getUpperleft().y();
+            int width = end.x() - x;
+            int height = end.y() - y;
 
             Stroke stroke1 = new BasicStroke(2f);
             graphics.setColor(Color.RED);

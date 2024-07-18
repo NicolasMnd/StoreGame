@@ -99,13 +99,8 @@ public class GameView extends JPanel implements View {
 
         for(GameObject[] oArr : camera.getRenderTiles(latestGameState.getTiles(), gameSize))
             for(GameObject object : oArr)
-                if(object != null) {
+                if(object != null)
                     draw(object);
-                }
-
-
-
-        printCenter(latestGameState.getCameraPosition());
 
         draw(new RenderableGameObject(latestGameState.getPlayer(), new Pos(getWidth()/2, getHeight()/2)));
 
@@ -117,15 +112,6 @@ public class GameView extends JPanel implements View {
      */
     private void draw(GameObject object) {
         object.getRenderStrategy(object).render(graphics, gameSize, tileSize);
-    }
-
-    private void printCenter(Pos pos) {
-        this.graphics.drawOval(
-                (int) (getWidth()/2),
-                (int) (getHeight()/2),
-                (int) (16),
-                (int) (16)
-        );
     }
 
     private JFrame initializeFrame(Dimension dimension) {
@@ -140,6 +126,5 @@ public class GameView extends JPanel implements View {
         frame.setLocationRelativeTo(null);
         return frame;
     }
-
 
 }

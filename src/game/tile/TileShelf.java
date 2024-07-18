@@ -1,13 +1,16 @@
 package game.tile;
 
+import game.GameObject;
 import game.property.PropertyContainer;
 import game.property.PropertyPeer;
 import listeners.IContainerInteraction;
+import render.RenderStrategy;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.hitbox.TopHitbox;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
+import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
@@ -45,6 +48,11 @@ public class TileShelf extends GameTile {
     @Override
     public ITextureStrategy textureSelector(TextureSelector selector) {
         return selector.selectTexture(this);
+    }
+
+    @Override
+    public IRender getRenderStrategy(GameObject object) {
+        return new RenderStrategy().hitboxRenderer(object);
     }
 
 }

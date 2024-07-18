@@ -8,6 +8,7 @@ import game.map.MapHandler;
 import game.tile.GameTile;
 import listeners.IMoveValidity;
 import util.*;
+import util.hitbox.Hitbox;
 
 public class GameState {
 
@@ -95,19 +96,21 @@ public class GameState {
     private IMoveValidity setupMoveChecker() {
         return new IMoveValidity() {
             @Override
-            public boolean canMoveTo(Pos pos) {
+            public boolean canMoveTo(Hitbox hitbox) {
                 OperationTime time = new OperationTime("check move validity");
                 time.start();
-                int gridLocationX = Math.floorDiv(pos.x(), 32);
-                int gridLocationY = Math.floorDiv(pos.y(), 32);
+                int gridLocationX = Math.floorDiv(hitbox.getCenterPos().x(), 32);
+                int gridLocationY = Math.floorDiv(hitbox.getCenterPos().y(), 32);
                 // check for all tiles
                 for(int x = -4; x < 5; x++)
                     for(int y = -4; y < 5; y++) {
                         if(gridLocationY+y < 0 || gridLocationY+y > tiles.length || gridLocationX+x < 0 || gridLocationX+x > tiles[0].length)
                             continue;
                         GameTile selection = tiles[gridLocationY+y][gridLocationX+x];
-                        if(selection.getHitbox().isInHitbox(pos) && !selection.canCollide())
+                        if(!selection.canCollide() && selection.getHitbox().hasOverlap(hitbox)) {
+                            System.out.println("Collision with " + selection.getClass().getName() + " hitboxes " + hitbox.getPrint() + " overlaps with the tile hitbox " + selection.getHitbox().getPrint());
                             return false;
+                        }
                     }
 
                 time.stop();

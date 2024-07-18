@@ -92,7 +92,7 @@ public abstract class Entity extends GameObject {
      * @return a boolean determining the validity of the position
      */
     protected boolean canMoveTo(Pos position) {
-        return validMoveChecker.canMoveTo(position);
+        return validMoveChecker.canMoveTo(this.getHitbox().calculateRelativeHitbox(position));
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class Entity extends GameObject {
     public void jump() {
         if(jumpManager.isJumping())
             return;
-        jumpManager.jump(this::getPosition);
+        jumpManager.jump(this::getPosition, this::getHitbox);
     }
 
     /**

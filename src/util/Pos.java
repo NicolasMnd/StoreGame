@@ -49,6 +49,11 @@ public class Pos extends Pos2di {
         return new Pos(this.x() + pos.x(), this.y() + pos.y());
     }
 
+    @Override
+    public Pos subtract(Pos2d<Integer> pos) {
+        return new Pos(this.x() - pos.x(), this.y() - pos.y());
+    }
+
     /**
      * Returns a clone of this object
      * @return a cloned {@link Pos} object

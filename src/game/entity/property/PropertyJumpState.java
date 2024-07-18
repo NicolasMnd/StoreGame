@@ -5,6 +5,7 @@ import game.entity.Entity;
 import game.property.PropertyTickable;
 import listeners.IMoveValidity;
 import util.Pos;
+import util.hitbox.Hitbox;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -33,6 +34,7 @@ public class PropertyJumpState {
     private int jumpTime;
     private Consumer<Pos> positionUpdater;
     private Supplier<Pos> positionGetter;
+    private Supplier<Hitbox> hitboxGetter;
     private final IMoveValidity moveChecker;
     private Pos startPosition;
 
@@ -47,7 +49,7 @@ public class PropertyJumpState {
         this.moveChecker = validMoveChecker;
     }
 
-    public void jump(Supplier<Pos> getPosition) {
+    public void jump(Supplier<Pos> getPosition, Supplier<Hitbox> getHitbox) {
         if(this.isJumping)
             return;
 
@@ -57,6 +59,7 @@ public class PropertyJumpState {
         this.startJumpTime = System.currentTimeMillis();
         this.jumpTime = 0;
         this.positionGetter = getPosition;
+        this.hitboxGetter = getHitbox;
     }
 
     public void tick() {
@@ -101,7 +104,7 @@ public class PropertyJumpState {
     }
 
     void updatePosition(Pos addition) {
-        if(moveChecker.canMoveTo(positionGetter.get().add(addition))) {
+        if(moveChecker.canMoveTo(hitboxGetter.get().calculateRelativeHitbox(positionGetter.get()))) {
             positionUpdater.accept(addition);
         } else {
             jumpTime += 2*((jumpDuration/2) - jumpTime)-1;

@@ -1,10 +1,13 @@
 package game.entity;
 
+import game.GameObject;
 import listeners.IMoveValidity;
+import render.RenderStrategy;
 import util.Pos;
 import util.hitbox.Hitbox;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
+import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
@@ -19,7 +22,7 @@ public class PlayerEntity extends Entity {
 
     @Override
     public Hitbox getHitbox() {
-        Pos pos = this.getPosition().add(new Pos(0, 32));
+        Pos pos = this.getPosition();
         return new Hitbox(pos, pos.add(new Pos(getWidth(), -getHeight())));
     }
 
@@ -36,6 +39,11 @@ public class PlayerEntity extends Entity {
     @Override
     protected void updateListener() {
         super.updateListener();
+    }
+
+    @Override
+    public IRender getRenderStrategy(GameObject object) {
+        return new RenderStrategy().hitboxRenderer(object);
     }
 
 }

@@ -150,4 +150,12 @@ public class TestHitbox {
         assertEquals(h0.getCenterPos(), new Pos(5, 5));
     }
 
+    @Test
+    public void testShifted() {
+        h0 = new Hitbox(new Pos(0, 0), new Pos(10, 10));
+        Pos upperLeft2 = new Pos(24,24);
+        System.out.println("1: " + h0.calculateRelativeHitbox(upperLeft2).getPrint());
+        assertEquals(h0.calculateRelativeHitbox(upperLeft2), new Hitbox(new Pos(24, 24), new Pos(34, 34)));
+    }
+
 }

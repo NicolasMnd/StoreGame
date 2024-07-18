@@ -5,7 +5,6 @@ import listeners.InputNotifier;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Class that will delegate mouse input to the controller layer
@@ -72,10 +71,8 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     @Override
     public void keyTyped(KeyEvent e) {
-
-        //for(InputNotifier listener : mouseListeners)
-            //listener.enterCharacter(translator.translateKey(e));
-
+        for(InputNotifier listener : mouseListeners)
+            listener.enterCharacter(translator.translateKey(e));
     }
 
     @Override
@@ -94,7 +91,6 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
                 .toList()
         );
         repeatedCommandSenders = new KeyCompoundHelper().removeCombination(repeatedCommandSenders, finalE.getKeyChar());
-        System.out.println("Remaining: " + repeatedCommandSenders.stream().map(KeyEvent::getKeyChar).map(String::valueOf).collect(Collectors.joining(", ")));
     }
 
     @Override

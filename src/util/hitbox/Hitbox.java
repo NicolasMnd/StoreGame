@@ -91,6 +91,19 @@ public class Hitbox {
         return "[" + start.x() + ", " + start.y() + "]:[" + end.x() + ", " + end.y() + "]";
     }
 
+    /**
+     * Calculates a shifted hit box given an upper left position
+     * @param upperLeft the new upper left position of the hit box
+     * @return a shifted hit box
+     */
+    public Hitbox calculateRelativeHitbox(Pos upperLeft) {
+        int dX = getLowerright().x() - getUpperleft().x();
+        int dY = getLowerright().y() - getLowerright().y();
+        System.out.println("Dx: " + dX + " ," + dY + " so " + (upperLeft.x() + dX));
+        //System.out.println( new Hitbox(upperLeft, upperLeft.add(new Pos(upperLeft.x() + dX, upperLeft.y() + dY))).getPrint());
+        return new Hitbox(upperLeft, new Pos(upperLeft.x() + dX, upperLeft.y() + dY));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Hitbox b)

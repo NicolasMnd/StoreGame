@@ -3,8 +3,12 @@ package controller.input;
 import controller.GameFacade;
 import game.entity.Entity;
 import util.Direction;
+import util.Logger;
+import util.OperationTime;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains all details about translating a {@link KeyEvent} to a command in {@link GameFacade}.
@@ -17,10 +21,14 @@ public class InputCommandeer {
      */
     private final int cooldown;
     private long entryTime;
+    private Map<String, Long> commandCooldowns;
+    private final Logger logger;
 
     public InputCommandeer() {
         this.cooldown = 20;
         this.entryTime = System.currentTimeMillis();
+        this.commandCooldowns = new HashMap<>();
+        this.logger = new Logger("Command translation");
     }
 
     /**
@@ -71,12 +79,34 @@ public class InputCommandeer {
 
     }
 
+    /**
+     * Provides a cooldown for input & executes commands provided by {@link InputCommandeer#translate(GameFacade, KeyEvent)}
+     * @param command the command to be run
+     */
     private void sendToFacade(Runnable command) {
-        if(this.entryTime + cooldown < System.currentTimeMillis()) {
-            this.entryTime = System.currentTimeMillis();
-            command.run();
-            return;
+        OperationTime time =new OperationTime("operation translation");
+        time.start();
+        String commandName = getCommandId(command);
+
+        // Register new command
+        if(!this.commandCooldowns.containsKey(commandName)) {
+            this.commandCooldowns.put(commandName, System.currentTimeMillis() - 1 - cooldown);
         }
+
+        // this.entryTime + cooldown < System.currentTimeMillis()
+        if(this.commandCooldowns.get(commandName) + cooldown < System.currentTimeMillis()) {
+            this.commandCooldowns.remove(commandName);
+            this.commandCooldowns.put(commandName, System.currentTimeMillis());
+            command.run();
+        }
+
+        time.stop();
+        logger.time(time.getNano());
+
+    }
+
+    private String getCommandId(Runnable command) {
+        return command.getClass().descriptorString();
     }
 
 }
