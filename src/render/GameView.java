@@ -1,8 +1,8 @@
 package render;
 
+import controller.input.InputHandler;
 import game.GameObject;
 import game.GameState;
-import controller.input.InputHandler;
 import util.Dimension;
 import util.Pos;
 
@@ -101,8 +101,23 @@ public class GameView extends JPanel implements View {
             for(GameObject object : oArr)
                 if(object != null)
                     draw(object);
+        /*
+        for(GameObject[] oArr : latestGameState.getTiles())
+            for(GameObject object : oArr)
+                if(object != null) {
+                    draw(object);
+                    if(object instanceof TileShelf)
+                        new RenderStrategy().renderHitbox(object.getHitbox()).render(graphics, getGameSize(), getTileSize());
+                }*/
 
-        draw(new RenderableGameObject(latestGameState.getPlayer(), new Pos(getWidth()/2, getHeight()/2)));
+        draw(new RenderableGameObject(latestGameState.getPlayer(), new Pos(10+getWidth()/2, 14+getHeight()/2)));
+
+        // DBUG
+        // draw(latestGameState.getPlayer());
+        //new RenderStrategy().renderHitbox(latestGameState.getPlayer().getHitbox()).render(graphics, getGameSize(), getTileSize());
+
+        this.graphics.drawString(latestGameState.getPlayer().getPosition().getFormat(), 10, 10);
+        this.graphics.drawString(latestGameState.getPlayer().getHitbox().getPrint(), 10, 20);
 
     }
 

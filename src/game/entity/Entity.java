@@ -25,7 +25,7 @@ public abstract class Entity extends GameObject {
     private final int speed;
     private int height = 0;
     private int walkVersion = 0, idleVersion = 0;
-    final int walkModulo = 20, runModulo = 10, idleModulo = 30;
+    final int walkModulo = 10, runModulo = 8, idleModulo = 15;
 
     public Entity(Pos pos, int speed, IMoveValidity validMoveChecker) {
         super(pos);

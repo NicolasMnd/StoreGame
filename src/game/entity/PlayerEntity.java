@@ -23,7 +23,7 @@ public class PlayerEntity extends Entity {
     @Override
     public Hitbox getHitbox() {
         Pos pos = this.getPosition();
-        return new Hitbox(pos, pos.add(new Pos(getWidth(), -getHeight())));
+        return new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight())));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PlayerEntity extends Entity {
 
     @Override
     public IRender getRenderStrategy(GameObject object) {
-        return new RenderStrategy().hitboxRenderer(object);
+        return new RenderStrategy().imageRenderer(object);
     }
 
 }

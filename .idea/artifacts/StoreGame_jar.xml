@@ -9,6 +9,7 @@
       <element id="library" level="project" name="io.github.btj.termios-0.9" />
       <element id="library" level="project" name="misterC" />
       <element id="library" level="project" name="misterL" />
+      <element id="library" level="project" name="aspectj-1.9.6" />
     </root>
   </artifact>
 </component>

@@ -32,7 +32,7 @@ public class TileShelf extends GameTile {
     @Override
     public Hitbox getHitbox() {
         Pos pos = getPosition().add(new Pos(0, -96));
-        return new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight())));
+        return new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight() - 32)));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class TileShelf extends GameTile {
 
     @Override
     public IRender getRenderStrategy(GameObject object) {
-        return new RenderStrategy().hitboxRenderer(object);
+        return new RenderStrategy().imageRenderer(object);
     }
 
 }

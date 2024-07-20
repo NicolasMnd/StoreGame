@@ -73,7 +73,7 @@ public class Hitbox {
         int dy = box.getLowerright().y();
 
         return isInHitbox(box.getUpperleft()) || isInHitbox(box.getLowerright()) || isInHitbox(box.getUpperRight()) || isInHitbox(box.getLowerLeft())
-                //|| box.isInHitbox(this.getLowerLeft()) || box.isInHitbox(this.getLowerright()) || box.isInHitbox(this.getUpperRight()) || box.isInHitbox(this.getUpperleft())
+                || box.isInHitbox(this.getLowerLeft()) || box.isInHitbox(this.getLowerright()) || box.isInHitbox(this.getUpperRight()) || box.isInHitbox(this.getUpperleft())
                 || (cy <= by && by <= dy && ax <= dx && cx <= bx)
                 || (cy <= by && by <= dy && cy <= ay && ay <= dy && ax <= cx && dx <= bx)
                 || (cy <= ay && ay <= dy && ax <= dx && cy <= by && cx <= bx);
@@ -98,9 +98,7 @@ public class Hitbox {
      */
     public Hitbox calculateRelativeHitbox(Pos upperLeft) {
         int dX = getLowerright().x() - getUpperleft().x();
-        int dY = getLowerright().y() - getLowerright().y();
-        System.out.println("Dx: " + dX + " ," + dY + " so " + (upperLeft.x() + dX));
-        //System.out.println( new Hitbox(upperLeft, upperLeft.add(new Pos(upperLeft.x() + dX, upperLeft.y() + dY))).getPrint());
+        int dY = getLowerright().y() - getUpperleft().y();
         return new Hitbox(upperLeft, new Pos(upperLeft.x() + dX, upperLeft.y() + dY));
     }
 

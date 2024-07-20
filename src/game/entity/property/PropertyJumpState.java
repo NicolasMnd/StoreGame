@@ -80,9 +80,10 @@ public class PropertyJumpState {
             // First stage
             if(jumpTime < jumpDuration/2)
                 this.updatePosition(new Pos(0, -(int) increase));
-            else
+            else {
+                System.out.println("Moving down");
                 this.updatePosition(new Pos(0, (int) increase));
-
+            }
             jumpTime++;
 
         }
@@ -104,7 +105,7 @@ public class PropertyJumpState {
     }
 
     void updatePosition(Pos addition) {
-        if(moveChecker.canMoveTo(hitboxGetter.get().calculateRelativeHitbox(positionGetter.get()))) {
+        if(moveChecker.canMoveTo(hitboxGetter.get().calculateRelativeHitbox(positionGetter.get().add(addition)))) {
             positionUpdater.accept(addition);
         } else {
             jumpTime += 2*((jumpDuration/2) - jumpTime)-1;

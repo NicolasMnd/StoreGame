@@ -2,6 +2,7 @@ package render;
 
 import game.GameObject;
 import util.Pos;
+import util.hitbox.Hitbox;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
 
@@ -78,7 +79,24 @@ public class RenderStrategy {
             int width = end.x() - x;
             int height = end.y() - y;
 
-            Stroke stroke1 = new BasicStroke(2f);
+            Stroke stroke1 = new BasicStroke(1f);
+            graphics.setColor(Color.RED);
+            graphics.setStroke(stroke1);
+            graphics.drawRect(x, y, width, height);
+
+        };
+    }
+
+    public IRender renderHitbox(Hitbox hitbox) {
+        return (graphics, gameSize, tileSize) -> {
+            Pos start = hitbox.getUpperleft();
+            Pos end = hitbox.getLowerright();
+            int x = start.x();
+            int y = start.y();
+            int width = end.x() - x;
+            int height = end.y() - y;
+
+            Stroke stroke1 = new BasicStroke(1f);
             graphics.setColor(Color.RED);
             graphics.setStroke(stroke1);
             graphics.drawRect(x, y, width, height);

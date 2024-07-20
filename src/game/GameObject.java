@@ -98,7 +98,7 @@ public abstract class GameObject {
      * @return the {@link Hitbox} object
      */
     public Hitbox getHitbox() {
-        return new Hitbox(this.pos, (Pos) this.pos.add(new Pos(width, height)));
+        return new Hitbox(this.pos, this.pos.add(new Pos(width, height)));
     }
 
     /**
