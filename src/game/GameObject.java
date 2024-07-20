@@ -1,8 +1,10 @@
 package game;
 
 import game.property.PropertyManager;
+import listeners.IGameSizeListener;
 import render.RenderStrategy;
 import render.RenderableGameObject;
+import render.View;
 import util.Direction;
 import util.Pos;
 import util.hitbox.Hitbox;
@@ -21,6 +23,7 @@ public abstract class GameObject {
     private Direction facing;
     private final PropertyManager properties;
     private int width, height;
+    private IGameSizeListener gameSizeListener;
 
     public GameObject(Pos pos) {
         this.pos = pos;
@@ -59,6 +62,14 @@ public abstract class GameObject {
      */
     public void setFacing(Direction dir) {
         this.facing = dir;
+    }
+
+    /**
+     * Sets a listener for {@link View#getGameSize()}. This is necessary because hitboxes & sizes need to be updated when the size increases
+     * @param gameSizeListener the listener that retrieves {@link View#getGameSize()}
+     */
+    public void setGameSizeListener(IGameSizeListener gameSizeListener) {
+        this.gameSizeListener = gameSizeListener;
     }
 
     /**

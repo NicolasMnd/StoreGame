@@ -8,6 +8,7 @@ import game.tile.TileShelf;
 import game.tile.TileWall;
 import listeners.IContainerInteraction;
 import listeners.IContainerNotifier;
+import listeners.IGameSizeListener;
 import util.Direction;
 import util.Pos;
 import util.texture.comp.Texture;
@@ -22,10 +23,12 @@ import java.util.Map;
 public class TileReader {
 
     private final IContainerNotifier containerNotifier;
+    private final IGameSizeListener gameSizeListener;
     private Map<String, TextureHolder> textureRegistry;
 
-    public TileReader(IContainerNotifier containerNotifier) {
+    public TileReader(IContainerNotifier containerNotifier, IGameSizeListener gameSizeListener) {
         this.containerNotifier = containerNotifier;
+        this.gameSizeListener = gameSizeListener;
         this.textureRegistry = new HashMap<>();
     }
 
@@ -60,6 +63,7 @@ public class TileReader {
             this.textureRegistry.put(o.getClass().getName(), o.getTexture());
 
         s.setFacing(ripOrientation(code));
+        s.setGameSizeListener(this.gameSizeListener);
 
         return (GameTile) s.getFinishedObject();
 

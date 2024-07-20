@@ -5,6 +5,7 @@ import util.Pos;
 public class Hitbox {
 
     private final Pos start, end;
+    private int height;
 
     public Hitbox(Pos pos1, Pos pos2) {
         this.start = pos1;
@@ -28,22 +29,6 @@ public class Hitbox {
                 end.y() + addToEndY
         );
     }
-
-    /*
-    public void drawHitbox(Graphics2D graphics, Color color) {
-
-        int x = this.start.x();
-        int y = this.start.y();
-        int width = getLowerright().x() - getUpperleft().x();
-        int height = getLowerright().y() - getUpperleft().y();
-
-        Stroke stroke1 = new BasicStroke(1f);
-
-        graphics.setColor(color);
-        graphics.setStroke(stroke1);
-        graphics.drawRect(x, y, width, height);
-
-    }*/
 
     public Pos getUpperleft() {
         return this.start;
@@ -100,6 +85,14 @@ public class Hitbox {
         int dX = getLowerright().x() - getUpperleft().x();
         int dY = getLowerright().y() - getUpperleft().y();
         return new Hitbox(upperLeft, new Pos(upperLeft.x() + dX, upperLeft.y() + dY));
+    }
+
+    /**
+     * Sets the height on a z axis for this hitbox
+     * @param height the z axis height
+     */
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     @Override

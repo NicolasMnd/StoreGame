@@ -3,6 +3,7 @@ package game.map;
 import game.container.Container;
 import game.tile.GameTile;
 import listeners.IContainerNotifier;
+import listeners.IGameSizeListener;
 import util.Dimension;
 import util.Pos;
 
@@ -27,10 +28,10 @@ public class MapReader implements Consumer<String> {
      * Class that handles the interpretation of lines to {@link GameTile}
      * @param dimensions the dimensions of the map contained in a {@link Dimension} object
      */
-    public MapReader(Dimension dimensions, int tileSize) {
+    public MapReader(Dimension dimensions, int tileSize, IGameSizeListener gameSizeListener) {
         this.tiles = new GameTile[dimensions.getHeight()][dimensions.getWidth()];
         this.containers = new ArrayList<>();
-        this.tileReader = new TileReader(addContainerListener());
+        this.tileReader = new TileReader(addContainerListener(), gameSizeListener);
         this.tileSize = tileSize;
     }
 

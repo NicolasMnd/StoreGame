@@ -82,7 +82,7 @@ public abstract class Entity extends GameObject {
             this.walkManager.setWalking();
             walkVersion++;
             walkVersion %= walkModulo;
-        }
+        } else System.out.println("Move not allowed!");
 
     }
 

@@ -6,6 +6,7 @@ import game.entity.EntityLoader;
 import game.entity.PlayerEntity;
 import game.map.MapHandler;
 import game.tile.GameTile;
+import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
 import util.*;
 import util.hitbox.Hitbox;
@@ -19,12 +20,14 @@ public class GameState {
     private final int tileSize;
     private final Dimension windowSize;
     private final Logger performanceLogger = new Logger("Check collision");
+    private final IGameSizeListener gameSizeListener;
     //private Entity[] entities;
 
-    public GameState(int tileSize, Dimension windowsSize) {
+    public GameState(int tileSize, Dimension windowsSize, IGameSizeListener gameSizeListener) {
         this.tileSize = tileSize;
         this.windowSize = windowsSize;
         this.cameraPosition = new Pos(3*tileSize, 3*tileSize);
+        this.gameSizeListener = gameSizeListener;
         init();
     }
 
@@ -51,12 +54,15 @@ public class GameState {
         return this.player.getPosition();
     }
 
+    public void rotateMap(Direction dir) {
+    }
+
     /**
      * Starts up the game.
      */
     public void init() {
         // 1. Load map
-        this.loadMap("resources/map/map.csv", tileSize);
+        this.loadMap("resources/map/map.csv", tileSize, this.gameSizeListener);
 
         // 2. Load entities & player
         this.loadEntities();
@@ -74,8 +80,8 @@ public class GameState {
      * Reads the map of a specific name.
      * @param mapName the name on disk
      */
-    private void loadMap(String mapName, int tileSize) {
-        MapHandler handler = new MapHandler(mapName, tileSize);
+    private void loadMap(String mapName, int tileSize, IGameSizeListener gameSizeListener) {
+        MapHandler handler = new MapHandler(mapName, tileSize, gameSizeListener);
         this.tiles = handler.readMap();
         this.container = handler.getContainers();
     }

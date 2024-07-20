@@ -44,10 +44,10 @@ public class TestShelfInformation {
                 shelf_or:w_cc:ab;                ;                ;                ;                ;
                 shelf_or:w_cc:ab;                ;                ;                ;                ;
                 """).getBytes());
-        reader = new MapHandler(pa.toString(), 1);
+        reader = new MapHandler(pa.toString(), 1, () -> 1d);
         tiles = reader.readMap();
 
-        reader = new MapHandler(pa2.toString(), 1);
+        reader = new MapHandler(pa2.toString(), 1, () -> 1d);
         tiles2 = reader.readMap();
     }
 

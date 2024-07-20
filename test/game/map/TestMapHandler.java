@@ -11,7 +11,6 @@ import util.Dimension;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,7 +33,7 @@ public class TestMapHandler {
                 WALL;GROUND;SHELF_or:S_CC:ac;SHELF_or:S_CC:ac;SHELF_or:S_CC:ac;SHELF_or:S_CC:ac;SHELF_or:S_CC:ad;SHELF_or:S_CC:ad;SHELF_or:S_CC:ad;SHELF_or:S_CC:ad;GROUND;GROUND
                 WALL;GROUND;GROUND;GROUND;GROUND;GROUND;GROUND;GROUND;GROUND;GROUND;GROUND;GROUND
                 """.getBytes());
-        handler = new MapHandler(path1.toString(), 0);
+        handler = new MapHandler(path1.toString(), 0, () -> 1d);
     }
 
     @Test

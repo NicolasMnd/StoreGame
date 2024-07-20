@@ -26,7 +26,7 @@ public class TestTileReader {
     public void init() {
         containers = new ArrayList<>();
         notifier = setNotifier();
-        this.reader = new TileReader(notifier);
+        this.reader = new TileReader(notifier, () -> 1d);
     }
 
     @Test

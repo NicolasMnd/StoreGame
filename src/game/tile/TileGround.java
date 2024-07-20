@@ -10,7 +10,6 @@ public class TileGround extends GameTile {
 
     public TileGround(Pos pos) {
         super(pos);
-        setTileHeight(0);
     }
 
     @Override

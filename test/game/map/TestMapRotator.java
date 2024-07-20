@@ -15,9 +15,9 @@ import util.Direction;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestMapRotator {
 
@@ -36,7 +36,7 @@ public class TestMapRotator {
     public void init() throws IOException {
         p = p.resolve("mapLocation.txt");
         Files.write(p, stringMap.getBytes());
-        MapHandler handler = new MapHandler(p.toString(), 0);
+        MapHandler handler = new MapHandler(p.toString(), 0, () -> 1d);
         tiles = handler.readMap();
     }
 

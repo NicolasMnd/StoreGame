@@ -84,11 +84,13 @@ public class GameView extends JPanel implements View {
     @Override
     public void increaseSize() {
         this.gameSize += 0.25d;
+        this.camera.updateCenter(latestGameState.getPlayer().getPosition(), this);
     }
 
     @Override
     public void decreaseSize() {
         this.gameSize -= 0.25d;
+        this.camera.updateCenter(latestGameState.getPlayer().getPosition(), this);
     }
 
     /**
@@ -101,14 +103,6 @@ public class GameView extends JPanel implements View {
             for(GameObject object : oArr)
                 if(object != null)
                     draw(object);
-        /*
-        for(GameObject[] oArr : latestGameState.getTiles())
-            for(GameObject object : oArr)
-                if(object != null) {
-                    draw(object);
-                    if(object instanceof TileShelf)
-                        new RenderStrategy().renderHitbox(object.getHitbox()).render(graphics, getGameSize(), getTileSize());
-                }*/
 
         draw(new RenderableGameObject(latestGameState.getPlayer(), new Pos(10+getWidth()/2, 14+getHeight()/2)));
 

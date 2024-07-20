@@ -28,6 +28,7 @@ public class PropertyJumpState {
      * The starting y position of the player
      */
     int playerStartY;
+    int playerZ;
     private boolean isJumping;
     private long startJumpTime;
     private final int jumpDuration;
@@ -41,6 +42,7 @@ public class PropertyJumpState {
     public PropertyJumpState(int jumpHeight, int jumpDuration, IMoveValidity validMoveChecker, Consumer<Pos> playerLocationModifier) {
         this.jumpHeight = jumpHeight;
         this.playerStartY = 0;
+        this.playerZ = 0;
         this.isJumping = false;
         this.startJumpTime = 0;
         this.jumpDuration = jumpDuration;
@@ -80,10 +82,9 @@ public class PropertyJumpState {
             // First stage
             if(jumpTime < jumpDuration/2)
                 this.updatePosition(new Pos(0, -(int) increase));
-            else {
-                System.out.println("Moving down");
+            else
                 this.updatePosition(new Pos(0, (int) increase));
-            }
+
             jumpTime++;
 
         }

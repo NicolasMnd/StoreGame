@@ -1,5 +1,6 @@
 package game;
 
+import listeners.IGameSizeListener;
 import util.Direction;
 import util.texture.comp.TextureHolder;
 
@@ -21,6 +22,10 @@ public class GameObjectBuilder {
 
     public void setFacing(Direction facing) {
         this.o.setFacing(facing);
+    }
+
+    public void setGameSizeListener(IGameSizeListener gameSizeListener) {
+        o.setGameSizeListener(gameSizeListener);
     }
 
 }

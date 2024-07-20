@@ -41,8 +41,10 @@ public class TestGameController {
         Entity entity = controller.facade.state.getPlayer();
         Pos p = controller.facade.state.getPlayer().getPosition();
 
+        controller.facade.playerCommand((player) -> player.move(Direction.LEFT));
+        controller.facade.playerCommand((player) -> player.move(Direction.LEFT));
         controller.facade.playerCommand((player) -> player.move(Direction.RIGHT));
-        assertEquals(p.add(new Pos(entity.getSpeed(),0)), entity.getPosition());
+        assertEquals(p.add(new Pos(-entity.getSpeed(), 0)), entity.getPosition());
     }
 
     @Test
@@ -51,8 +53,9 @@ public class TestGameController {
         Entity entity = controller.facade.state.getPlayer();
         Pos p = controller.facade.state.getPlayer().getPosition();
 
+        controller.facade.playerCommand((player) -> player.move(Direction.LEFT));
         controller.facade.playerCommand((player) -> player.move(Direction.DOWN));
-        assertEquals(p.add(new Pos(0, entity.getSpeed())), entity.getPosition());
+        assertEquals(p.add(new Pos(-entity.getSpeed(), entity.getSpeed())), entity.getPosition());
     }
 
     @Test
@@ -61,8 +64,9 @@ public class TestGameController {
         Entity entity = controller.facade.state.getPlayer();
         Pos p = controller.facade.state.getPlayer().getPosition();
 
+        controller.facade.playerCommand((player) -> player.move(Direction.LEFT));
         controller.facade.playerCommand((player) -> player.move(Direction.UP));
-        assertEquals(p.add(new Pos(0, -entity.getSpeed())), entity.getPosition());
+        assertEquals(p.add(new Pos(-entity.getSpeed(), -entity.getSpeed())), entity.getPosition());
     }
 
 }

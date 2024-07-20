@@ -2,6 +2,7 @@ package game.map;
 
 import game.container.Container;
 import game.tile.GameTile;
+import listeners.IGameSizeListener;
 import util.Dimension;
 import util.Direction;
 import util.FileHelper;
@@ -26,8 +27,8 @@ public class MapHandler {
     private final String mapName;
     private final int tileSize;
 
-    public MapHandler(String mapLocation, int tileSize) {
-        this.reader = new MapReader(getMapDimensions(mapLocation), tileSize);
+    public MapHandler(String mapLocation, int tileSize, IGameSizeListener gameSizeListener) {
+        this.reader = new MapReader(getMapDimensions(mapLocation), tileSize, gameSizeListener);
         this.rotator = new MapRotator(getMapDimensions(mapLocation));
         this.mapName = mapLocation;
         this.tileSize = tileSize;

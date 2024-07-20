@@ -26,9 +26,9 @@ public class GameFacade {
     private final TaskManager taskManager;
 
     public GameFacade(InputHandler inputHandler) {
-        this.state = new GameState(TILE_SIZE, windowSize);
         this.taskManager = new TaskManager();
         this.view = new GameView(TILE_SIZE, windowSize);
+        this.state = new GameState(TILE_SIZE, windowSize, view::getGameSize);
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
     }
@@ -55,6 +55,10 @@ public class GameFacade {
 
     public void playerCommand(Consumer<Entity> command) {
         command.accept(this.state.getPlayer());
+    }
+
+    public void rotateMap() {
+
     }
 
     public void increaseSize() {

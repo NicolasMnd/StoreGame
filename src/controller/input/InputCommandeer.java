@@ -40,6 +40,9 @@ public class InputCommandeer {
 
         switch(event.getKeyCode()) {
 
+            case KeyEvent.VK_R:
+
+
             case KeyEvent.VK_Q:
                 sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.LEFT)));
                 return;

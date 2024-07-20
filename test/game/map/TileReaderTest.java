@@ -14,7 +14,7 @@ public class TileReaderTest {
 
     @BeforeEach
     public void init() {
-        reader = new TileReader(getNotifier());
+        reader = new TileReader(getNotifier(), () -> 1d);
     }
 
     @Test
