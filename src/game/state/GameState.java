@@ -1,20 +1,26 @@
-package game;
+package game.state;
 
 import game.container.Container;
 import game.entity.Entity;
-import game.entity.EntityLoader;
 import game.entity.PlayerEntity;
 import game.map.MapHandler;
 import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
-import util.*;
+import listeners.ListenerRegistrator;
+import util.Dimension;
+import util.Direction;
+import util.Logger;
+import util.OperationTime;
 import util.positions.Hitbox;
 import util.positions.Pos;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class GameState {
 
-    private PlayerEntity player;
+    PlayerEntity player;
     private Pos cameraPosition;
     private GameTile[][] tiles;
     private Container[] container;
@@ -65,8 +71,8 @@ public class GameState {
         // 1. Load map
         this.loadMap("resources/map/map.csv", tileSize, this.gameSizeListener);
 
-        // 2. Load entities & player
-        this.loadEntities();
+        // Use state initializer
+        new StateInitializer().load(this);
     }
 
     /**
@@ -75,6 +81,22 @@ public class GameState {
      */
     public GameTile[][] getTiles() {
         return this.tiles;
+    }
+
+    /**
+     * @return a listener that is called when the game is closed
+     */
+    public ListenerRegistrator close() {
+        GameState state = this;
+        return (frame) ->
+            frame.addWindowListener(
+                    new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            new StateInitializer().save(state);
+                        }
+                    }
+            );
     }
 
     /**
@@ -87,10 +109,6 @@ public class GameState {
         this.container = handler.getContainers();
     }
 
-    private void loadEntities() {
-        EntityLoader entityLoader = new EntityLoader(setupMoveChecker());
-        this.player = new PlayerEntity(this.cameraPosition, setupMoveChecker());
-    }
 
     /**
      * Returns a listener of {@link Entity} objects to check if they are colliding with a {@link GameTile#getHitbox()}
@@ -100,7 +118,7 @@ public class GameState {
      *                                              0.01ms - 0.5ms overhead
      * @return listener for determining collision with {@link util.positions.Hitbox}
      */
-    private IMoveValidity setupMoveChecker() {
+    IMoveValidity getMoveChecker() {
         return new IMoveValidity() {
             @Override
             public boolean canMoveTo(Hitbox hitbox) {

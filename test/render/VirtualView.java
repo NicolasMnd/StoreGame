@@ -1,6 +1,6 @@
 package render;
 
-import game.GameState;
+import game.state.GameState;
 import controller.input.InputHandler;
 import util.Dimension;
 import util.positions.Pos;
@@ -20,16 +20,6 @@ public class VirtualView implements View {
         this.tileSize = size;
         this.windowsSize = windowSize;
         this.camera = new Camera(center, this);
-    }
-
-    @Override
-    public void increaseSize() {
-
-    }
-
-    @Override
-    public void decreaseSize() {
-
     }
 
     @Override

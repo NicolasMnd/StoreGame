@@ -2,7 +2,8 @@ package render;
 
 import controller.input.InputHandler;
 import game.GameObject;
-import game.GameState;
+import game.state.GameState;
+import listeners.ListenerRegistrator;
 import util.Dimension;
 import util.positions.Pos;
 
@@ -64,6 +65,11 @@ public class GameView extends JPanel implements View {
     @Override
     public void registerKeyHandler(InputHandler listener) {
         this.frame.addKeyListener(listener);
+    }
+
+    @Override
+    public void registerListener(ListenerRegistrator listener) {
+        listener.registerListener(frame);
     }
 
     @Override

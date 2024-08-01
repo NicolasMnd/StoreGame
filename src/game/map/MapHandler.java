@@ -1,6 +1,7 @@
 package game.map;
 
 import game.container.Container;
+import game.state.GameState;
 import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import util.Dimension;
@@ -11,7 +12,7 @@ import util.Pair;
 import java.util.function.Consumer;
 
 /**
- * This is the interface used by {@link game.GameState} to initialise the map
+ * This is the interface used by {@link GameState} to initialise the map
  */
 public class MapHandler {
 
@@ -39,7 +40,6 @@ public class MapHandler {
      * @return a {@link GameTile} matrix
      */
     public GameTile[][] readMap() {
-        System.out.println("Starting to read");
         readLines(reader, mapName);
         ShelfLinker linker = new ShelfLinker(reader.getTiles(), tileSize);
         linker.findRelations();

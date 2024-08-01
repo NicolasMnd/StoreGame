@@ -1,7 +1,8 @@
 package render;
 
-import game.GameState;
 import controller.input.InputHandler;
+import game.state.GameState;
+import listeners.ListenerRegistrator;
 import util.Dimension;
 
 public interface View {
@@ -13,6 +14,8 @@ public interface View {
     void registerMouseHandler(InputHandler listener);
 
     void registerKeyHandler(InputHandler listener);
+
+    void registerListener(ListenerRegistrator listener);
 
     double getGameSize();
 

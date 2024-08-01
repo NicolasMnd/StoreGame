@@ -1,7 +1,7 @@
 package controller;
 
 import controller.tasks.TaskManager;
-import game.GameState;
+import game.state.GameState;
 import game.entity.Entity;
 import controller.input.InputHandler;
 import render.GameView;
@@ -31,6 +31,7 @@ public class GameFacade {
         this.state = new GameState(TILE_SIZE, windowSize, view::getGameSize);
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
+        view.registerListener(state.close());
     }
 
     private void tick() {
@@ -66,7 +67,7 @@ public class GameFacade {
     }
 
     /**
-     * Invokes the facade to render itself. All data necessary will need to be transferred to the View
+     * Invokes the facade to render itself. All data necessary {@link GameState} will need to be transferred to the View
      */
     public void render() {
         this.view.render(this.state);

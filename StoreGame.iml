@@ -29,5 +29,6 @@
     <orderEntry type="library" name="misterL" level="project" />
     <orderEntry type="library" name="io.github.btj.termios-0.9" level="project" />
     <orderEntry type="library" name="aspectj-1.9.6" level="project" />
+    <orderEntry type="library" name="MisterF" level="project" />
   </component>
 </module>

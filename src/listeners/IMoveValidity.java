@@ -1,10 +1,11 @@
 package listeners;
 
+import game.state.GameState;
 import util.positions.Pos;
 import util.positions.Hitbox;
 
 /**
- * Listener defined in {@link game.GameState} and given to {@link game.entity.Entity}
+ * Listener defined in {@link GameState} and given to {@link game.entity.Entity}
  */
 public interface IMoveValidity {
 

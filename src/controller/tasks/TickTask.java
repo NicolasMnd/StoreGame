@@ -1,7 +1,7 @@
 package controller.tasks;
 
 import game.GameObject;
-import game.GameState;
+import game.state.GameState;
 import game.property.PropertyTickable;
 import game.property.PropertyType;
 

@@ -70,7 +70,7 @@ public class RenderableGameObject extends GameObject {
      * @return returns an integer
      */
     public int getRenderStage() {
-
+        return 0;
     }
 
 }

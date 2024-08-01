@@ -1,6 +1,6 @@
 package controller.tasks;
 
-import game.GameState;
+import game.state.GameState;
 
 public interface Task {
 

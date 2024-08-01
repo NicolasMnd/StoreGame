@@ -4,6 +4,7 @@ import game.GameObject;
 import game.entity.property.PropertyJumpState;
 import game.entity.property.PropertyWalkState;
 import game.property.PropertyTickable;
+import game.state.GameState;
 import listeners.IMoveValidity;
 import util.Direction;
 import util.positions.Pos;
@@ -11,7 +12,7 @@ import util.positions.Pos;
 public abstract class Entity extends GameObject {
 
     /**
-     * Callable object defined in {@link game.GameState}. Used to check collision
+     * Callable object defined in {@link GameState}. Used to check collision
      */
     private final IMoveValidity validMoveChecker;
     /**
@@ -87,7 +88,7 @@ public abstract class Entity extends GameObject {
     }
 
     /**
-     * Used the {@link Entity#validMoveChecker} to ask {@link game.GameState} if the {@link Pos} is a valid location
+     * Used the {@link Entity#validMoveChecker} to ask {@link GameState} if the {@link Pos} is a valid location
      * @param position the destination {@link Pos}
      * @return a boolean determining the validity of the position
      */
