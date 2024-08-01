@@ -1,6 +1,9 @@
-package util;
+package util.positions;
 
 import com.misterl.location.positions.Pos2di;
+import util.Direction;
+import util.DirectionHelper;
+import util.Pair;
 
 import java.util.function.Function;
 

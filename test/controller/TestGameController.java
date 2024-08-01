@@ -3,7 +3,7 @@ package controller;
 import game.entity.Entity;
 import org.junit.jupiter.api.Test;
 import util.Direction;
-import util.Pos;
+import util.positions.Pos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

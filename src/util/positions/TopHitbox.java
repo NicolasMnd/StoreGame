@@ -1,6 +1,4 @@
-package util.hitbox;
-
-import util.Pos;
+package util.positions;
 
 /**
  * Another hitbox which represents the top side of a {@link game.tile.GameTile}, by adding another dimension

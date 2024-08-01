@@ -9,7 +9,8 @@ import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
 import util.*;
-import util.hitbox.Hitbox;
+import util.positions.Hitbox;
+import util.positions.Pos;
 
 public class GameState {
 
@@ -97,7 +98,7 @@ public class GameState {
      *                checking only relevant tiles: 0.01ms - 0.1ms overhead
      *                checking relevants with try/catch:
      *                                              0.01ms - 0.5ms overhead
-     * @return listener for determining collision with {@link util.hitbox.Hitbox}
+     * @return listener for determining collision with {@link util.positions.Hitbox}
      */
     private IMoveValidity setupMoveChecker() {
         return new IMoveValidity() {

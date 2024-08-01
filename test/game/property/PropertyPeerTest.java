@@ -3,7 +3,7 @@ package game.property;
 import game.tile.TileShelf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.Pos;
+import util.positions.Pos;
 
 import java.util.Set;
 

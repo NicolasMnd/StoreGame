@@ -4,7 +4,7 @@ import controller.input.InputHandler;
 import game.GameObject;
 import game.GameState;
 import util.Dimension;
-import util.Pos;
+import util.positions.Pos;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,18 +81,6 @@ public class GameView extends JPanel implements View {
         return this.windowsSize;
     }
 
-    @Override
-    public void increaseSize() {
-        this.gameSize += 0.25d;
-        this.camera.updateCenter(latestGameState.getPlayer().getPosition(), this);
-    }
-
-    @Override
-    public void decreaseSize() {
-        this.gameSize -= 0.25d;
-        this.camera.updateCenter(latestGameState.getPlayer().getPosition(), this);
-    }
-
     /**
      * Renders all elements of the {@link GameState}
      */
@@ -110,6 +98,8 @@ public class GameView extends JPanel implements View {
         // draw(latestGameState.getPlayer());
         //new RenderStrategy().renderHitbox(latestGameState.getPlayer().getHitbox()).render(graphics, getGameSize(), getTileSize());
 
+        graphics.setStroke(new BasicStroke(1f));
+        graphics.setColor(Color.RED);
         this.graphics.drawString(latestGameState.getPlayer().getPosition().getFormat(), 10, 10);
         this.graphics.drawString(latestGameState.getPlayer().getHitbox().getPrint(), 10, 20);
 

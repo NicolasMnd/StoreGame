@@ -6,10 +6,6 @@ import util.Dimension;
 
 public interface View {
 
-    void increaseSize();
-
-    void decreaseSize();
-
     void render(GameState state);
 
     void update(GameState state);

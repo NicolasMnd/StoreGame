@@ -3,7 +3,7 @@ package render;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.Dimension;
-import util.Pos;
+import util.positions.Pos;
 
 public class TestCamera {
 

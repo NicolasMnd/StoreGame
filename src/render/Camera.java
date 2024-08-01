@@ -4,8 +4,8 @@ import game.GameObject;
 import game.tile.GameTile;
 import util.Logger;
 import util.OperationTime;
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 
 public class Camera {
 
@@ -47,6 +47,7 @@ public class Camera {
                 new Pos(center.x() - (int) (cameraWidth*gameSize / 2), center.y() - (int) (cameraHeight*gameSize / 2)),
                 new Pos(center.x() + (int) (cameraWidth*gameSize / 2), center.y() + (int) (cameraHeight*gameSize / 2))
         );
+        System.out.println("Setting center to " + this.center.getFormat() + " hitbox becomes: " + this.camera.getPrint());
     }
 
     /**
@@ -102,7 +103,6 @@ public class Camera {
 
         }
         time.stop();
-        logger.log(time.getNano() + "ns = " + (time.getNano()/1000000) + "ms ");
         logger.time(time.getNano());
         return getMap(tiles, (iEnd-iStart), (jEnd-jStart));
     }

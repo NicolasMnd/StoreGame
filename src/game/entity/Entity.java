@@ -6,7 +6,7 @@ import game.entity.property.PropertyWalkState;
 import game.property.PropertyTickable;
 import listeners.IMoveValidity;
 import util.Direction;
-import util.Pos;
+import util.positions.Pos;
 
 public abstract class Entity extends GameObject {
 

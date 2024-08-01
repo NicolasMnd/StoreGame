@@ -6,10 +6,9 @@ import render.RenderStrategy;
 import render.RenderableGameObject;
 import render.View;
 import util.Direction;
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 import util.texture.TextureLoader;
-import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
@@ -29,6 +28,7 @@ public abstract class GameObject {
         this.pos = pos;
         this.texture = textureLoader(new TextureLoader()).loadTexture();
         this.properties = new PropertyManager();
+        this.gameSizeListener = () -> 1d;
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class GameObject {
      * Sets a listener for {@link View#getGameSize()}. This is necessary because hitboxes & sizes need to be updated when the size increases
      * @param gameSizeListener the listener that retrieves {@link View#getGameSize()}
      */
-    public void setGameSizeListener(IGameSizeListener gameSizeListener) {
+    void setGameSizeListener(IGameSizeListener gameSizeListener) {
         this.gameSizeListener = gameSizeListener;
     }
 
@@ -121,7 +121,14 @@ public abstract class GameObject {
     }
 
     /**
-     * Allows subclasses to call upon their own algorithm that handles their {@link Texture} retrieval
+     * @return the game size double in {@link View}
+     */
+    public IGameSizeListener getGameSizeListener() {
+        return this.gameSizeListener;
+    }
+
+    /**
+     * Allows subclasses to call upon their own algorithm that handles their {@link util.texture.comp.Texture} retrieval
      */
     public abstract ITextureLoader textureLoader(TextureLoader textureLoader);
 
@@ -144,7 +151,7 @@ public abstract class GameObject {
      * @param width the width of the object
      */
     protected void setWidth(int width) {
-        this.width = width;
+        this.width = (int) (width * gameSizeListener.getSize());
     }
 
     /**
@@ -152,7 +159,7 @@ public abstract class GameObject {
      * @param height the height of the object
      */
     protected void setHeight(int height) {
-        this.height = height;
+        this.height = (int) (height * gameSizeListener.getSize());
     }
 
 }

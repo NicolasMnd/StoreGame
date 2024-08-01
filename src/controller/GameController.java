@@ -66,12 +66,12 @@ public class GameController {
 
             @Override
             public void scrollDown() {
-                facade.decreaseSize();
+                facade.rotateRight();
             }
 
             @Override
             public void scrollUp() {
-                facade.increaseSize();
+                facade.rotateLeft();
             }
         };
     }

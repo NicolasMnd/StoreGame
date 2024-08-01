@@ -3,8 +3,8 @@ package game.entity.property;
 import listeners.IMoveValidity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

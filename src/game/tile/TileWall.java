@@ -1,6 +1,6 @@
 package game.tile;
 
-import util.Pos;
+import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.ITextureLoader;

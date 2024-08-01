@@ -57,16 +57,12 @@ public class GameFacade {
         command.accept(this.state.getPlayer());
     }
 
-    public void rotateMap() {
-
+    public void rotateLeft() {
+        this.state.rotateMap(Direction.LEFT);
     }
 
-    public void increaseSize() {
-        this.view.increaseSize();
-    }
-
-    public void decreaseSize() {
-        this.view.decreaseSize();
+    public void rotateRight() {
+        this.state.rotateMap(Direction.RIGHT);
     }
 
     /**

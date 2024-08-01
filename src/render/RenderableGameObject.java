@@ -1,7 +1,7 @@
 package render;
 
 import game.GameObject;
-import util.Pos;
+import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
@@ -64,6 +64,13 @@ public class RenderableGameObject extends GameObject {
             return new RenderStrategy().rectangleRenderer(this);
         else
             return parent.getRenderStrategy(this);
+    }
+
+    /**
+     * @return returns an integer
+     */
+    public int getRenderStage() {
+
     }
 
 }

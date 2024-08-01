@@ -1,7 +1,7 @@
 package listeners;
 
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 
 /**
  * Listener defined in {@link game.GameState} and given to {@link game.entity.Entity}

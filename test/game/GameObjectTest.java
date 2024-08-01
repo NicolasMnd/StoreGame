@@ -2,7 +2,7 @@ package game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.Pos;
+import util.positions.Pos;
 
 import static org.junit.jupiter.api.Assertions.*;
 

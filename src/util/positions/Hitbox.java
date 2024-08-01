@@ -1,6 +1,4 @@
-package util.hitbox;
-
-import util.Pos;
+package util.positions;
 
 public class Hitbox {
 

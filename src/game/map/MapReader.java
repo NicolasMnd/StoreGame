@@ -5,7 +5,7 @@ import game.tile.GameTile;
 import listeners.IContainerNotifier;
 import listeners.IGameSizeListener;
 import util.Dimension;
-import util.Pos;
+import util.positions.Pos;
 
 import java.util.ArrayList;
 import java.util.List;

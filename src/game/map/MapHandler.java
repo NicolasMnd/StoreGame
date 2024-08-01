@@ -39,6 +39,7 @@ public class MapHandler {
      * @return a {@link GameTile} matrix
      */
     public GameTile[][] readMap() {
+        System.out.println("Starting to read");
         readLines(reader, mapName);
         ShelfLinker linker = new ShelfLinker(reader.getTiles(), tileSize);
         linker.findRelations();

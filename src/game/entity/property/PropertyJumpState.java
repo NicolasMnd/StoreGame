@@ -4,8 +4,8 @@ import controller.GameController;
 import game.entity.Entity;
 import game.property.PropertyTickable;
 import listeners.IMoveValidity;
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;

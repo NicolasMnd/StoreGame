@@ -1,4 +1,4 @@
-package util;
+package util.positions;
 
 import com.misterl.location.positions.Pos2d;
 import com.misterl.location.positions.Pos2di;

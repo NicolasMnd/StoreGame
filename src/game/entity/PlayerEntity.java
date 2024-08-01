@@ -3,8 +3,8 @@ package game.entity;
 import game.GameObject;
 import listeners.IMoveValidity;
 import render.RenderStrategy;
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
@@ -23,7 +23,13 @@ public class PlayerEntity extends Entity {
     @Override
     public Hitbox getHitbox() {
         Pos pos = this.getPosition();
-        return new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight())));
+        return
+            new Hitbox(pos, pos.add(
+                    new Pos(
+                        getWidth(),
+                        getHeight())
+            )
+        );
     }
 
     @Override

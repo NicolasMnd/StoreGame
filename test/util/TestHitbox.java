@@ -2,7 +2,8 @@ package util;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.hitbox.Hitbox;
+import util.positions.Hitbox;
+import util.positions.Pos;
 
 import static org.junit.jupiter.api.Assertions.*;
 

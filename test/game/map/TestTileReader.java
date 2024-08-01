@@ -4,12 +4,11 @@ import game.container.Container;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
-import listeners.IContainerInteraction;
 import listeners.IContainerNotifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.Direction;
-import util.Pos;
+import util.positions.Pos;
 
 import java.util.ArrayList;
 import java.util.List;

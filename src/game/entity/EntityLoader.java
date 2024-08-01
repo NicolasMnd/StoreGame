@@ -1,7 +1,7 @@
 package game.entity;
 
 import listeners.IMoveValidity;
-import util.Pos;
+import util.positions.Pos;
 import util.texture.comp.TextureHolder;
 
 import java.util.ArrayList;

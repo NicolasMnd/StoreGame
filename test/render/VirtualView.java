@@ -3,7 +3,7 @@ package render;
 import game.GameState;
 import controller.input.InputHandler;
 import util.Dimension;
-import util.Pos;
+import util.positions.Pos;
 
 import java.awt.*;
 

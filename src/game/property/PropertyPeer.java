@@ -3,12 +3,11 @@ package game.property;
 import game.GameObject;
 import game.tile.GameTile;
 import game.tile.TileShelf;
-import util.Pos;
+import util.positions.Pos;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class PropertyPeer extends Property {
 

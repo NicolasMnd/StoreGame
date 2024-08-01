@@ -10,7 +10,7 @@ import listeners.IContainerInteraction;
 import listeners.IContainerNotifier;
 import listeners.IGameSizeListener;
 import util.Direction;
-import util.Pos;
+import util.positions.Pos;
 import util.texture.comp.Texture;
 import util.texture.comp.TextureHolder;
 

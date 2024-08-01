@@ -1,8 +1,8 @@
 package render;
 
 import game.GameObject;
-import util.Pos;
-import util.hitbox.Hitbox;
+import util.positions.Pos;
+import util.positions.Hitbox;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
 
