@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="misterC">
+  <library name="misterF">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../MisterC/out/artifacts/misterC/misterC.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../MisterF/out/artifacts/misterF/misterF.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

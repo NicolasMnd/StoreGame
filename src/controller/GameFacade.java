@@ -50,10 +50,6 @@ public class GameFacade {
 
     }
 
-    public void move(Direction d) {
-        this.state.move(d);
-    }
-
     public void playerCommand(Consumer<Entity> command) {
         command.accept(this.state.getPlayer());
     }

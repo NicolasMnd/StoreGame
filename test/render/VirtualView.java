@@ -2,6 +2,7 @@ package render;
 
 import game.state.GameState;
 import controller.input.InputHandler;
+import listeners.ListenerRegistrator;
 import util.Dimension;
 import util.positions.Pos;
 
@@ -39,6 +40,11 @@ public class VirtualView implements View {
 
     @Override
     public void registerKeyHandler(InputHandler listener) {
+
+    }
+
+    @Override
+    public void registerListener(ListenerRegistrator listener) {
 
     }
 

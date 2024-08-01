@@ -1,12 +1,4 @@
-// If you are working in swing make sure that your code follows these rules:
-
-// 1. You call java.awt.EventQueue.invokeLater();
-//    Everything works via 
-public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(() -> run());
-}
-
-public void run() { // Your code }aaay/1/1,2;1,2/1,2/1,2/1,2/1,2
+aaay/1/1,2;1,2/1,2/1,2/1,2/1,2
 aaay/1/1,2;1,2/1,2/1,2/1,2/1,2
 aaaL/1/1,2;1,2/1,2/1,2/1,2/1,2
 aabc/1/1,2;1,2/1,2/1,2/1,2/1,2

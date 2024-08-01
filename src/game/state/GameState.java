@@ -4,6 +4,7 @@ import game.container.Container;
 import game.entity.Entity;
 import game.entity.PlayerEntity;
 import game.map.MapHandler;
+import game.map.MapRotator;
 import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
@@ -18,33 +19,27 @@ import util.positions.Pos;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * The Game State contains all main aspects of the game.
+ */
 public class GameState {
 
     PlayerEntity player;
-    private Pos cameraPosition;
-    private GameTile[][] tiles;
-    private Container[] container;
-    private final int tileSize;
-    private final Dimension windowSize;
+    String mapName;
+    MapHandler mapHandler;
+    GameTile[][] tiles;
+    Container[] containers;
+    final int tileSize;
+    final Dimension windowSize;
     private final Logger performanceLogger = new Logger("Check collision");
-    private final IGameSizeListener gameSizeListener;
+    final IGameSizeListener gameSizeListener;
     //private Entity[] entities;
 
     public GameState(int tileSize, Dimension windowsSize, IGameSizeListener gameSizeListener) {
         this.tileSize = tileSize;
         this.windowSize = windowsSize;
-        this.cameraPosition = new Pos(3*tileSize, 3*tileSize);
         this.gameSizeListener = gameSizeListener;
         init();
-    }
-
-    public void move(Direction d) {
-        switch(d) {
-            case Direction.UP -> cameraPosition = cameraPosition.add(new Pos(0, -4));
-            case Direction.DOWN -> cameraPosition = cameraPosition.add(new Pos(0, 4));
-            case Direction.RIGHT -> cameraPosition = cameraPosition.add(new Pos(4, 0));
-            case Direction.LEFT -> cameraPosition = cameraPosition.add(new Pos(-4, 0));
-        }
     }
 
     /**
@@ -62,16 +57,14 @@ public class GameState {
     }
 
     public void rotateMap(Direction dir) {
+        new StateInitializer().save(this);
+        this.tiles = new MapRotator(this.windowSize).rotate(this.tiles, dir);
     }
 
     /**
-     * Starts up the game.
+     * Starts up the game by letting {@link StateSave} objects access data & setting the values in this class.
      */
     public void init() {
-        // 1. Load map
-        this.loadMap("resources/map/map.csv", tileSize, this.gameSizeListener);
-
-        // Use state initializer
         new StateInitializer().load(this);
     }
 
@@ -100,17 +93,6 @@ public class GameState {
     }
 
     /**
-     * Reads the map of a specific name.
-     * @param mapName the name on disk
-     */
-    private void loadMap(String mapName, int tileSize, IGameSizeListener gameSizeListener) {
-        MapHandler handler = new MapHandler(mapName, tileSize, gameSizeListener);
-        this.tiles = handler.readMap();
-        this.container = handler.getContainers();
-    }
-
-
-    /**
      * Returns a listener of {@link Entity} objects to check if they are colliding with a {@link GameTile#getHitbox()}
      * Performance by looping through all tiles:    0.1ms  - 2ms   overhead
      *                checking only relevant tiles: 0.01ms - 0.1ms overhead
@@ -133,7 +115,6 @@ public class GameState {
                             continue;
                         GameTile selection = tiles[gridLocationY+y][gridLocationX+x];
                         if(!selection.canCollide() && selection.getHitbox().hasOverlap(hitbox)) {
-                            System.out.println("Collision with " + selection.getClass().getName() + " hitboxes " + hitbox.getPrint() + " overlaps with the tile hitbox " + selection.getHitbox().getPrint());
                             return false;
                         }
                     }

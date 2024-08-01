@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * The reason for this clas is to apply the flyweight pattern. All possible textures will be loaded in once. All objects that use that texture will refer to the {@link Texture} objects here.
  */
-public class TileReader {
+class TileReader {
 
     private final IContainerNotifier containerNotifier;
     private final IGameSizeListener gameSizeListener;

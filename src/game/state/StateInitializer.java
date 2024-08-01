@@ -11,7 +11,9 @@ public class StateInitializer {
 
     public StateInitializer() {
         this.gameInfoList = List.of(
-                new PlayerLocationLoader()
+                new PlayerLocationLoader(),
+                new PlayerWorldLoader(),
+                new MapLoader()
         );
     }
 

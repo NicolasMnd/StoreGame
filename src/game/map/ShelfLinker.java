@@ -6,7 +6,7 @@ import game.tile.GameTile;
 import game.tile.TileShelf;
 import util.ObjectLinker;
 
-public class ShelfLinker extends ObjectLinker<GameTile> {
+class ShelfLinker extends ObjectLinker<GameTile> {
 
     public ShelfLinker(GameTile[][] matrix, int tileSize) {
         super(

@@ -9,7 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="misterC" level="project" />
     <orderEntry type="module-library" scope="TEST">
       <library name="JUnit5.8.1">
         <CLASSES>
@@ -28,7 +27,6 @@
     </orderEntry>
     <orderEntry type="library" name="misterL" level="project" />
     <orderEntry type="library" name="io.github.btj.termios-0.9" level="project" />
-    <orderEntry type="library" name="aspectj-1.9.6" level="project" />
-    <orderEntry type="library" name="MisterF" level="project" />
+    <orderEntry type="library" name="misterF" level="project" />
   </component>
 </module>

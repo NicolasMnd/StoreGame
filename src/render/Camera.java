@@ -47,7 +47,6 @@ public class Camera {
                 new Pos(center.x() - (int) (cameraWidth*gameSize / 2), center.y() - (int) (cameraHeight*gameSize / 2)),
                 new Pos(center.x() + (int) (cameraWidth*gameSize / 2), center.y() + (int) (cameraHeight*gameSize / 2))
         );
-        System.out.println("Setting center to " + this.center.getFormat() + " hitbox becomes: " + this.camera.getPrint());
     }
 
     /**

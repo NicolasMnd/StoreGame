@@ -7,9 +7,7 @@
       <element id="extracted-dir" path="$USER_HOME$/Downloads/io.github.btj.termios-0.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../MisterL/out/artifacts/misterL/misterL.jar" path-in-jar="/" />
       <element id="library" level="project" name="io.github.btj.termios-0.9" />
-      <element id="library" level="project" name="misterC" />
       <element id="library" level="project" name="misterL" />
-      <element id="library" level="project" name="aspectj-1.9.6" />
     </root>
   </artifact>
 </component>

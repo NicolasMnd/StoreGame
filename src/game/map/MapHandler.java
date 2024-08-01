@@ -1,7 +1,6 @@
 package game.map;
 
 import game.container.Container;
-import game.state.GameState;
 import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import util.Dimension;
@@ -12,7 +11,7 @@ import util.Pair;
 import java.util.function.Consumer;
 
 /**
- * This is the interface used by {@link GameState} to initialise the map
+ * This is the interface used by {@link game.state.MapLoader} to initialise the map
  */
 public class MapHandler {
 

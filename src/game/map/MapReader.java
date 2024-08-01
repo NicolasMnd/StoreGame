@@ -16,7 +16,7 @@ import java.util.function.Consumer;
  * Call happens in {@link MapHandler#readMap()}. It will split a line, then use {@link TileReader}
  * to convert a code into a {@link GameTile} and use {@link game.GameObjectBuilder} to set its {@link util.Direction}.
  */
-public class MapReader implements Consumer<String> {
+class MapReader implements Consumer<String> {
 
     private GameTile[][] tiles;
     private List<Container> containers;
