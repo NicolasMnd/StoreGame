@@ -8,7 +8,7 @@ import util.Rotator;
 public class MapRotator {
 
     private final Dimension dimension;
-    private final Rotator<GameTile> rotator = new Rotator<GameTile>(GameTile.class);
+    private final Rotator<GameTile> rotator = new Rotator<>(GameTile.class);
 
     public MapRotator(Dimension dimension) {
         this.dimension = dimension;

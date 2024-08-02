@@ -3,7 +3,7 @@ package game.state;
 import game.entity.PlayerEntity;
 import util.positions.Pos;
 
-public class PlayerLocationLoader extends StateSave {
+public class PlayerLocationLoader extends StateObject {
 
     @Override
     public String setKey() {

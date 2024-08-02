@@ -1,2 +1,2 @@
-playerLocation=36,88
-playerWorld=store
+playerLocation=500,84
+playerWorld=map

@@ -26,9 +26,9 @@ public class TestMapRotator {
 
     String stringMap =
             """
-            WALL;WALL;GROUND
-            WALL;GROUND;GROUND
-            GROUND;GROUND;GROUND
+            WALL;WALL;GROUND;GROUND
+            WALL;GROUND;GROUND;GROUND
+            GROUND;GROUND;GROUND;GROUND
             """;
     GameTile[][] tiles;
 
@@ -42,7 +42,7 @@ public class TestMapRotator {
 
     @Test
     public void testRotate_Left() {
-        MapRotator rotator = new MapRotator(new Dimension(3, 3));
+        MapRotator rotator = new MapRotator(new Dimension(3, 4));
         GameTile[][] arr = rotator.rotate(tiles, Direction.LEFT);
         assertTrue(arr[0][0] instanceof TileGround);
         assertTrue(arr[0][1] instanceof TileWall);
@@ -51,7 +51,7 @@ public class TestMapRotator {
 
     @Test
     public void testRotate_Right() {
-        MapRotator rotator = new MapRotator(new Dimension(3, 3));
+        MapRotator rotator = new MapRotator(new Dimension(3, 4));
         GameTile[][] arr = rotator.rotate(tiles, Direction.RIGHT);
         assertTrue(arr[0][0] instanceof TileGround);
         assertTrue(arr[0][1] instanceof TileGround);

@@ -1,6 +1,6 @@
 package game.state;
 
-public class PlayerWorldLoader extends StateSave {
+public class PlayerWorldLoader extends StateObject {
 
     @Override
     public String setKey() {

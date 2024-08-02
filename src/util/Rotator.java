@@ -16,11 +16,10 @@ public class Rotator<T> {
         T[][] map = (T[][])Array.newInstance(cls, dimension.getWidth(), dimension.getHeight());
         int startColumn = dimension.getHeight()-1;
 
+
         for(int row = 0; row < in.length; row++) {
 
-            T[] tileRow = in[row];
-
-            for(int col = 0; col < tileRow.length; col++) {
+            for(int col = 0; col < in[row].length; col++) {
 
                 map[col][startColumn] = in[row][col];
 

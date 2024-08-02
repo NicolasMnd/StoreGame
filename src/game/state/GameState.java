@@ -3,7 +3,6 @@ package game.state;
 import game.container.Container;
 import game.entity.Entity;
 import game.entity.PlayerEntity;
-import game.map.MapHandler;
 import game.map.MapRotator;
 import game.tile.GameTile;
 import listeners.IGameSizeListener;
@@ -24,9 +23,11 @@ import java.awt.event.WindowEvent;
  */
 public class GameState {
 
+    /**
+     * Game State specific values. Set by {@link StateObject}
+     */
     PlayerEntity player;
     String mapName;
-    MapHandler mapHandler;
     GameTile[][] tiles;
     Container[] containers;
     final int tileSize;
@@ -57,12 +58,13 @@ public class GameState {
     }
 
     public void rotateMap(Direction dir) {
+        System.out.println("Spêlen");
         new StateInitializer().save(this);
-        this.tiles = new MapRotator(this.windowSize).rotate(this.tiles, dir);
+        this.tiles = new MapRotator(new Dimension(this.tiles.length, this.tiles[0].length)).rotate(this.tiles, dir);
     }
 
     /**
-     * Starts up the game by letting {@link StateSave} objects access data & setting the values in this class.
+     * Starts up the game by letting {@link StateObject} objects access data & setting the values in this class.
      */
     public void init() {
         new StateInitializer().load(this);
