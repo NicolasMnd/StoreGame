@@ -22,7 +22,6 @@ public class RenderStrategy {
                     (int) (object.getHeight()*gameSize),
                     null
             );
-
         };
     }
 
@@ -101,6 +100,30 @@ public class RenderStrategy {
             graphics.setStroke(stroke1);
             graphics.drawRect(x, y, width, height);
 
+        };
+    }
+
+    public IRender doubleImage(GameObject first, GameObject second) {
+        return (graphics, gameSize, tileSize) -> {
+            Pos drawPosition = first.getPosition();
+            drawPosition.addY(-first.getHeight() + tileSize);
+            System.out.println("Pos: " + first.getPosition().getFormat());
+            graphics.drawImage(
+                    second.textureSelector(new TextureSelector()).retrieveTexture(),
+                    (int) (first.getPosition().x()),
+                    (int) (first.getPosition().y() + first.getHeight()),
+                    (int) (second.getWidth()*gameSize),
+                    (int) (second.getHeight()*gameSize),
+                    null
+            );/*
+            graphics.drawImage(
+                    first.textureSelector(new TextureSelector()).retrieveTexture(),
+                    (int) (drawPosition.x()),
+                    (int) (drawPosition.y()),
+                    (int) (first.getWidth()*gameSize),
+                    (int) (first.getHeight()*gameSize),
+                    null
+            );*/
         };
     }
 

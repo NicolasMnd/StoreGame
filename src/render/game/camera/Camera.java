@@ -52,12 +52,12 @@ public class Camera {
 
         // If clamping on bounds was not necessary
         if(this.focused.getPosition().equals(realCamera.getCenterPos()))
-            return new Pos(cameraWidth/2 - focused.getWidth()/2, cameraHeight/2 - focused.getHeight()/2);
+            return new Pos(cameraWidth/2, cameraHeight/2);
 
         else {
 
-            int drawX = getCenter().x() - realCamera.getUpperleft().x() - focused.getWidth()/2;
-            int drawY = getCenter().y() - realCamera.getUpperleft().y() - focused.getHeight()/2;
+            int drawX = getCenter().x() - realCamera.getUpperleft().x();
+            int drawY = getCenter().y() - realCamera.getUpperleft().y();
             return new Pos(drawX, drawY);
 
         }
