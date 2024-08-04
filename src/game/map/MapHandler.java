@@ -4,7 +4,6 @@ import game.container.Container;
 import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import util.Dimension;
-import util.Direction;
 import util.FileHelper;
 import util.Pair;
 
@@ -51,16 +50,6 @@ public class MapHandler {
      */
     public Container[] getContainers() {
         return reader.getContainers().toArray(new Container[0]);
-    }
-
-    /**
-     * Passes a request to {@link MapRotator} which will handle the rotation of the double array
-     * @param map the map we want to rotate
-     * @param dir the direction of the rotation
-     * @return the rotated {@link GameTile} double array
-     */
-    public GameTile[][] rotate(GameTile[][] map, Direction dir) {
-        return this.rotator.rotate(map, dir);
     }
 
     /**

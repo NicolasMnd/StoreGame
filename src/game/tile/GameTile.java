@@ -20,9 +20,4 @@ public abstract class GameTile extends GameObject {
         return true;
     }
 
-    @Override
-    public final void updatePosition(Pos pos) {
-        return;
-    }
-
 }

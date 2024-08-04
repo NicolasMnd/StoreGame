@@ -59,12 +59,15 @@ public class ShelfTextureInformation extends TextureInformation {
         MultiTexture textuur = (MultiTexture) shelf.getTexture();
 
         if(propertyPeer.isLeftSide()) {
+            System.out.println("Shelf positioned " + shelf.getPosition().getFormat() + " is left side ");
             return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("left")).getImage();
         }
         else if(propertyPeer.isMiddle()) {
+            System.out.println("Shelf positioned " + shelf.getPosition().getFormat() + " is midle ");
             return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("mid")).getImage();
         }
         else if(propertyPeer.isRightSide()) {
+            System.out.println("Shelf positioned " + shelf.getPosition().getFormat() + " is right side ");
             return selectDirection(shelf.getFacing(), (DirectedTexture) textuur.getTexture("right")).getImage();
         }
 

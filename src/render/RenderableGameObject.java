@@ -60,7 +60,7 @@ public class RenderableGameObject extends GameObject {
 
     @Override
     public IRender getRenderStrategy(GameObject object) {
-        if(this.textureSelector(new TextureSelector()).retrieveTexture() == null)
+        if(this.getTexture() == null)
             return new RenderStrategy().rectangleRenderer(this);
         else
             return parent.getRenderStrategy(this);

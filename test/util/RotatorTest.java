@@ -1,6 +1,7 @@
 package util;
 
 import org.junit.jupiter.api.Test;
+import util.positions.Pos;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -180,5 +181,16 @@ public class RotatorTest {
 
     }
 
+    @Test
+    public void testRotatePos_Left() {
+        Rotator<Integer> rotator = new Rotator<>(Integer.class);
+        assertEquals(new Pos(8, 2), (Pos) rotator.rotatePos(new Pos(2,1), new Dimension(10,20), Direction.LEFT));
+    }
+
+    @Test
+    public void testRotatePos_Right() {
+        Rotator<Integer> rotator = new Rotator<>(Integer.class);
+        assertEquals(new Pos(2, 16), rotator.rotatePos(new Pos(4,2), new Dimension(10,20), Direction.RIGHT));
+    }
 
 }

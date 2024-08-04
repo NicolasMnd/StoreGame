@@ -8,10 +8,7 @@ import game.tile.GameTile;
 import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
 import listeners.ListenerRegistrator;
-import util.Dimension;
-import util.Direction;
-import util.Logger;
-import util.OperationTime;
+import util.*;
 import util.positions.Hitbox;
 import util.positions.Pos;
 
@@ -57,10 +54,14 @@ public class GameState {
         return this.player.getPosition();
     }
 
+    /**
+     * Rotates the map & player position
+     * @param dir the turning direction. Left or right
+     */
     public void rotateMap(Direction dir) {
-        System.out.println("Spêlen");
         new StateInitializer().save(this);
-        this.tiles = new MapRotator(new Dimension(this.tiles.length, this.tiles[0].length)).rotate(this.tiles, dir);
+        this.tiles = new MapRotator(new Dimension(this.tiles.length, this.tiles[0].length)).rotate(this.tiles, dir, tileSize);
+        this.player.updatePosition(new Rotator<>(Integer.class).rotatePos(player.getPosition(), new Dimension(this.tiles.length*tileSize, this.tiles[0].length*tileSize), dir));
     }
 
     /**
@@ -113,7 +114,7 @@ public class GameState {
                 // check for all tiles
                 for(int x = -4; x < 5; x++)
                     for(int y = -4; y < 5; y++) {
-                        if(gridLocationY+y < 0 || gridLocationY+y > tiles.length || gridLocationX+x < 0 || gridLocationX+x > tiles[0].length)
+                        if(gridLocationY+y < 0 || gridLocationY+y >= tiles.length || gridLocationX+x < 0 || gridLocationX+x >= tiles[0].length)
                             continue;
                         GameTile selection = tiles[gridLocationY+y][gridLocationX+x];
                         if(!selection.canCollide() && selection.getHitbox().hasOverlap(hitbox)) {

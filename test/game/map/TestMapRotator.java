@@ -43,7 +43,7 @@ public class TestMapRotator {
     @Test
     public void testRotate_Left() {
         MapRotator rotator = new MapRotator(new Dimension(3, 4));
-        GameTile[][] arr = rotator.rotate(tiles, Direction.LEFT);
+        GameTile[][] arr = rotator.rotate(tiles, Direction.LEFT, 32);
         assertTrue(arr[0][0] instanceof TileGround);
         assertTrue(arr[0][1] instanceof TileWall);
         assertTrue(arr[0][2] instanceof TileWall);
@@ -52,7 +52,7 @@ public class TestMapRotator {
     @Test
     public void testRotate_Right() {
         MapRotator rotator = new MapRotator(new Dimension(3, 4));
-        GameTile[][] arr = rotator.rotate(tiles, Direction.RIGHT);
+        GameTile[][] arr = rotator.rotate(tiles, Direction.RIGHT,32);
         assertTrue(arr[0][0] instanceof TileGround);
         assertTrue(arr[0][1] instanceof TileGround);
         assertTrue(arr[0][2] instanceof TileGround);
@@ -61,7 +61,7 @@ public class TestMapRotator {
     @Test
     public void testRotate_North() {
         MapRotator rotator = new MapRotator(new Dimension(3, 3));
-        GameTile[][] arr = rotator.rotate(tiles, Direction.NORTH);
+        GameTile[][] arr = rotator.rotate(tiles, Direction.NORTH,32);
         assertNull(arr);
     }
 

@@ -81,6 +81,9 @@ public class PropertyPeer extends Property {
                 );
     }
 
+    /**
+     * @return a boolean determining if this property peer is most left
+     */
     public boolean isLeftSide() {
         List<Pos> peerPos = this.peers.stream().map(GameObject::getPosition).toList();
         return peerPos.stream().allMatch(pos ->

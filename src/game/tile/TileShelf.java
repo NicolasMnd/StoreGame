@@ -22,9 +22,7 @@ public class TileShelf extends GameTile {
     @Override
     public Hitbox getHitbox() {
         Pos pos = getPosition().add(new Pos(0, -96));
-        Hitbox b = new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight() - 32)));
-        b.setHeight(1);
-        return b;
+        return new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight() - 32)));
     }
 
     @Override
