@@ -2,8 +2,8 @@ package game;
 
 import game.property.PropertyManager;
 import listeners.IGameSizeListener;
-import render.RenderStrategy;
-import render.RenderableGameObject;
+import render.game.RenderStrategy;
+import render.game.RenderableGameObject;
 import render.View;
 import util.Direction;
 import util.positions.Pos;
@@ -22,6 +22,7 @@ public abstract class GameObject {
     private Direction facing;
     private final PropertyManager properties;
     private int width, height;
+    private int renderOrder = 1;
     private IGameSizeListener gameSizeListener;
 
     public GameObject(Pos pos) {
@@ -138,8 +139,12 @@ public abstract class GameObject {
      */
     public abstract ITextureStrategy textureSelector(TextureSelector selector);
 
+    public void setRenderOrder(int renderOrder) {
+        this.renderOrder = renderOrder;
+    }
+
     /**
-     * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in {@link game.map.TileReader}
+     * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in TileReader
      * @param texture the texture for the {@link GameObject}
      */
     protected void setTexture(TextureHolder texture) {

@@ -1,10 +1,10 @@
 package render;
 
-import game.state.GameState;
 import controller.input.InputHandler;
+import game.state.GameState;
 import listeners.ListenerRegistrator;
+import render.game.camera.Camera;
 import util.Dimension;
-import util.positions.Pos;
 
 import java.awt.*;
 
@@ -17,10 +17,9 @@ public class VirtualView implements View {
     private double gameSize = 1.0d;
     private final Dimension windowsSize;
 
-    public VirtualView(int size, Dimension windowSize, Pos center) {
-        this.tileSize = size;
+    public VirtualView(int size, Dimension windowSize) {
+        this.tileSize = getTileSize();
         this.windowsSize = windowSize;
-        this.camera = new Camera(center, this);
     }
 
     @Override

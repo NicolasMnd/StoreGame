@@ -1,11 +1,14 @@
-package render;
+package render.game;
 
 import controller.input.InputHandler;
 import game.GameObject;
 import game.state.GameState;
 import listeners.ListenerRegistrator;
+import render.View;
+import render.game.camera.Camera;
+import render.game.load.RenderObjects;
+import render.game.load.RenderPlayer;
 import util.Dimension;
-import util.positions.Pos;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,13 +48,9 @@ public class GameView extends JPanel implements View {
     @Override
     public void update(GameState state) {
         if(this.camera == null)
-            this.camera = new Camera(state.getCameraPosition(), this);
+            this.camera = new Camera(state.getPlayer(), this);
 
         this.latestGameState = state;
-
-        // Update camera if necessary.
-        if(!state.getCameraPosition().equals(camera.getCenter()))
-            this.camera.updateCenter(state.getCameraPosition(), this);
 
     }
 
@@ -93,12 +92,8 @@ public class GameView extends JPanel implements View {
     private void renderGameState() {
         if(this.latestGameState == null) return;
 
-        for(GameObject[] oArr : camera.getRenderTiles(latestGameState.getTiles(), gameSize))
-            for(GameObject object : oArr)
-                if(object != null)
-                    draw(object);
-
-        draw(new RenderableGameObject(latestGameState.getPlayer(), new Pos(10+getWidth()/2, 14+getHeight()/2)));
+        for(GameObject object : new RenderObjects().getRenderObjects(latestGameState, camera))
+            draw(object);
 
         // DBUG
         // draw(latestGameState.getPlayer());
@@ -108,6 +103,7 @@ public class GameView extends JPanel implements View {
         graphics.setColor(Color.RED);
         this.graphics.drawString(latestGameState.getPlayer().getPosition().getFormat(), 10, 10);
         this.graphics.drawString(latestGameState.getPlayer().getHitbox().getPrint(), 10, 20);
+        new RenderStrategy().hitboxRenderer(new RenderPlayer().getRenderables(latestGameState, camera).getFirst()).render(graphics, 1d, 32);
 
     }
 

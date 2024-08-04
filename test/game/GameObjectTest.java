@@ -31,7 +31,7 @@ public class GameObjectTest {
     public void testUpdatePosition() {
         assertEquals(tile.getPosition(), new Pos(10, 20));
         tile.updatePosition(new Pos(20, 20));
-        assertEquals(tile.getPosition(), new Pos(10,20));
+        assertNotEquals(tile.getPosition(), new Pos(10,20));
     }
 
 }

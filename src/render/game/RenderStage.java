@@ -1,4 +1,4 @@
-package render;
+package render.game;
 
 public enum RenderStage {
 

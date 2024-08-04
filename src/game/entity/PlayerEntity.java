@@ -2,7 +2,7 @@ package game.entity;
 
 import game.GameObject;
 import listeners.IMoveValidity;
-import render.RenderStrategy;
+import render.game.RenderStrategy;
 import util.positions.Pos;
 import util.positions.Hitbox;
 import util.texture.TextureLoader;

@@ -96,6 +96,13 @@ public class GameState {
     }
 
     /**
+     * @return the size of each tile in pixels
+     */
+    public int getTileSize() {
+        return this.tileSize;
+    }
+
+    /**
      * Returns a listener of {@link Entity} objects to check if they are colliding with a {@link GameTile#getHitbox()}
      * Performance by looping through all tiles:    0.1ms  - 2ms   overhead
      *                checking only relevant tiles: 0.01ms - 0.1ms overhead
@@ -128,5 +135,6 @@ public class GameState {
             }
         };
     }
+
 
 }

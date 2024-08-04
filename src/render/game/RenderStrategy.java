@@ -1,4 +1,4 @@
-package render;
+package render.game;
 
 import game.GameObject;
 import util.positions.Pos;
