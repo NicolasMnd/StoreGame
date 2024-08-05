@@ -2,11 +2,13 @@ package render.game;
 
 import controller.input.InputHandler;
 import game.GameObject;
+import game.entity.PlayerEntity;
 import game.state.GameState;
 import listeners.ListenerRegistrator;
 import render.View;
 import render.game.camera.Camera;
 import render.game.load.RenderObjects;
+import render.game.renderorder.RenderStrategy;
 import render.game.renderorder.RenderableGameObject;
 import util.Dimension;
 
@@ -99,14 +101,7 @@ public class GameView extends JPanel implements View {
             draw(object);
         }
 
-        // DBUG
-        // draw(latestGameState.getPlayer());
-        //new RenderStrategy().renderHitbox(latestGameState.getPlayer().getHitbox()).render(graphics, getGameSize(), getTileSize());
-
-        graphics.setStroke(new BasicStroke(1f));
-        graphics.setColor(Color.RED);
-        this.graphics.drawString(latestGameState.getPlayer().getPosition().getFormat(), 10, 10);
-        this.graphics.drawString(latestGameState.getPlayer().getHitbox().getPrint(), 10, 20);
+        new RenderStrategy().renderCoordinates((PlayerEntity) latestGameState.getPlayer()).render(graphics, gameSize, tileSize);
 
     }
 

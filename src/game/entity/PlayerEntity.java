@@ -1,15 +1,12 @@
 package game.entity;
 
-import game.GameObject;
 import listeners.IMoveValidity;
 import render.game.renderorder.RenderStage;
 import render.game.renderorder.RenderStageSelector;
-import render.game.renderorder.RenderStrategy;
-import util.positions.Pos;
 import util.positions.Hitbox;
+import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
-import util.texture.textureinformation.IRender;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
@@ -52,11 +49,6 @@ public class PlayerEntity extends Entity {
     @Override
     protected void updateListener() {
         super.updateListener();
-    }
-
-    @Override
-    public IRender getRenderStrategy(GameObject object) {
-        return new RenderStrategy().imageRenderer(object);
     }
 
     @Override

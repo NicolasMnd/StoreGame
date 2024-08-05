@@ -34,18 +34,6 @@ public class RenderObjects {
 
         gameObjects.sort(Comparator.comparingInt(obj -> obj.getRenderStage().getStage()));
 
-        int i = 0;
-        for(RenderableGameObject element : gameObjects) {
-            if (element.toString().equals("T")) {
-                System.out.println("i: " + i + " -> shelf");
-                i++;
-            }
-            else if(element.toString().equals("player")) {
-                System.out.println("i: " + i + " -> player");
-                i++;
-            }
-        }
-
         return gameObjects;
 
     }
