@@ -2,7 +2,9 @@ package game.entity;
 
 import game.GameObject;
 import listeners.IMoveValidity;
-import render.game.RenderStrategy;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderStageSelector;
+import render.game.renderorder.RenderStrategy;
 import util.positions.Pos;
 import util.positions.Hitbox;
 import util.texture.TextureLoader;
@@ -43,6 +45,11 @@ public class PlayerEntity extends Entity {
     }
 
     @Override
+    public RenderStage renderStage(RenderStageSelector selector) {
+        return selector.getRenderStage(this);
+    }
+
+    @Override
     protected void updateListener() {
         super.updateListener();
     }
@@ -52,4 +59,8 @@ public class PlayerEntity extends Entity {
         return new RenderStrategy().imageRenderer(object);
     }
 
+    @Override
+    public String toString() {
+        return "player";
+    }
 }

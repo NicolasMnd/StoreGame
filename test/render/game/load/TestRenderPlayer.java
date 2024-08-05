@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import render.View;
 import render.VirtualView;
-import render.game.RenderStage;
+import render.game.renderorder.RenderStage;
 import render.game.camera.Camera;
 import util.Dimension;
 import util.positions.Pos;

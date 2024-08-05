@@ -1,6 +1,7 @@
 package game.tile;
 
-import render.game.RenderStage;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderStageSelector;
 import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
@@ -11,7 +12,6 @@ public class TileWall extends GameTile {
 
     public TileWall(Pos pos) {
         super(pos);
-        setRenderOrder(RenderStage.FOREGROUND);
     }
 
     @Override
@@ -27,6 +27,11 @@ public class TileWall extends GameTile {
     @Override
     public ITextureStrategy textureSelector(TextureSelector selector) {
         return selector.selectTexture(this);
+    }
+
+    @Override
+    public RenderStage renderStage(RenderStageSelector selector) {
+        return selector.getRenderStage(this);
     }
 
 }

@@ -1,4 +1,4 @@
-package render.game;
+package render.game.renderorder;
 
 import game.GameObject;
 import util.positions.Pos;
@@ -16,6 +16,7 @@ public class RenderableGameObject extends GameObject {
     
     private final GameObject parent;
     final Pos renderPosition;
+    RenderStage stage;
 
     public RenderableGameObject(GameObject parent, Pos renderPosition) {
         super(parent.getPosition());
@@ -24,6 +25,7 @@ public class RenderableGameObject extends GameObject {
         setTexture(parent.getTexture());
         this.setHeight(parent.getHeight());
         this.setWidth(parent.getWidth());
+        this.setRenderOrder(parent.renderStage(new RenderStageSelector()));
     }
 
     public RenderableGameObject(int tileSize, Pos renderPosition) {
@@ -33,6 +35,7 @@ public class RenderableGameObject extends GameObject {
         setTexture(textureLoader(new TextureLoader()).loadTexture());
         this.setHeight(32);
         this.setWidth(32);
+        this.setRenderOrder(RenderStage.BACKGROUND);
     }
 
     GameObject parent() {
@@ -57,6 +60,11 @@ public class RenderableGameObject extends GameObject {
     }
 
     @Override
+    public RenderStage renderStage(RenderStageSelector selector) {
+        return null;
+    }
+
+    @Override
     public IRender getRenderStrategy(GameObject object) {
         if(this.getTexture() == null)
             return new RenderStrategy().rectangleRenderer(this);
@@ -64,11 +72,18 @@ public class RenderableGameObject extends GameObject {
             return parent.getRenderStrategy(this);
     }
 
-    /**
-     * @return returns an integer
-     */
-    public int getRenderStage() {
-        return 0;
+    public void setRenderOrder(RenderStage stage) {
+        this.stage = stage;
+    }
+
+    public RenderStage getRenderStage() {
+        return this.stage;
+    }
+
+    @Override
+    public String toString() {
+        if(parent != null) return parent.toString();
+        return "Generic object";
     }
 
 }

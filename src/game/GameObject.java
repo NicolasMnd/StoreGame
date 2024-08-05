@@ -3,8 +3,9 @@ package game;
 import game.property.PropertyManager;
 import listeners.IGameSizeListener;
 import render.View;
-import render.game.RenderStage;
-import render.game.RenderStrategy;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderStageSelector;
+import render.game.renderorder.RenderStrategy;
 import util.Direction;
 import util.positions.Hitbox;
 import util.positions.Pos;
@@ -139,10 +140,6 @@ public abstract class GameObject {
      */
     public abstract ITextureStrategy textureSelector(TextureSelector selector);
 
-    public void setRenderOrder(RenderStage renderOrder) {
-        this.stage = renderOrder;
-    }
-
     /**
      * Sets the {@link TextureHolder} to the parameter. Used when applying the flyweight pattern in TileReader
      * @param texture the texture for the {@link GameObject}
@@ -165,6 +162,13 @@ public abstract class GameObject {
      */
     protected void setHeight(int height) {
         this.height = (int) (height * gameSizeListener.getSize());
+    }
+
+    public abstract RenderStage renderStage(RenderStageSelector selector);
+
+    @Override
+    public String toString() {
+        return "[" + this.getClass().getName() + ":" + this.pos + ":" + this.facing + "]";
     }
 
 }

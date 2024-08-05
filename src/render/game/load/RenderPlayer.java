@@ -1,10 +1,9 @@
 package render.game.load;
 
-import game.GameObject;
 import game.state.GameState;
 import game.tile.GameTile;
-import render.game.RenderStage;
-import render.game.RenderableGameObject;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderableGameObject;
 import render.game.camera.Camera;
 import util.positions.Hitbox;
 import util.positions.Pos;
@@ -16,7 +15,7 @@ import java.util.function.Function;
 public class RenderPlayer implements IHasRenderables {
 
     @Override
-    public List<GameObject> getRenderables(GameState state, Camera camera) {
+    public List<RenderableGameObject> getRenderables(GameState state, Camera camera) {
         RenderableGameObject object = new RenderableGameObject(state.getPlayer(), camera.getRenderPosition(state.getTiles()[0].length, state.getTiles().length));
         object.setRenderOrder(getRenderStage(state));
         return List.of(
@@ -52,10 +51,8 @@ public class RenderPlayer implements IHasRenderables {
         int startIndexX = Math.floorDiv(playerPosition.x(), 32);
         int startIndexY = Math.floorDiv(playerPosition.y(), 32);
 
-        int maxWidth = getMax(tiles, GameTile::getWidth) / state.getTileSize();
-        int maxHeight = getMax(tiles, GameTile::getHeight) / state.getTileSize();
-
-        System.out.println("Maxw: " + maxWidth + ", maxHeight: " + maxHeight);
+        int maxWidth = 1 + getMax(tiles, GameTile::getWidth) / state.getTileSize();
+        int maxHeight = 1 + getMax(tiles, GameTile::getHeight) / state.getTileSize();
 
         for(int i = -maxWidth; i <= maxWidth; i++)
             for(int j = -maxHeight; j <= maxHeight; j++)

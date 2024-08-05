@@ -4,8 +4,9 @@ import game.GameObject;
 import game.property.PropertyContainer;
 import game.property.PropertyPeer;
 import listeners.IContainerInteraction;
-import render.game.RenderStage;
-import render.game.RenderStrategy;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderStageSelector;
+import render.game.renderorder.RenderStrategy;
 import util.positions.Hitbox;
 import util.positions.Pos;
 import util.texture.TextureLoader;
@@ -21,7 +22,6 @@ public class TileShelf extends GameTile {
         this.getProperties().addProperty(new PropertyPeer(this));
         this.getProperties().addProperty(new PropertyContainer(this, containerNotifier));
         setHeight(128);
-        setRenderOrder(RenderStage.TILES);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TileShelf extends GameTile {
     public Hitbox getOverlapHitbox() {
         Pos pos = getPosition().clone();
         return new Hitbox(
-            pos.add(new Pos(0, getHeight() - 32)),
+            pos.add(new Pos(0, -getHeight() + 32)),
             pos.add(new Pos(getWidth(), 0))
         );
     }
@@ -59,4 +59,13 @@ public class TileShelf extends GameTile {
         return new RenderStrategy().doubleImage(object, new TileGround(object.getPosition()));
     }
 
+    @Override
+    public RenderStage renderStage(RenderStageSelector selector) {
+        return selector.getRenderStage(this);
+    }
+
+    @Override
+    public String toString() {
+        return "T";
+    }
 }

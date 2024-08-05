@@ -7,11 +7,12 @@ import listeners.ListenerRegistrator;
 import render.View;
 import render.game.camera.Camera;
 import render.game.load.RenderObjects;
-import render.game.load.RenderPlayer;
+import render.game.renderorder.RenderableGameObject;
 import util.Dimension;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * All graphic related items are processed here.
@@ -92,8 +93,11 @@ public class GameView extends JPanel implements View {
     private void renderGameState() {
         if(this.latestGameState == null) return;
 
-        for(GameObject object : new RenderObjects().getRenderObjects(latestGameState, camera))
+        List<RenderableGameObject> renderables = new RenderObjects().getRenderObjects(latestGameState, camera);
+
+        for(GameObject object : renderables) {
             draw(object);
+        }
 
         // DBUG
         // draw(latestGameState.getPlayer());
@@ -103,7 +107,6 @@ public class GameView extends JPanel implements View {
         graphics.setColor(Color.RED);
         this.graphics.drawString(latestGameState.getPlayer().getPosition().getFormat(), 10, 10);
         this.graphics.drawString(latestGameState.getPlayer().getHitbox().getPrint(), 10, 20);
-        new RenderStrategy().hitboxRenderer(new RenderPlayer().getRenderables(latestGameState, camera).getFirst()).render(graphics, 1d, 32);
 
     }
 

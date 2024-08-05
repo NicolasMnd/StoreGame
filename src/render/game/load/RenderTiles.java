@@ -3,7 +3,7 @@ package render.game.load;
 import game.GameObject;
 import game.state.GameState;
 import game.tile.GameTile;
-import render.game.RenderableGameObject;
+import render.game.renderorder.RenderableGameObject;
 import render.game.camera.Camera;
 import util.positions.Hitbox;
 import util.positions.Pos;
@@ -14,7 +14,7 @@ import java.util.List;
 class RenderTiles implements IHasRenderables {
 
     @Override
-    public List<GameObject> getRenderables(GameState state, Camera camera) {
+    public List<RenderableGameObject> getRenderables(GameState state, Camera camera) {
         return getRenderTiles(camera.getRealCamera(state.getTiles()[0].length, state.getTiles().length), state.getTiles(), state.getTileSize());
     }
 
@@ -23,7 +23,7 @@ class RenderTiles implements IHasRenderables {
      * [50,000 -> 500,000] nanoseconds time consumption Mostly around 100-200k
      * @return a double array of {@link RenderableGameObject} objects
      */
-    public List<GameObject> getRenderTiles(Hitbox camera, GameTile[][] originalMap, int tileSize) {
+    public List<RenderableGameObject> getRenderTiles(Hitbox camera, GameTile[][] originalMap, int tileSize) {
 
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
         int xResidu = camera.getCenterPos().x() % tileSize;
@@ -37,7 +37,7 @@ class RenderTiles implements IHasRenderables {
         int jEnd = floor(camera.getLowerright().x(), tileSize) + spacing;
 
         // We create a list with all our possible tiles
-        List<GameObject> tiles = new ArrayList<>();
+        List<RenderableGameObject> tiles = new ArrayList<>();
 
         // Helper variables
         int count = 0;
