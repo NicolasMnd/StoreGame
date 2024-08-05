@@ -1,12 +1,12 @@
 package game.tile;
 
-import game.GameObject;
 import game.property.PropertyContainer;
 import game.property.PropertyPeer;
 import listeners.IContainerInteraction;
 import render.game.renderorder.RenderStage;
 import render.game.renderorder.RenderStageSelector;
 import render.game.renderorder.RenderStrategy;
+import game.ScreenObject;
 import util.positions.Hitbox;
 import util.positions.Pos;
 import util.texture.TextureLoader;
@@ -55,9 +55,10 @@ public class TileShelf extends GameTile {
     }
 
     @Override
-    public IRender getRenderStrategy(GameObject object) {
+    public IRender getRenderStrategy(ScreenObject object) {
         return new RenderStrategy().doubleImage(object, new TileGround(object.getPosition()));
     }
+
 
     @Override
     public RenderStage renderStage(RenderStageSelector selector) {

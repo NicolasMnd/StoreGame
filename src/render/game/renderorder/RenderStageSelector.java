@@ -5,6 +5,9 @@ import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
 
+/**
+ * Visitor for Game Objects. This allows them to retrieve a base setting for their render stage.
+ */
 public class RenderStageSelector {
 
     public RenderStage getRenderStage(TileGround ground) {

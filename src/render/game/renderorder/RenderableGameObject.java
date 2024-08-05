@@ -1,6 +1,7 @@
 package render.game.renderorder;
 
 import game.GameObject;
+import game.ScreenObject;
 import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
@@ -65,7 +66,7 @@ public class RenderableGameObject extends GameObject {
     }
 
     @Override
-    public IRender getRenderStrategy(GameObject object) {
+    public IRender getRenderStrategy(ScreenObject object) {
         if(this.getTexture() == null)
             return new RenderStrategy().rectangleRenderer(this);
         else
