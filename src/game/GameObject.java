@@ -2,12 +2,12 @@ package game;
 
 import game.property.PropertyManager;
 import listeners.IGameSizeListener;
-import render.game.RenderStrategy;
-import render.game.RenderableGameObject;
 import render.View;
+import render.game.RenderStage;
+import render.game.RenderStrategy;
 import util.Direction;
-import util.positions.Pos;
 import util.positions.Hitbox;
+import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureHolder;
 import util.texture.comp.TextureSelector;
@@ -22,7 +22,7 @@ public abstract class GameObject {
     private Direction facing;
     private final PropertyManager properties;
     private int width, height;
-    private int renderOrder = 1;
+    private RenderStage stage;
     private IGameSizeListener gameSizeListener;
 
     public GameObject(Pos pos) {
@@ -115,7 +115,7 @@ public abstract class GameObject {
 
     /**
      * Get render strategy.
-     * Watch out, by passing 'this' object you will get the real map positions. The {@link RenderableGameObject} will make sure to put relative positions in respect to the player position...
+     * Watch out, by passing 'this' object you will get the real map positions. The RenderableGameObject will make sure to put relative positions in respect to the player position...
      */
     public IRender getRenderStrategy(GameObject object) {
         return new RenderStrategy().imageRenderer(object);
@@ -139,8 +139,8 @@ public abstract class GameObject {
      */
     public abstract ITextureStrategy textureSelector(TextureSelector selector);
 
-    public void setRenderOrder(int renderOrder) {
-        this.renderOrder = renderOrder;
+    public void setRenderOrder(RenderStage renderOrder) {
+        this.stage = renderOrder;
     }
 
     /**

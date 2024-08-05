@@ -10,7 +10,6 @@ import listeners.IMoveValidity;
 import listeners.ListenerRegistrator;
 import util.*;
 import util.positions.Hitbox;
-import util.positions.Pos;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -45,13 +44,6 @@ public class GameState {
      */
     public Entity getPlayer() {
         return this.player;
-    }
-
-    /**
-     * Determines the player position
-     */
-    public Pos getCameraPosition() {
-        return this.player.getPosition();
     }
 
     /**
@@ -135,6 +127,7 @@ public class GameState {
             }
         };
     }
+
 
 
 }

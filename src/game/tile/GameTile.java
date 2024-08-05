@@ -2,6 +2,7 @@ package game.tile;
 
 import game.GameObject;
 import util.Direction;
+import util.positions.Hitbox;
 import util.positions.Pos;
 
 public abstract class GameTile extends GameObject {
@@ -18,6 +19,13 @@ public abstract class GameTile extends GameObject {
      */
     public boolean canCollide() {
         return true;
+    }
+
+    /**
+     * @return a {@link Hitbox} that represents the space where the player walks behind the object.
+     */
+    public Hitbox getOverlapHitbox() {
+        return null;
     }
 
 }

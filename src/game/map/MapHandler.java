@@ -6,6 +6,7 @@ import listeners.IGameSizeListener;
 import util.Dimension;
 import util.FileHelper;
 import util.Pair;
+import util.annotation.ExecutionTime;
 
 import java.util.function.Consumer;
 
@@ -37,6 +38,7 @@ public class MapHandler {
      * Reads a map on disk & transforms it to a {@link GameTile} matrix
      * @return a {@link GameTile} matrix
      */
+    @ExecutionTime
     public GameTile[][] readMap() {
         readLines(reader, mapName);
         ShelfLinker linker = new ShelfLinker(reader.getTiles(), tileSize);

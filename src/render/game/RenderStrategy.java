@@ -105,17 +105,17 @@ public class RenderStrategy {
 
     public IRender doubleImage(GameObject first, GameObject second) {
         return (graphics, gameSize, tileSize) -> {
+            Pos firstPosition = first.getPosition().clone();
             Pos drawPosition = first.getPosition();
             drawPosition.addY(-first.getHeight() + tileSize);
-            System.out.println("Pos: " + first.getPosition().getFormat());
             graphics.drawImage(
                     second.textureSelector(new TextureSelector()).retrieveTexture(),
-                    (int) (first.getPosition().x()),
-                    (int) (first.getPosition().y() + first.getHeight()),
+                    (int) (firstPosition.x()),
+                    (int) (firstPosition.y()),
                     (int) (second.getWidth()*gameSize),
                     (int) (second.getHeight()*gameSize),
                     null
-            );/*
+            );
             graphics.drawImage(
                     first.textureSelector(new TextureSelector()).retrieveTexture(),
                     (int) (drawPosition.x()),
@@ -123,7 +123,7 @@ public class RenderStrategy {
                     (int) (first.getWidth()*gameSize),
                     (int) (first.getHeight()*gameSize),
                     null
-            );*/
+            );
         };
     }
 

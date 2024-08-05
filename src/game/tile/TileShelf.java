@@ -4,6 +4,7 @@ import game.GameObject;
 import game.property.PropertyContainer;
 import game.property.PropertyPeer;
 import listeners.IContainerInteraction;
+import render.game.RenderStage;
 import render.game.RenderStrategy;
 import util.positions.Hitbox;
 import util.positions.Pos;
@@ -20,12 +21,22 @@ public class TileShelf extends GameTile {
         this.getProperties().addProperty(new PropertyPeer(this));
         this.getProperties().addProperty(new PropertyContainer(this, containerNotifier));
         setHeight(128);
+        setRenderOrder(RenderStage.TILES);
     }
 
     @Override
     public Hitbox getHitbox() {
-        Pos pos = getPosition().add(new Pos(0, -96));
-        return new Hitbox(pos, pos.add(new Pos(getWidth(), getHeight() - 32)));
+        Pos pos = getPosition().add(new Pos(0, 0));
+        return new Hitbox(pos, pos.add(new Pos(getWidth(), 2)));
+    }
+
+    @Override
+    public Hitbox getOverlapHitbox() {
+        Pos pos = getPosition().clone();
+        return new Hitbox(
+            pos.add(new Pos(0, getHeight() - 32)),
+            pos.add(new Pos(getWidth(), 0))
+        );
     }
 
     @Override

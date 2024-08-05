@@ -1,5 +1,6 @@
 package game.tile;
 
+import render.game.RenderStage;
 import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
@@ -10,6 +11,7 @@ public class TileGround extends GameTile {
 
     public TileGround(Pos pos) {
         super(pos);
+        setRenderOrder(RenderStage.BACKGROUND);
     }
 
     @Override

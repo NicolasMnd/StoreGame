@@ -16,7 +16,6 @@ public class RenderableGameObject extends GameObject {
     
     private final GameObject parent;
     final Pos renderPosition;
-    private int tileSize = 0;
 
     public RenderableGameObject(GameObject parent, Pos renderPosition) {
         super(parent.getPosition());
@@ -29,7 +28,6 @@ public class RenderableGameObject extends GameObject {
 
     public RenderableGameObject(int tileSize, Pos renderPosition) {
         super(null);
-        this.tileSize = tileSize;
         this.parent = null;
         this.renderPosition = renderPosition;
         setTexture(textureLoader(new TextureLoader()).loadTexture());

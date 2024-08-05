@@ -28,5 +28,6 @@
     <orderEntry type="library" name="misterL" level="project" />
     <orderEntry type="library" name="io.github.btj.termios-0.9" level="project" />
     <orderEntry type="library" name="misterF" level="project" />
+    <orderEntry type="library" name="springframework.spring.aspects" level="project" />
   </component>
 </module>
