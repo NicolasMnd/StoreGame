@@ -5,6 +5,7 @@ import game.item.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
+import render.screen.PlayerArrow;
 import util.texture.textureinformation.ITextureStrategy;
 import util.texture.textureinformation.PlayerTextureInformation;
 import util.texture.textureinformation.ShelfTextureInformation;
@@ -29,6 +30,10 @@ public class TextureSelector {
 
     public ITextureStrategy selectTexture(PlayerEntity player) {
         return new PlayerTextureInformation(player);
+    }
+
+    public ITextureStrategy selectTexture(PlayerArrow arrow) {
+        return () -> ((Texture) arrow.getTexture()).getImage();
     }
 
 }

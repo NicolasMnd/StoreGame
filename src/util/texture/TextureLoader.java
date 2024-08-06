@@ -4,6 +4,7 @@ import game.entity.PlayerEntity;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
+import render.screen.PlayerArrow;
 import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.PlayerTextureInformation;
@@ -32,6 +33,10 @@ public class TextureLoader {
 
     public ITextureLoader loadTexture(PlayerEntity player) {
         return new PlayerTextureInformation(player);
+    }
+
+    public ITextureLoader loadTexture(PlayerArrow arrow) {
+        return () -> new Texture(new File("resources/ui/arrow_down.png"));
     }
 
 }
