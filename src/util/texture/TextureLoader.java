@@ -4,7 +4,7 @@ import game.entity.PlayerEntity;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
-import render.screen.PlayerArrow;
+import render.screen.effect.player.PlayerArrow;
 import util.texture.comp.Texture;
 import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.PlayerTextureInformation;

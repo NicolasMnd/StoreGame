@@ -4,7 +4,7 @@ import game.entity.Entity;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
-import render.screen.PlayerArrow;
+import render.screen.effect.player.PlayerArrow;
 
 /**
  * Visitor for Game Objects. This allows them to retrieve a base setting for their render stage.

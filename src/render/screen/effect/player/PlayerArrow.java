@@ -1,4 +1,4 @@
-package render.screen;
+package render.screen.effect.player;
 
 import game.ScreenObject;
 import game.entity.PlayerEntity;

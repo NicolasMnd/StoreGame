@@ -26,6 +26,13 @@ public abstract class ScreenObject {
         this.gameSizeListener = () -> 1d;
     }
 
+    private ScreenObject(Pos p, int width, int height, TextureHolder holder) {
+        this.position = p;
+        this.width = width;
+        this.height = height;
+        this.texture = holder;
+    }
+
     /**
      * Allows subclasses to implement update position behaviour.
      *

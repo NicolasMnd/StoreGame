@@ -5,7 +5,7 @@ import game.item.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
-import render.screen.PlayerArrow;
+import render.screen.effect.player.PlayerArrow;
 import util.texture.textureinformation.ITextureStrategy;
 import util.texture.textureinformation.PlayerTextureInformation;
 import util.texture.textureinformation.ShelfTextureInformation;

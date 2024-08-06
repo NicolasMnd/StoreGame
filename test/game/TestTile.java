@@ -1,6 +1,8 @@
 package game;
 
 import game.tile.GameTile;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderStageSelector;
 import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureSelector;
@@ -25,6 +27,11 @@ public class TestTile extends GameTile {
     @Override
     public ITextureStrategy textureSelector(TextureSelector selector) {
         return () -> null;
+    }
+
+    @Override
+    public RenderStage renderStage(RenderStageSelector selector) {
+        return null;
     }
 
 }
