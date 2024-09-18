@@ -2,24 +2,40 @@ package render.screen.effect.player;
 
 import game.ScreenObject;
 import util.positions.Pos;
+import util.texture.animation.AnimationStopCondition;
 import util.texture.animation.MultiplePositionAnimation;
 
 import java.util.List;
 
 public class PlayerArrowAnimation extends MultiplePositionAnimation {
 
-    public PlayerArrowAnimation(ScreenObject object) {
-        super(object, List.of(
-                object.getPosition(),
-                object.getPosition().add(new Pos(0, 3)),
-                object.getPosition().add(new Pos(0, 6)),
-                object.getPosition().add(new Pos(0, 9)),
-                object.getPosition().add(new Pos(0, 6)),
-                object.getPosition().add(new Pos(0, 3)),
-                object.getPosition()
-            ),
-                List.of(300, 300, 300, 300, 300, 300, 300)
+    private static final int INTERVAL = 10, BOUNCE = 15;
+
+    public PlayerArrowAnimation(ScreenObject player) {
+        super(player::getPosition,
+                List.of(
+                    new Pos(0, -BOUNCE),
+                    new Pos(0, BOUNCE),
+                    new Pos(0, -BOUNCE),
+                    new Pos(0, BOUNCE),
+                    new Pos(0, -BOUNCE),
+                    new Pos(0, BOUNCE)
+                ),
+                List.of(INTERVAL, INTERVAL, INTERVAL, INTERVAL, INTERVAL, INTERVAL),
+                player.hashCode()
         );
+    }
+
+    @Override
+    public ScreenObject getScreenObject() {
+        PlayerArrow arrow = new PlayerArrow();
+        arrow.updatePosition(getCurrentPosition().add(new Pos(0, -32)));
+        return arrow;
+    }
+
+    @Override
+    public boolean stopAnimation(AnimationStopCondition condition) {
+        return condition.stopAnimation(this);
     }
 
 }

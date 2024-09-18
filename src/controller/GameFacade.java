@@ -16,6 +16,8 @@ import java.util.function.Consumer;
  * Currently, this class will take care of:
  *   1) Creating the swing view
  *   2) Enabling mouse listeners
+ *   3) Passing commands
+ *   4) Ticking
  */
 public class GameFacade {
 
@@ -29,13 +31,14 @@ public class GameFacade {
         this.taskManager = new TaskManager();
         this.view = new GameView(TILE_SIZE, windowSize);
         this.state = new GameState(TILE_SIZE, windowSize, view::getGameSize);
+        state.subscribeAnimationListener(this.taskManager.animationEventManager.getListener());
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
         view.registerListener(state.close());
     }
 
     private void tick() {
-        taskManager.updateTickables(state);
+        taskManager.processEvents(state);
     }
 
     public void leftClicked(int x, int y) {
@@ -73,7 +76,6 @@ public class GameFacade {
      * Updates the {@link GameState} to the {@link GameView}
      */
     public void update() {
-        this.taskManager.updateTickables(this.state);
         this.view.update(this.state);
         tick();
     }

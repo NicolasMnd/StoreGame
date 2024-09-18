@@ -1,5 +1,6 @@
 package game.entity;
 
+import listeners.IAnimationListener;
 import listeners.IMoveValidity;
 import render.game.renderorder.RenderStage;
 import render.game.renderorder.RenderStageSelector;
@@ -14,8 +15,8 @@ public class PlayerEntity extends Entity {
 
     private final int PLAYER_SPEED;
 
-    public PlayerEntity(Pos pos, IMoveValidity listener) {
-        super(pos, 4, listener);
+    public PlayerEntity(Pos pos, IMoveValidity listener, IAnimationListener animationListener) {
+        super(pos, 4, listener, animationListener);
         this.PLAYER_SPEED = 4;
     }
 

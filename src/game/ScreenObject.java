@@ -5,6 +5,7 @@ import render.View;
 import render.game.renderorder.RenderStage;
 import render.game.renderorder.RenderStageSelector;
 import render.game.renderorder.RenderStrategy;
+import util.positions.Hitbox;
 import util.positions.Pos;
 import util.texture.TextureLoader;
 import util.texture.comp.TextureHolder;
@@ -60,6 +61,14 @@ public abstract class ScreenObject {
 
     public IRender getRenderStrategy(ScreenObject screenObject) {
         return new RenderStrategy().imageRenderer(screenObject);
+    }
+
+    /**
+     * returns the {@link Hitbox} of this object
+     * @return the {@link Hitbox} object
+     */
+    public Hitbox getHitbox() {
+        return new Hitbox(this.getPosition(), this.getPosition().add(new Pos(width, height)));
     }
 
     /**

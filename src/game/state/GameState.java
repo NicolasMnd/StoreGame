@@ -5,14 +5,18 @@ import game.entity.Entity;
 import game.entity.PlayerEntity;
 import game.map.MapRotator;
 import game.tile.GameTile;
+import listeners.IAnimationListener;
 import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
 import listeners.ListenerRegistrator;
 import util.*;
 import util.positions.Hitbox;
+import util.texture.animation.Animation;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Game State contains all main aspects of the game.
@@ -30,12 +34,14 @@ public class GameState {
     final Dimension windowSize;
     private final Logger performanceLogger = new Logger("Check collision");
     final IGameSizeListener gameSizeListener;
+    List<IAnimationListener> animationListeners;
     //private Entity[] entities;
 
     public GameState(int tileSize, Dimension windowsSize, IGameSizeListener gameSizeListener) {
         this.tileSize = tileSize;
         this.windowSize = windowsSize;
         this.gameSizeListener = gameSizeListener;
+        this.animationListeners = new ArrayList<>();
         init();
     }
 
@@ -95,6 +101,28 @@ public class GameState {
     }
 
     /**
+     * @return the dimension of the {@link GameState#getTiles()} array.
+     */
+    public Dimension getMapDimensions() {
+        return new Dimension(tiles[0].length, tiles.length);
+    }
+
+    /**
+     * Notifies to render a {@link render.game.load.RenderAnimations}
+     * @param animation the animation to be rendered
+     */
+    public void startAnimation(Animation animation) {
+        for(IAnimationListener listener : this.animationListeners)
+            listener.startAnimation(animation);
+    }
+
+    public List<Animation> getAnimations() {
+        for(IAnimationListener listener : this.animationListeners)
+            return listener.getAnimations();
+        return null;
+    }
+
+    /**
      * Returns a listener of {@link Entity} objects to check if they are colliding with a {@link GameTile#getHitbox()}
      * Performance by looping through all tiles:    0.1ms  - 2ms   overhead
      *                checking only relevant tiles: 0.01ms - 0.1ms overhead
@@ -128,6 +156,12 @@ public class GameState {
         };
     }
 
-
+    /**
+     * Lets this object pass animations to the {@link controller.GameFacade}
+     * @param listener the listener
+     */
+    public void subscribeAnimationListener(IAnimationListener listener) {
+        this.animationListeners.add(listener);
+    }
 
 }

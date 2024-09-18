@@ -27,7 +27,7 @@ public class RenderStrategy {
         };
     }
 
-    public IRender rectangleRenderer(GameObject object) {
+    public IRender rectangleRenderer(ScreenObject object) {
         return (graphics, gameSize, tileSize) -> {
             graphics.setStroke(new BasicStroke(5));
             Pos drawPosition = object.getPosition();

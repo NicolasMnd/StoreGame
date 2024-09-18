@@ -1,6 +1,5 @@
 package util.texture.animation;
 
-import game.TestTile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import util.positions.Pos;
@@ -9,79 +8,110 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestMultiplePositionAnimation {
+public class TestMultiplePositionAnimation extends TestPositionAnimation {
 
-    MultiplePositionAnimation animation;
-    TestTile tile;
+    MultiplePositionAnimation multiplePositionAnimation;
+    MultiplePositionAnimation movingAnimation;
+    Pos movingEntity;
 
     @BeforeEach
     public void init() {
-        tile = new TestTile(new Pos(0, 0));
-        this.animation = new MultiplePositionAnimation(tile, List.of(new Pos(10, 10), new Pos(10, 20), new Pos(0, 20), new Pos(0, 10), new Pos(0, 0)),
-                                                             List.of(10                   , 10                   , 10                  , 10                  , 10 ));
-        animation.animate();
+
+        multiplePositionAnimation = new MultiplePositionAnimation(
+                getRelative(),
+                List.of(
+                        new Pos(0, 100),
+                        new Pos(100, 0),
+                        new Pos(0, -100),
+                        new Pos(-100, 0)
+                ),
+                List.of(
+                        100, 100, 100, 100
+                ),
+                100
+        );
+
+        movingAnimation = new MultiplePositionAnimation(
+                () -> movingEntity,
+                List.of(
+                        new Pos(0, 100),
+                        new Pos(100, 0),
+                        new Pos(0, -100),
+                        new Pos(-100, 0)
+                ),
+                List.of(
+                        100, 100, 100, 100
+                ),
+                100
+        );
+
     }
 
     @Test
-    public void testMultiplePosition_FirstMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 9);
-        assertEquals(new Pos(9, 9), animation.getScreenObject().getPosition());
+    public void testSum2() {
+        tick(multiplePositionAnimation, 101);
+        assertEquals(new Pos(0, 100), multiplePositionAnimation.sum());
     }
 
     @Test
-    public void testMultiplePosition_EndFirstMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 10);
-        assertEquals(new Pos(10, 10), animation.getScreenObject().getPosition());
+    public void testSum3() {
+        tick(multiplePositionAnimation, 200);
+        assertEquals(new Pos(100, 100), multiplePositionAnimation.sum());
     }
 
     @Test
-    public void testMultiplePosition_BeginSecondMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 10);
-        new TestTextureAnimation().tick(() -> animation.tick(), 1);
-        assertEquals(new Pos(10, 11), animation.getScreenObject().getPosition());
+    public void testMovementUp_50() {
+        tick(multiplePositionAnimation, 50);
+        assertEquals(new Pos(0, 50), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_EndSecondMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 20);
-        assertEquals(new Pos(10, 20), animation.getScreenObject().getPosition());
+    public void testMovementUp_100() {
+        tick(multiplePositionAnimation, 100);
+        assertEquals(new Pos(0, 100), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_BeginThirdMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 21);
-        assertEquals(new Pos(9, 20), animation.getScreenObject().getPosition());
+    public void testMovementRight_50() {
+        tick(multiplePositionAnimation, 150);
+        assertEquals(new Pos(50, 100), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_EndThirdMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 30);
-        assertEquals(new Pos(0, 20), animation.getScreenObject().getPosition());
+    public void testMovementRight_100() {
+        tick(multiplePositionAnimation, 200);
+        assertEquals(new Pos(100, 100), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_BeginFourthMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 31);
-        assertEquals(new Pos(0, 19), animation.getScreenObject().getPosition());
+    public void testMovementRightDown_50() {
+        tick(multiplePositionAnimation, 250);
+        assertEquals(new Pos(100, 50), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_EndFourthMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 40);
-        assertEquals(new Pos(0, 10), animation.getScreenObject().getPosition());
+    public void testMovementRightDown_100() {
+        tick(multiplePositionAnimation, 300);
+        assertEquals(new Pos(100, 0), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_BeginFifthMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 41);
-        assertEquals(new Pos(0, 9), animation.getScreenObject().getPosition());
+    public void testMovementLeftDown_50() {
+        tick(multiplePositionAnimation, 350);
+        assertEquals(new Pos(50, 0), multiplePositionAnimation.getCurrentPosition());
     }
 
     @Test
-    public void testMultiplePosition_EndFifthMovement() {
-        new TestTextureAnimation().tick(() -> animation.tick(), 50);
-        assertEquals(new Pos(0, 0), animation.getScreenObject().getPosition());
+    public void testMovementLeftDown_100() {
+        tick(multiplePositionAnimation, 400);
+        assertEquals(new Pos(0, 0), multiplePositionAnimation.getCurrentPosition());
     }
 
+    @Test
+    public void testMovingAnimation_Up() {
+        tick(movingAnimation, 40);
+        this.movingEntity = new Pos(10, 11);
+        assertEquals(this.movingEntity.add(new Pos(0, 40)), movingAnimation.getCurrentPosition());
+    }
 
 }

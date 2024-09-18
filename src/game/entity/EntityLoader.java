@@ -29,7 +29,7 @@ public class EntityLoader {
     public Entity addEntity(EntityType type, Pos spawnPosition) {
         switch(type) {
             case PLAYER:
-                return new PlayerEntity(spawnPosition, this.positionValidityListener);
+                return new PlayerEntity(spawnPosition, this.positionValidityListener, null);
             case CUSTOMER:
                 break;
         }

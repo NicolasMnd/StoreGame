@@ -3,8 +3,8 @@ package render.game.load;
 import game.GameObject;
 import game.state.GameState;
 import game.tile.GameTile;
-import render.game.renderorder.RenderableGameObject;
 import render.game.camera.Camera;
+import render.game.renderorder.RenderableScreenObject;
 import util.positions.Hitbox;
 import util.positions.Pos;
 
@@ -14,16 +14,16 @@ import java.util.List;
 class RenderTiles implements IHasRenderables {
 
     @Override
-    public List<RenderableGameObject> getRenderables(GameState state, Camera camera) {
-        return getRenderTiles(camera.getRealCamera(state.getTiles()[0].length, state.getTiles().length), state.getTiles(), state.getTileSize());
+    public List<RenderableScreenObject> getRenderables(GameState state, Camera camera) {
+        return getRenderTiles(camera.getRealCamera(state.getMapDimensions()), state.getTiles(), state.getTileSize());
     }
 
     /**
-     * Retrieves a list of {@link RenderableGameObject} objects, which has render positions.
+     * Retrieves a list of {@link RenderableScreenObject} objects, which has render positions.
      * [50,000 -> 500,000] nanoseconds time consumption Mostly around 100-200k
-     * @return a double array of {@link RenderableGameObject} objects
+     * @return a double array of {@link RenderableScreenObject} objects
      */
-    public List<RenderableGameObject> getRenderTiles(Hitbox camera, GameTile[][] originalMap, int tileSize) {
+    public List<RenderableScreenObject> getRenderTiles(Hitbox camera, GameTile[][] originalMap, int tileSize) {
 
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
         int xResidu = camera.getCenterPos().x() % tileSize;
@@ -37,7 +37,7 @@ class RenderTiles implements IHasRenderables {
         int jEnd = floor(camera.getLowerright().x(), tileSize) + spacing;
 
         // We create a list with all our possible tiles
-        List<RenderableGameObject> tiles = new ArrayList<>();
+        List<RenderableScreenObject> tiles = new ArrayList<>();
 
         // Helper variables
         int count = 0;
@@ -51,10 +51,10 @@ class RenderTiles implements IHasRenderables {
                 Pos drawPos = new Pos((screenX * tileSize) - xResidu, (screenY * tileSize) - yResidu);
 
                 if (i >= 0 && j >= 0 && i < originalMap.length && j < originalMap[i].length) {
-                    tiles.add(new RenderableGameObject(originalMap[i][j], drawPos));
+                    tiles.add(new RenderableScreenObject(originalMap[i][j], drawPos));
                 }
                 else {
-                    tiles.add(new RenderableGameObject(tileSize, drawPos));
+                    tiles.add(new RenderableScreenObject(tileSize, drawPos));
                 }
 
                 screenX += 1;

@@ -9,7 +9,7 @@ import render.View;
 import render.game.camera.Camera;
 import render.game.load.RenderObjects;
 import render.game.renderorder.RenderStrategy;
-import render.game.renderorder.RenderableGameObject;
+import render.game.renderorder.RenderableScreenObject;
 import util.Dimension;
 
 import javax.swing.*;
@@ -95,13 +95,17 @@ public class GameView extends JPanel implements View {
     private void renderGameState() {
         if(this.latestGameState == null) return;
 
-        List<RenderableGameObject> renderables = new RenderObjects().getRenderObjects(latestGameState, camera);
+        List<RenderableScreenObject> renderables = new RenderObjects().getRenderObjects(latestGameState, camera);
 
-        for(GameObject object : renderables) {
+        for(int i = 0; i < renderables.size(); i++) {
+            RenderableScreenObject object = renderables.get(i);
             draw(object);
+            if(object.toString().contains("render.screen.effect.player.PlayerArrow"))
+                System.out.println("Printin arrow at " + object.getPosition().getFormat() + " in order " + i + " of " + renderables.size());
         }
 
         new RenderStrategy().renderCoordinates((PlayerEntity) latestGameState.getPlayer()).render(graphics, gameSize, tileSize);
+
 
     }
 
@@ -109,7 +113,7 @@ public class GameView extends JPanel implements View {
      * Draws a given {@link GameObject}
      * @param object an object to be printed
      */
-    private void draw(GameObject object) {
+    private void draw(RenderableScreenObject object) {
         object.getRenderStrategy(object).render(graphics, gameSize, tileSize);
     }
 

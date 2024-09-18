@@ -1,19 +1,20 @@
 package render.game.camera;
 
-import game.GameObject;
+import game.ScreenObject;
 import render.View;
+import util.Dimension;
 import util.Logger;
 import util.positions.Hitbox;
 import util.positions.Pos;
 
 public class Camera {
 
-    private GameObject focused;
+    private ScreenObject focused;
     private final int tileSize;
     private int cameraHeight, cameraWidth;
     private Logger logger = new Logger("render times");
 
-    public Camera(GameObject focused, View view) {
+    public Camera(ScreenObject focused, View view) {
         this.focused = focused;
         this.tileSize = view.getTileSize();
         this.cameraWidth = view.getDimension().getWidth();
@@ -40,18 +41,19 @@ public class Camera {
      * Updates the {@link Hitbox}
      * @param object the new focused object
      */
-    public void focus(GameObject object) {
+    public void focus(ScreenObject object) {
         this.focused = object;
     }
 
     /**
      * @return the render {@link Pos} for the focused object.
      */
-    public Pos getRenderPosition(int lengthRow, int lengthColumn) {
-        Hitbox realCamera = getRealCamera(lengthRow, lengthColumn);
+    public Pos getRenderPositionFocused(Dimension dimension) {
+        Hitbox realCamera = getRealCamera(dimension);
 
         // If clamping on bounds was not necessary
         if(this.focused.getPosition().equals(realCamera.getCenterPos()))
+
             return new Pos(cameraWidth/2, cameraHeight/2);
 
         else {
@@ -62,6 +64,10 @@ public class Camera {
 
         }
 
+    }
+
+    public Pos getRenderPosition(Pos pos, Dimension mapSize) {
+        return pos.subtract(this.getRealCamera(mapSize).getUpperleft());
     }
 
     /**
@@ -77,12 +83,13 @@ public class Camera {
 
     /**
      * Returns the real camera, which is clamped to the bounds of the map.
-     * @param lengthRow the max amount of X
-     * @param lengthColumn the max amount of Y
+     * @param mapSize the dimensions of the tile map
      * @return a {@link Hitbox} that is clamped to the bounds of the map
      */
-    public Hitbox getRealCamera(int lengthRow, int lengthColumn) {
+    public Hitbox getRealCamera(Dimension mapSize) {
 
+        int lengthRow = mapSize.getHeight();
+        int lengthColumn = mapSize.getWidth();
         Hitbox hitBox = getCameraOverlap();
 
         int adjustedUpperX = hitBox.getUpperleft().x();

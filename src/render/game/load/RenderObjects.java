@@ -3,7 +3,7 @@ package render.game.load;
 import game.GameObject;
 import game.state.GameState;
 import render.game.camera.Camera;
-import render.game.renderorder.RenderableGameObject;
+import render.game.renderorder.RenderableScreenObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,7 +16,8 @@ public class RenderObjects {
     public RenderObjects() {
         this.renderables = List.of(
                 new RenderTiles(),
-                new RenderPlayer()
+                new RenderPlayer(),
+                new RenderAnimations()
         );
     }
 
@@ -25,9 +26,9 @@ public class RenderObjects {
      * @param state the game state to be rendered
      * @return a list of {@link GameObject}s that should be rendered on the screen
      */
-    public List<RenderableGameObject> getRenderObjects(GameState state, Camera camera) {
+    public List<RenderableScreenObject> getRenderObjects(GameState state, Camera camera) {
 
-        List<RenderableGameObject> gameObjects = new ArrayList<>();
+        List<RenderableScreenObject> gameObjects = new ArrayList<>();
 
         for(IHasRenderables element : renderables)
             gameObjects.addAll(element.getRenderables(state, camera));

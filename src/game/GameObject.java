@@ -2,7 +2,6 @@ package game;
 
 import game.property.PropertyManager;
 import util.Direction;
-import util.positions.Hitbox;
 import util.positions.Pos;
 
 public abstract class GameObject extends ScreenObject {
@@ -37,14 +36,6 @@ public abstract class GameObject extends ScreenObject {
      */
     public PropertyManager getProperties() {
         return this.properties;
-    }
-
-    /**
-     * returns the {@link Hitbox} of this object
-     * @return the {@link Hitbox} object
-     */
-    public Hitbox getHitbox() {
-        return new Hitbox(this.getPosition(), this.getPosition().add(new Pos(width, height)));
     }
 
     @Override

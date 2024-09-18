@@ -5,7 +5,7 @@ import game.state.GameState;
 import game.property.PropertyTickable;
 import game.property.PropertyType;
 
-class TickTask implements Task {
+class TickEvent implements Event {
 
     @Override
     public void call(GameState state) {

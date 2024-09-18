@@ -5,6 +5,7 @@ import game.entity.property.PropertyJumpState;
 import game.entity.property.PropertyWalkState;
 import game.property.PropertyTickable;
 import game.state.GameState;
+import listeners.IAnimationListener;
 import listeners.IMoveValidity;
 import util.Direction;
 import util.positions.Pos;
@@ -15,6 +16,7 @@ public abstract class Entity extends GameObject {
      * Callable object defined in {@link GameState}. Used to check collision
      */
     private final IMoveValidity validMoveChecker;
+    private final IAnimationListener animationListener;
     /**
      * Object that registers ticks and cares for walk state
      */
@@ -27,11 +29,13 @@ public abstract class Entity extends GameObject {
     private int height = 0;
     private int walkVersion = 0, idleVersion = 0;
     final int walkModulo = 10, runModulo = 8, idleModulo = 15;
+    private boolean isHidden = false;
 
-    public Entity(Pos pos, int speed, IMoveValidity validMoveChecker) {
+    public Entity(Pos pos, int speed, IMoveValidity validMoveChecker, IAnimationListener animationListener) {
         super(pos);
         this.setFacing(Direction.RIGHT);
         this.validMoveChecker = validMoveChecker;
+        this.animationListener = animationListener;
         this.speed = speed;
         this.walkManager = new PropertyWalkState();
         this.jumpManager = new PropertyJumpState(64, 40, validMoveChecker, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
@@ -152,6 +156,7 @@ public abstract class Entity extends GameObject {
      * Children class access to use {@link PropertyTickable}
      */
     protected void updateListener() {
+
     }
 
 }

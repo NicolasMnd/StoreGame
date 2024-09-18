@@ -2,9 +2,10 @@ package render.game.load;
 
 import game.state.GameState;
 import game.tile.GameTile;
-import render.game.renderorder.RenderStage;
-import render.game.renderorder.RenderableGameObject;
 import render.game.camera.Camera;
+import render.game.renderorder.RenderStage;
+import render.game.renderorder.RenderableScreenObject;
+import render.screen.effect.player.PlayerArrowAnimation;
 import util.positions.Hitbox;
 import util.positions.Pos;
 
@@ -12,12 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Class responsible for rendering the player on a certain {@link RenderStage} depending on if he overlaps with a tile.
+ */
 public class RenderPlayer implements IHasRenderables {
 
     @Override
-    public List<RenderableGameObject> getRenderables(GameState state, Camera camera) {
-        RenderableGameObject object = new RenderableGameObject(state.getPlayer(), camera.getRenderPosition(state.getTiles()[0].length, state.getTiles().length));
+    public List<RenderableScreenObject> getRenderables(GameState state, Camera camera) {
+        RenderableScreenObject object = new RenderableScreenObject(state.getPlayer(), camera.getRenderPositionFocused(state.getMapDimensions()));
         object.setRenderOrder(getRenderStage(state));
+
+        if(object.getRenderStage() == RenderStage.PLAYER_UNDER)
+            state.startAnimation(new PlayerArrowAnimation(state.getPlayer()));
+
         return List.of(
                 object
         );
@@ -28,7 +36,7 @@ public class RenderPlayer implements IHasRenderables {
      * @param state the current {@link GameState}
      * @return a render stage
      */
-    RenderStage getRenderStage(GameState state) {
+    public RenderStage getRenderStage(GameState state) {
         // Now get a radius of game tiles using this width & height
         List<GameTile> candidates = getGameTiles(state);
 

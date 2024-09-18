@@ -18,7 +18,7 @@ public class TestCamera {
 
     @BeforeEach
     public void init() {
-        center = new PlayerEntity(new Pos(3,3), (pos) -> true);
+        center = new PlayerEntity(new Pos(3,3), (pos) -> true, null);
         size = 32;
         columns = 28;
         lines = 22;

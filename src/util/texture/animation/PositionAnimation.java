@@ -1,38 +1,43 @@
 package util.texture.animation;
 
-import game.ScreenObject;
 import util.positions.Pos;
 
-public class PositionAnimation extends TextureAnimation {
+import java.util.function.Supplier;
 
-    private final Pos startPosition, targetPosition;
+public class PositionAnimation extends Animation {
+
     private double dX, dY;
+    private final Pos startPos, endPos;
+    private int time;
 
-    public PositionAnimation(ScreenObject object, Pos target, int time) {
-        super(object);
-        this.startPosition = object.getPosition().clone();
-        this.targetPosition = target;
-        setupStages(time);
+    public PositionAnimation(Supplier<Pos> relative, Pos startPosition, Pos endPosition, int time, int id) {
+        super(relative, id);
+        this.startPos = startPosition;
+        this.endPos = endPosition;
+        this.time = time;
+        setupStages(startPosition, endPosition, time);
+    }
+
+    public final Pos getAnimationPosition() {
+        return getReference().get().add(startPos).add(new Pos((int) (dX * getTick()), (int) (dY * getTick())));
     }
 
     @Override
     public void tick() {
-        super.tick();
-        update();
+        if(getTick() <= time) {
+            super.tick();
+        }
     }
 
-    private void setupStages(int time) {
-        this.dX = (double) (targetPosition.x() - startPosition.x()) / time;
-        this.dY = (double) (targetPosition.y() - startPosition.y()) / time;
-    }
-
-    private void update() {
-        Pos pos = startPosition.add(new Pos((int )(dX * getTick()), (int) (dY * getTick())));
-        parent.updatePosition(pos);
+    private void setupStages(Pos currentObjectPosition, Pos targetObjectPosition, int time) {
+        this.dX = (double) (targetObjectPosition.x() - currentObjectPosition.x()) / time;
+        this.dY = (double) (targetObjectPosition.y() - currentObjectPosition.y()) / time;
+        System.out.println("DX: " + dX + " , dY:" + dY);
     }
 
     @Override
-    public ScreenObject getScreenObject() {
-        return parent;
+    public boolean stopAnimation(AnimationStopCondition condition) {
+        return false;
     }
+
 }
