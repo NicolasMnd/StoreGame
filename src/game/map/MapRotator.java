@@ -26,16 +26,20 @@ public class MapRotator {
      */
     public GameTile[][] rotate(GameTile[][] tiles, Direction dir, int tileSize) {
 
+        System.out.println("Rotating the map " + dir + " with dimension [" + tiles.length + ", " + tiles[0].length + "]");
+
         switch(dir) {
 
             case LEFT:
                 tiles = rotator.rotateLeft(tiles, dimension);
                 updateFacings(tiles, Direction::turnLeft, tileSize);
+                System.out.println("After rotation the dimensions of the map are [" + tiles.length + ", " + tiles[0].length + "]");
                 return tiles;
 
             case RIGHT:
                 tiles = rotator.rotateRight(tiles, dimension);
                 updateFacings(tiles, Direction::turnRight, tileSize);
+                System.out.println("After rotation the dimensions of the map are [" + tiles.length + ", " + tiles[0].length + "]");
                 return tiles;
 
         }

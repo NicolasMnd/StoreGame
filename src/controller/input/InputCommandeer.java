@@ -87,7 +87,7 @@ public class InputCommandeer {
      * @param command the command to be run
      */
     private void sendToFacade(Runnable command) {
-        OperationTime time =new OperationTime("operation translation");
+        OperationTime time = new OperationTime("operation translation");
         time.start();
         String commandName = getCommandId(command);
 

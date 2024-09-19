@@ -59,7 +59,7 @@ public class GameState {
     public void rotateMap(Direction dir) {
         new StateInitializer().save(this);
         this.tiles = new MapRotator(new Dimension(this.tiles.length, this.tiles[0].length)).rotate(this.tiles, dir, tileSize);
-        this.player.updatePosition(new Rotator<>(Integer.class).rotatePos(player.getPosition(), new Dimension(this.tiles.length*tileSize, this.tiles[0].length*tileSize), dir));
+        this.player.updatePosition(new Rotator<>(Integer.class).rotatePos(player.getPosition(), new Dimension(this.tiles.length*tileSize, this.tiles[0].length*tileSize), dir, tileSize));
     }
 
     /**

@@ -20,11 +20,16 @@ public class Rotator<T> {
      * @param dir the direction in which the grid was turned
      * @return a rotated {@link Pos2di}
      */
-    public Pos rotatePos(Pos original, Dimension dim, Direction dir) {
-        if(dir == Direction.RIGHT)
-            return new Pos(original.y(), dim.getWidth() - original.x());
-        if(dir == Direction.LEFT)
-            return new Pos(dim.getHeight() - original.x(), original.x());
+    public Pos rotatePos(Pos original, Dimension dim, Direction dir, int tileSize) {
+        System.out.println("Rotating the map " + dir + " and trying to rotate the position " + original.getFormat());
+        if(dir == Direction.RIGHT) {
+            System.out.println("After rotation the position is " + new Pos(original.y(), dim.getWidth() - original.x()).getFormat());
+            return new Pos(original.y(), dim.getWidth() - original.x() - tileSize);
+        }
+        if(dir == Direction.LEFT) {
+            System.out.println("After rotation the position is " + new Pos(dim.getHeight() - original.x(), original.x()).getFormat());
+            return new Pos(dim.getHeight() - original.x() - tileSize, original.x());
+        }
         return original;
     }
 

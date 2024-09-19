@@ -38,7 +38,7 @@ public abstract class Entity extends GameObject {
         this.animationListener = animationListener;
         this.speed = speed;
         this.walkManager = new PropertyWalkState();
-        this.jumpManager = new PropertyJumpState(64, 40, validMoveChecker, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
+        this.jumpManager = new PropertyJumpState(64, 16, validMoveChecker, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
         this.getProperties().addProperty(new PropertyTickable(this::tick));
         this.setWidth(32);
         this.setHeight(32);
@@ -68,16 +68,16 @@ public abstract class Entity extends GameObject {
                 updatedPosition = getPosition().add(new Pos(-speed, 0));
                 break;
             case Direction.NORTH_EAST:
-                updatedPosition = getPosition().add(new Pos(speed, -speed));
+                updatedPosition = getPosition().add(new Pos((int) (speed*Math.sqrt(1.5)), (int) (-speed*Math.sqrt(1.5))));
                 break;
             case Direction.NORTH_WEST:
-                updatedPosition = getPosition().add(new Pos(-speed, -speed));
+                updatedPosition = getPosition().add(new Pos((int) (-speed*Math.sqrt(1.5)), (int) (-speed*Math.sqrt(1.5))));
                 break;
             case Direction.SOUTH_EAST:
-                updatedPosition = getPosition().add(new Pos(speed, speed));
+                updatedPosition = getPosition().add(new Pos((int) (speed*Math.sqrt(1.5)), (int) (speed*Math.sqrt(1.5))));
                 break;
             case Direction.SOUTH_WEST:
-                updatedPosition = getPosition().add(new Pos(-speed, speed));
+                updatedPosition = getPosition().add(new Pos((int) (-speed*Math.sqrt(1.5)), (int) (speed*Math.sqrt(1.5))));
                 break;
         }
 
