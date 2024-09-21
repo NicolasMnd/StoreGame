@@ -184,13 +184,13 @@ public class RotatorTest {
     @Test
     public void testRotatePos_Left() {
         Rotator<Integer> rotator = new Rotator<>(Integer.class);
-        assertEquals(new Pos(2, 1), rotator.rotatePos(new Pos(1,3), new Dimension(4,6), Direction.LEFT, 1));
+        assertEquals(new Pos(2, 1), rotator.rotatePos(new Pos(1,3), new Dimension(4,6), Direction.LEFT));
     }
 
     @Test
     public void testRotatePos_Right() {
         Rotator<Integer> rotator = new Rotator<>(Integer.class);
-        assertEquals(new Pos(2, 1), rotator.rotatePos(new Pos(4,2), new Dimension(4,6), Direction.RIGHT, 1));
+        assertEquals(new Pos(2, 1), rotator.rotatePos(new Pos(4,2), new Dimension(4,6), Direction.RIGHT));
     }
 
 }

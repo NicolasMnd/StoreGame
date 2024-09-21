@@ -5,6 +5,7 @@ import game.entity.Entity;
 import util.Direction;
 import util.Logger;
 import util.OperationTime;
+import util.positions.Pos;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -77,6 +78,11 @@ public class InputCommandeer {
 
             case KeyEvent.VK_SPACE:
                 sendToFacade(() -> facade.playerCommand(Entity::jump));
+                return;
+
+            case KeyEvent.VK_C:
+                sendToFacade(() -> facade.playerCommand((player) -> player.updatePosition(new Pos(392, 196))));
+                return;
 
         }
 

@@ -44,16 +44,38 @@ public class TestMapRotator {
 
     @Test
     public void testRotatePosition_Left() {
-        MapRotator rotator = new MapRotator(dimensionMap1);
         Pos pos = new Pos(2, 1);
-        System.out.println("Position: " + new Rotator<>(Integer.class).rotatePos(pos, dimensionMap1, Direction.LEFT, 1).getFormat());
-        assertEquals(new Pos(1, 2), new Rotator<>(Integer.class).rotatePos(pos, dimensionMap1, Direction.LEFT, 1));
+        assertEquals(new Pos(2, 2), new Rotator<>(Integer.class).rotatePos(pos, dimensionMap1, Direction.LEFT));
+    }
+
+    @Test
+    public void testRotatePosition_LeftRound() {
+        Dimension dimensionMap1 = new Dimension(4,6);
+        Pos start = new Pos(2, 1);
+        Pos left1 = new Pos(2, 2);
+        Pos left2 = new Pos(3, 2);
+        Pos left3 = new Pos(1, 3);
+        assertEquals(left1, new Rotator<>(Integer.class).rotatePos(start, dimensionMap1, Direction.LEFT));
+        assertEquals(left2, new Rotator<>(Integer.class).rotatePos(left1, dimensionMap1.flip(), Direction.LEFT));
+        assertEquals(left3, new Rotator<>(Integer.class).rotatePos(left2, dimensionMap1, Direction.LEFT));
+    }
+
+    @Test
+    public void testRotatePosition_Scaled() {
+        Dimension dimensionMap1 = new Dimension(1952, 1632);
+        Pos start = new Pos(1628, 81);
+        Pos left1 = new Pos(1952-81-32, 1628);
+        Pos left2 = new Pos(1952-1628-32, 1952-81-32);
+        Pos left3 = new Pos(1, 3);
+        assertEquals(left1, new Rotator<>(Integer.class).rotatePos(start, dimensionMap1, Direction.LEFT));
+        assertEquals(left2, new Rotator<>(Integer.class).rotatePos(left1, dimensionMap1.flip(), Direction.LEFT));
+        assertEquals(left3, new Rotator<>(Integer.class).rotatePos(left2, dimensionMap1, Direction.LEFT));
     }
 
     @Test
     public void testRotate_Left() throws IOException {
-        MapRotator rotator = new MapRotator(new Dimension(3, 5));
-        GameTile[][] arr = rotator.rotate(tiles, Direction.LEFT, 32);
+        MapRotator rotator = new MapRotator(new Dimension(3, 5), 32);
+        GameTile[][] arr = rotator.rotate(tiles, Direction.LEFT);
         assertTrue(
                 areEqual(
                         arr,
@@ -70,14 +92,14 @@ public class TestMapRotator {
 
     @Test
     public void testRotate_Right() throws IOException {
-        MapRotator rotator = new MapRotator(new Dimension(3, 5));
-        GameTile[][] arr = rotator.rotate(tiles, Direction.RIGHT,32);
+        MapRotator rotator = new MapRotator(new Dimension(3, 5), 32);
+        GameTile[][] arr = rotator.rotate(tiles, Direction.RIGHT);
     }
 
     @Test
     public void testRotate_North() {
-        MapRotator rotator = new MapRotator(new Dimension(3, 3));
-        GameTile[][] arr = rotator.rotate(tiles, Direction.NORTH,32);
+        MapRotator rotator = new MapRotator(new Dimension(3, 3), 32);
+        GameTile[][] arr = rotator.rotate(tiles, Direction.NORTH);
         assertNull(arr);
     }
 

@@ -17,6 +17,10 @@ public class Dimension {
         return this.height;
     }
 
+    public Dimension flip() {
+        return new Dimension(width, height);
+    }
+
     public String getFormat() {
         return "[l:" + height + ", c:" + width + "]";
     }

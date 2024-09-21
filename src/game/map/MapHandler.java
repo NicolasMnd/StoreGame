@@ -29,7 +29,7 @@ public class MapHandler {
 
     public MapHandler(String mapLocation, int tileSize, IGameSizeListener gameSizeListener) {
         this.reader = new MapReader(getMapDimensions(mapLocation), tileSize, gameSizeListener);
-        this.rotator = new MapRotator(getMapDimensions(mapLocation));
+        this.rotator = new MapRotator(getMapDimensions(mapLocation), tileSize);
         this.mapName = mapLocation;
         this.tileSize = tileSize;
     }
