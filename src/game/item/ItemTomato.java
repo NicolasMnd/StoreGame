@@ -1,6 +1,5 @@
 package game.item;
 
-import game.entity.Entity;
 import render.game.renderorder.RenderStage;
 import render.game.renderorder.RenderStageSelector;
 import util.texture.TextureLoader;
@@ -9,8 +8,6 @@ import util.texture.textureinformation.ITextureLoader;
 import util.texture.textureinformation.ITextureStrategy;
 
 public class ItemTomato extends GameItem {
-
-    Entity holder;
 
     public ItemTomato() {
         super("tomato");

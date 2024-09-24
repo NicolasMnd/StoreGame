@@ -29,7 +29,7 @@ public abstract class Entity extends GameObject {
     private int height = 0;
     private int walkVersion = 0, idleVersion = 0;
     final int walkModulo = 10, runModulo = 8, idleModulo = 15;
-    private boolean isHidden = false;
+    private boolean isHidden = false, ghosting = false, sprinting = false;
 
     public Entity(Pos pos, int speed, IMoveValidity validMoveChecker, IAnimationListener animationListener) {
         super(pos);
@@ -50,6 +50,8 @@ public abstract class Entity extends GameObject {
     public void move(Direction dir) {
         // Generate new position
         Pos updatedPosition = getPosition();
+        int speed = getSpeed();
+
         switch(dir) {
             case Direction.UP:
                 this.setFacing(Direction.UP);
@@ -68,21 +70,21 @@ public abstract class Entity extends GameObject {
                 updatedPosition = getPosition().add(new Pos(-speed, 0));
                 break;
             case Direction.NORTH_EAST:
-                updatedPosition = getPosition().add(new Pos((int) (speed*Math.sqrt(1.5)), (int) (-speed*Math.sqrt(1.5))));
+                updatedPosition = getPosition().add(new Pos((int) (speed*Math.sqrt(0.5)), (int) (-speed*Math.sqrt(0.5))));
                 break;
             case Direction.NORTH_WEST:
-                updatedPosition = getPosition().add(new Pos((int) (-speed*Math.sqrt(1.5)), (int) (-speed*Math.sqrt(1.5))));
+                updatedPosition = getPosition().add(new Pos((int) (-speed*Math.sqrt(0.5)), (int) (-speed*Math.sqrt(0.5))));
                 break;
             case Direction.SOUTH_EAST:
-                updatedPosition = getPosition().add(new Pos((int) (speed*Math.sqrt(1.5)), (int) (speed*Math.sqrt(1.5))));
+                updatedPosition = getPosition().add(new Pos((int) (speed*Math.sqrt(0.5)), (int) (speed*Math.sqrt(0.5))));
                 break;
             case Direction.SOUTH_WEST:
-                updatedPosition = getPosition().add(new Pos((int) (-speed*Math.sqrt(1.5)), (int) (speed*Math.sqrt(1.5))));
+                updatedPosition = getPosition().add(new Pos((int) (-speed*Math.sqrt(0.5)), (int) (speed*Math.sqrt(0.5))));
                 break;
         }
 
         // Ask GameState for validity and update
-        if(canMoveTo(updatedPosition)) {
+        if(canMoveTo(updatedPosition) || ghosting) {
             updatePosition(updatedPosition);
             this.walkManager.setWalking();
             walkVersion++;
@@ -135,7 +137,7 @@ public abstract class Entity extends GameObject {
      * @return the speed of the player
      */
     public int getSpeed() {
-        return this.speed;
+        return this.speed + (isSprinting() ? speed : 0);
     }
 
     /**
@@ -144,6 +146,22 @@ public abstract class Entity extends GameObject {
      */
     public boolean isJumping() {
         return this.jumpManager.isJumping();
+    }
+
+    public void setGhosting(boolean ghosting) {
+        this.ghosting = ghosting;
+    }
+
+    public boolean isGhosting() {
+        return this.ghosting;
+    }
+
+    public void setSprinting(boolean sprinting) {
+        this.sprinting = sprinting;
+    }
+
+    public boolean isSprinting() {
+        return this.sprinting;
     }
 
     private void tick() {

@@ -39,7 +39,7 @@ public class GameController {
         this.facade.render();
     }
 
-    // Creates a mouse listener
+    // Creates a mouse listener & key listener.
     private InputNotifier getNotifier() {
         return new InputNotifier() {
             private InputCommandeer translator = new InputCommandeer();
@@ -62,6 +62,11 @@ public class GameController {
             @Override
             public void enterCharacter(KeyEvent e) {
                 translator.translate(facade, e);
+            }
+
+            @Override
+            public void releaseCharacter(KeyEvent e) {
+                translator.translateReleased(facade, e);
             }
 
             @Override

@@ -39,6 +39,7 @@ public class MapRotator {
         switch(dir) {
 
             case LEFT:
+                System.out.println("LEFT");
                 tiles = rotator.rotateLeft(tiles, dimension);
                 updateFacings(tiles, Direction::turnLeft, tileSize);
                 //System.out.println("After rotation the dimensions of the map are [" + tiles.length + ", " + tiles[0].length + "]");
@@ -63,11 +64,17 @@ public class MapRotator {
 
         if(dir == Direction.LEFT) {
             //print(rotator.rotateLeft(helper.getPlayerPositionMatrix(), dimension));
-            ret = helper.getRotatedPosition(rotator.rotateLeft(helper.getPlayerPositionMatrix(), dimension));
+            ret = helper.getRotatedPosition(rotator.rotateLeft(helper.getPlayerPositionMatrix(), dimension),
+                    (offsetX, offsetY) -> offsetX,
+                    (offsetX, offsetY) -> tileSize- offsetY
+            );
         }
 
         if(dir == Direction.RIGHT) {
-            ret = helper.getRotatedPosition(rotator.rotateRight(helper.getPlayerPositionMatrix(), dimension));
+            ret = helper.getRotatedPosition(rotator.rotateRight(helper.getPlayerPositionMatrix(), dimension),
+                    (offsetX, offsetY) -> tileSize - offsetX,
+                    (offsetX, offsetY) -> offsetY
+            );
         }
 
         return ret;

@@ -21,7 +21,9 @@ public class RenderPlayer implements IHasRenderables {
     @Override
     public List<RenderableScreenObject> getRenderables(GameState state, Camera camera) {
         RenderableScreenObject object = new RenderableScreenObject(state.getPlayer(), camera.getRenderPositionFocused(state.getMapDimensions()));
-        object.setRenderOrder(getRenderStage(state));
+
+        if(!state.getPlayer().isGhosting())
+            object.setRenderOrder(getRenderStage(state));
 
         if(object.getRenderStage() == RenderStage.PLAYER_UNDER)
             state.startAnimation(new PlayerArrowAnimation(state.getPlayer()));

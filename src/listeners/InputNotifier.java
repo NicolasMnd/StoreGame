@@ -12,6 +12,8 @@ public interface InputNotifier {
 
     void enterCharacter(KeyEvent event);
 
+    void releaseCharacter(KeyEvent event);
+
     void scrollUp();
 
     void scrollDown();

@@ -84,6 +84,30 @@ public class InputCommandeer {
                 sendToFacade(() -> facade.playerCommand((player) -> player.updatePosition(new Pos(392, 196))));
                 return;
 
+            case KeyEvent.VK_CONTROL:
+                sendToFacade(() -> facade.playerCommand((player) -> player.setGhosting(true)));
+                return;
+
+            case KeyEvent.VK_SHIFT:
+                sendToFacade(() -> facade.playerCommand((player) -> player.setSprinting(true)));
+                return;
+
+        }
+
+    }
+
+    public void translateReleased(GameFacade facade, KeyEvent event) {
+
+        switch(event.getKeyCode()) {
+
+            case KeyEvent.VK_CONTROL:
+                sendToFacade(() -> facade.playerCommand((player) -> player.setGhosting(false)));
+                return;
+
+            case KeyEvent.VK_SHIFT:
+                sendToFacade(() -> facade.playerCommand((player) -> player.setSprinting(false)));
+                return;
+
         }
 
     }

@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that will delegate mouse input to the controller layer
+ * Class that will delegate mouse input to the controller layer.
+ * A {@link javax.swing.JFrame} element will put all input it gets through this class. This class will in turn
+ * delegate that input to {@link InputNotifier} in {@link controller.GameController}, which will send concrete commands
+ * to {@link controller.GameFacade} via {@link InputCommandeer}
  */
 public class InputHandler implements MouseListener, MouseMotionListener, KeyListener, MouseWheelListener {
 
@@ -91,6 +94,11 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
                 .toList()
         );
         repeatedCommandSenders = new KeyCompoundHelper().removeCombination(repeatedCommandSenders, finalE.getKeyChar());
+
+        for (InputNotifier listener : mouseListeners) {
+
+            listener.releaseCharacter(e);
+        }
     }
 
     @Override

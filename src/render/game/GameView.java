@@ -100,8 +100,6 @@ public class GameView extends JPanel implements View {
         for(int i = 0; i < renderables.size(); i++) {
             RenderableScreenObject object = renderables.get(i);
             draw(object);
-            if(object.toString().contains("render.screen.effect.player.PlayerArrow"))
-                System.out.println("Printin arrow at " + object.getPosition().getFormat() + " in order " + i + " of " + renderables.size());
         }
 
         new RenderStrategy().renderCoordinates((PlayerEntity) latestGameState.getPlayer()).render(graphics, gameSize, tileSize);

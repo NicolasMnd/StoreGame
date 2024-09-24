@@ -32,7 +32,6 @@ public class PositionAnimation extends Animation {
     private void setupStages(Pos currentObjectPosition, Pos targetObjectPosition, int time) {
         this.dX = (double) (targetObjectPosition.x() - currentObjectPosition.x()) / time;
         this.dY = (double) (targetObjectPosition.y() - currentObjectPosition.y()) / time;
-        System.out.println("DX: " + dX + " , dY:" + dY);
     }
 
     @Override
