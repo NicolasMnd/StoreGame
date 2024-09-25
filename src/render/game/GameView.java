@@ -11,6 +11,7 @@ import render.game.load.RenderObjects;
 import render.game.renderorder.RenderStrategy;
 import render.game.renderorder.RenderableScreenObject;
 import util.Dimension;
+import util.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +29,7 @@ public class GameView extends JPanel implements View {
     private double gameSize = 1.0d;
     private final Dimension windowsSize;
     private JFrame frame;
+    private Logger logger = new Logger("");
 
     public GameView(int size, Dimension windowSize) {
         this.tileSize = size;
@@ -103,7 +105,7 @@ public class GameView extends JPanel implements View {
         }
 
         new RenderStrategy().renderCoordinates((PlayerEntity) latestGameState.getPlayer()).render(graphics, gameSize, tileSize);
-
+        //new RenderStrategy().rectangleRenderer(() -> camera.getRenderPositionFocused(), 8, 8);
 
     }
 

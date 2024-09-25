@@ -1,6 +1,7 @@
 package controller.input;
 
 import listeners.InputNotifier;
+import util.Logger;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
     private List<InputNotifier> mouseListeners;
     private List<KeyEvent> repeatedCommandSenders;
     private final IKeyTranslator translator;
+    private Logger logger = new Logger("");
 
     public InputHandler() {
         this.mouseListeners = new ArrayList<>();
@@ -118,8 +120,9 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
      */
     public void resendActiveKeys() {
         for (KeyEvent e : repeatedCommandSenders)
-            for (InputNotifier listener : mouseListeners)
+            for (InputNotifier listener : mouseListeners) {
                 listener.enterCharacter(e);
+            }
     }
 
 }

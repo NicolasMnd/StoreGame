@@ -3,6 +3,7 @@ package game.entity;
 import game.GameObject;
 import game.entity.property.PropertyJumpState;
 import game.entity.property.PropertyWalkState;
+import game.inventory.Inventory;
 import game.property.PropertyTickable;
 import game.state.GameState;
 import listeners.IAnimationListener;
@@ -26,10 +27,10 @@ public abstract class Entity extends GameObject {
      */
     private PropertyJumpState jumpManager;
     private final int speed;
-    private int height = 0;
     private int walkVersion = 0, idleVersion = 0;
-    final int walkModulo = 10, runModulo = 8, idleModulo = 15;
-    private boolean isHidden = false, ghosting = false, sprinting = false;
+    final int walkModulo = 10;
+    private boolean ghosting = false, sprinting = false;
+    private final Inventory inventory;
 
     public Entity(Pos pos, int speed, IMoveValidity validMoveChecker, IAnimationListener animationListener) {
         super(pos);
@@ -39,9 +40,14 @@ public abstract class Entity extends GameObject {
         this.speed = speed;
         this.walkManager = new PropertyWalkState();
         this.jumpManager = new PropertyJumpState(64, 16, validMoveChecker, (updatedJumpPos) -> this.updatePosition(getPosition().add(updatedJumpPos)));
+        this.inventory = new Inventory();
         this.getProperties().addProperty(new PropertyTickable(this::tick));
         this.setWidth(32);
         this.setHeight(32);
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     /**
@@ -141,12 +147,13 @@ public abstract class Entity extends GameObject {
     }
 
     /**
-     * TODO a property should handle the jumping animation
      * @return a boolean determining if the player is in a jumping state.
      */
     public boolean isJumping() {
         return this.jumpManager.isJumping();
     }
+
+    public abstract LimbTracker getLimbTracker();
 
     public void setGhosting(boolean ghosting) {
         this.ghosting = ghosting;

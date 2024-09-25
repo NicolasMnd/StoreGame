@@ -1,14 +1,15 @@
 package render.game.renderorder;
 
 import game.GameObject;
-import game.entity.PlayerEntity;
 import game.ScreenObject;
+import game.entity.PlayerEntity;
 import util.positions.Hitbox;
 import util.positions.Pos;
 import util.texture.comp.TextureSelector;
 import util.texture.textureinformation.IRender;
 
 import java.awt.*;
+import java.util.function.Supplier;
 
 public class RenderStrategy {
 
@@ -27,23 +28,23 @@ public class RenderStrategy {
         };
     }
 
-    public IRender rectangleRenderer(ScreenObject object) {
+    public IRender rectangleRenderer(Supplier<Pos> positionSupplier, int width, int height) {
         return (graphics, gameSize, tileSize) -> {
             graphics.setStroke(new BasicStroke(5));
-            Pos drawPosition = object.getPosition();
+            Pos drawPosition = positionSupplier.get();
 
             Rectangle rect = new Rectangle(
-                    (int) (object.getPosition().x()),
+                    (int) (drawPosition.x()),
                     (int) (drawPosition.y()),
-                    (int) (object.getWidth()*gameSize),
-                    (int) (object.getHeight()*gameSize)
+                    (int) (width*gameSize),
+                    (int) (height*gameSize)
             );
             graphics.setColor(Color.LIGHT_GRAY);
             graphics.fillRect(
-                    (int) (object.getPosition().x()),
+                    (int) (drawPosition.x()),
                     (int) (drawPosition.y()),
-                    (int) (object.getWidth()*gameSize),
-                    (int) (object.getHeight()*gameSize)
+                    (int) (width*gameSize),
+                    (int) (height*gameSize)
             );
 
 

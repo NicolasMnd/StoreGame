@@ -13,6 +13,7 @@ public class Camera {
     private final int tileSize;
     private int cameraHeight, cameraWidth;
     private Logger logger = new Logger("render times");
+    private Dimension mapSize;
 
     public Camera(ScreenObject focused, View view) {
         this.focused = focused;
@@ -29,15 +30,6 @@ public class Camera {
     }
 
     /**
-     * Updates the size of the window to the camera class.
-     * @param view the {@link View} object that has changed dimensions
-     */
-    public void updateView(View view) {
-        this.cameraHeight = view.getDimension().getHeight();
-        this.cameraWidth = view.getDimension().getWidth();
-    }
-
-    /**
      * Updates the {@link Hitbox}
      * @param object the new focused object
      */
@@ -48,8 +40,8 @@ public class Camera {
     /**
      * @return the render {@link Pos} for the focused object.
      */
-    public Pos getRenderPositionFocused(Dimension dimension) {
-        Hitbox realCamera = getRealCamera(dimension);
+    public Pos getRenderPositionFocused(Dimension mapSize) {
+        Hitbox realCamera = getRealCamera(mapSize);
 
         // If clamping on bounds was not necessary
         if(this.focused.getPosition().equals(realCamera.getCenterPos()))
@@ -88,8 +80,8 @@ public class Camera {
      */
     public Hitbox getRealCamera(Dimension mapSize) {
 
-        int lengthRow = mapSize.getHeight();
-        int lengthColumn = mapSize.getWidth();
+        int lengthRow = mapSize.getHeight()+1;
+        int lengthColumn = mapSize.getWidth()+1;
         Hitbox hitBox = getCameraOverlap();
 
         int adjustedUpperX = hitBox.getUpperleft().x();

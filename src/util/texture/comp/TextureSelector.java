@@ -1,7 +1,7 @@
 package util.texture.comp;
 
 import game.entity.PlayerEntity;
-import game.item.ItemTomato;
+import game.item.vegetables.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
@@ -25,7 +25,7 @@ public class TextureSelector {
     }
 
     public ITextureStrategy selectTexture(ItemTomato tomato) {
-        return () -> null;
+        return () -> ((Texture) tomato.getTexture()).getImage();
     }
 
     public ITextureStrategy selectTexture(PlayerEntity player) {

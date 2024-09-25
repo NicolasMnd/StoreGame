@@ -1,6 +1,6 @@
 package game.map;
 
-import game.item.ItemTomato;
+import game.item.vegetables.ItemTomato;
 import game.property.PropertyContainer;
 import game.property.PropertyType;
 import game.tile.GameTile;

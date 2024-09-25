@@ -1,5 +1,6 @@
 package game.entity;
 
+import game.entity.util.LimbVisitor;
 import listeners.IAnimationListener;
 import listeners.IMoveValidity;
 import render.game.renderorder.RenderStage;
@@ -13,11 +14,13 @@ import util.texture.textureinformation.ITextureStrategy;
 
 public class PlayerEntity extends Entity {
 
-    private final int PLAYER_SPEED;
-
     public PlayerEntity(Pos pos, IMoveValidity listener, IAnimationListener animationListener) {
         super(pos, 4, listener, animationListener);
-        this.PLAYER_SPEED = 4;
+    }
+
+    @Override
+    public LimbTracker getLimbTracker() {
+        return new LimbVisitor().getLimbTracker(this);
     }
 
     @Override

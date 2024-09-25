@@ -13,6 +13,8 @@ public class GameItemRegistry {
         return null; //TODO
     }
 
-
+    public GameItem createItem(String id) {
+        return null;
+    }
 
 }

@@ -64,7 +64,7 @@ public class RenderableScreenObject extends ScreenObject {
     @Override
     public IRender getRenderStrategy(ScreenObject object) {
         if(this.getTexture() == null)
-            return new RenderStrategy().rectangleRenderer(this);
+            return new RenderStrategy().rectangleRenderer(() -> this.renderPosition, getWidth(), getHeight());
         else
             return parent.getRenderStrategy(this);
     }

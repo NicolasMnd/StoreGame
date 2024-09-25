@@ -25,7 +25,7 @@ public class RenderPlayer implements IHasRenderables {
         if(!state.getPlayer().isGhosting())
             object.setRenderOrder(getRenderStage(state));
 
-        if(object.getRenderStage() == RenderStage.PLAYER_UNDER)
+        if(object.getRenderStage() == RenderStage.PLAYER_SHADOW)
             state.startAnimation(new PlayerArrowAnimation(state.getPlayer()));
 
         return List.of(
@@ -46,7 +46,7 @@ public class RenderPlayer implements IHasRenderables {
         List<Hitbox> hitboxes = candidates.stream().map(GameTile::getOverlapHitbox).toList();
 
         // Check if these hitbox overlap with the player.
-        return hitboxes.stream().anyMatch(tile -> tile.hasOverlap(state.getPlayer().getHitbox())) ? RenderStage.PLAYER_UNDER : RenderStage.PLAYER;
+        return hitboxes.stream().anyMatch(tile -> tile.hasOverlap(state.getPlayer().getHitbox())) ? RenderStage.PLAYER_SHADOW : RenderStage.PLAYER;
     }
 
     /**

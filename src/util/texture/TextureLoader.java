@@ -1,6 +1,7 @@
 package util.texture;
 
 import game.entity.PlayerEntity;
+import game.item.vegetables.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;
 import game.tile.TileWall;
@@ -37,6 +38,10 @@ public class TextureLoader {
 
     public ITextureLoader loadTexture(PlayerArrow arrow) {
         return () -> new Texture(new File("resources/ui/arrow_down.png"));
+    }
+
+    public ITextureLoader loadTexture(ItemTomato tomato) {
+        return () -> new Texture(new File("resources/items/tomato.png"));
     }
 
 }

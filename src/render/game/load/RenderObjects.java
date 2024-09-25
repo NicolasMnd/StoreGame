@@ -17,7 +17,8 @@ public class RenderObjects {
         this.renderables = List.of(
                 new RenderTiles(),
                 new RenderPlayer(),
-                new RenderAnimations()
+                new RenderAnimations(),
+                new RenderHeldItems()
         );
     }
 

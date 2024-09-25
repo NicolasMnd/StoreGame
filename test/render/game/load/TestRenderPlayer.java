@@ -49,7 +49,7 @@ public class TestRenderPlayer {
     public void testGetGameTiles_UnderShelf() {
         state.getPlayer().updatePosition(new Pos(32*5, 32*6));
         camera = new Camera(state.getPlayer(), view);
-        assertEquals(RenderStage.PLAYER_UNDER, new RenderPlayer().getRenderStage(state));
+        assertEquals(RenderStage.PLAYER_SHADOW, new RenderPlayer().getRenderStage(state));
     }
 
     @Test

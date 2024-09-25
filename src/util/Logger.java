@@ -8,6 +8,7 @@ public class Logger {
     private List<String> log = new ArrayList<>();
     private List<Long> nums = new ArrayList<>();
     private final String logType;
+    private int amount = 0;
 
     public Logger(String logType) {
         this.logType = logType;
@@ -39,6 +40,14 @@ public class Logger {
             System.out.println("   > " + log);
         System.out.println("\nEnd log");
         System.out.println("---------------------------------------------------");
+    }
+
+    public void logPeriodically(String log) {
+        if(amount == 100) {
+            amount = 0;
+            System.out.println(log);
+        }
+        amount++;
     }
 
 }

@@ -1,5 +1,6 @@
-package game.item;
+package game.item.vegetables;
 
+import game.item.GameItem;
 import render.game.renderorder.RenderStage;
 import render.game.renderorder.RenderStageSelector;
 import util.texture.TextureLoader;
@@ -14,8 +15,13 @@ public class ItemTomato extends GameItem {
     }
 
     @Override
+    public int getYStart() {
+        return -11;
+    }
+
+    @Override
     public ITextureLoader textureLoader(TextureLoader textureLoader) {
-        return () -> null;
+        return textureLoader.loadTexture(this);
     }
 
     @Override
@@ -25,7 +31,7 @@ public class ItemTomato extends GameItem {
 
     @Override
     public RenderStage renderStage(RenderStageSelector selector) {
-        return null;
+        return selector.getRenderStage(this);
     }
 
 }
