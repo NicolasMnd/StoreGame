@@ -9,6 +9,7 @@ import render.game.renderorder.RenderableScreenObject;
 import util.Direction;
 import util.positions.Pos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -21,17 +22,31 @@ public class RenderHeldItems implements IHasRenderables {
 
     private List<RenderableScreenObject> getItems(GameState state, Camera camera) {
 
+        List<RenderableScreenObject> list = new ArrayList<>();
         RenderStage stage = new RenderPlayer().getRenderStage(state);
 
-        List<RenderableScreenObject> list =  List.of(
-            getItem(
-                    () -> state.getPlayer().getLimbTracker().getLeftHand(),
-                    () -> camera.getRenderPositionFocused(state.getMapDimensions()),
-                    state.getPlayer().getInventory().getItemLefthand(),
-                    Direction.LEFT,
-                    state.getPlayer().getFacing()
-            )
-        );
+        if(state.getPlayer().getInventory().getItemLefthand() != null)
+            list.add(
+                    getItem(
+                            () -> state.getPlayer().getLimbTracker().getLeftHand(),
+                            () -> camera.getRenderPositionFocused(state.getMapDimensions()),
+                            state.getPlayer().getInventory().getItemLefthand(),
+                            Direction.LEFT,
+                            state.getPlayer().getFacing()
+                    )
+            );
+
+        if(state.getPlayer().getInventory().getItemRighthand() != null)
+            list.add(
+                    getItem(
+                            () -> state.getPlayer().getLimbTracker().getRightHand(),
+                            () -> camera.getRenderPositionFocused(state.getMapDimensions()),
+                            state.getPlayer().getInventory().getItemRighthand(),
+                            Direction.LEFT,
+                            state.getPlayer().getFacing()
+                    )
+            );
+
 
         if(stage == RenderStage.PLAYER_SHADOW)
             for(RenderableScreenObject item : list)

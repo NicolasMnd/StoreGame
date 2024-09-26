@@ -45,51 +45,55 @@ public class InputCommandeer {
                 return;
 
             case KeyEvent.VK_Q:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.LEFT)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.LEFT)), 20);
                 return;
 
             case KeyEvent.VK_S:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.DOWN)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.DOWN)), 20);
                 return;
 
             case KeyEvent.VK_Z:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.UP)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.UP)), 20);
                 return;
 
             case KeyEvent.VK_D:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.RIGHT)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.RIGHT)), 20);
                 return;
 
             case DirectionInput.NORTH_EAST:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.NORTH_EAST)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.NORTH_EAST)), 20);
                 return;
 
             case DirectionInput.NORTH_WEST:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.NORTH_WEST)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.NORTH_WEST)), 20);
                 return;
 
             case DirectionInput.SOUTH_EAST:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.SOUTH_EAST)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.SOUTH_EAST)), 20);
                 return;
 
             case DirectionInput.SOUTH_WEST:
-                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.SOUTH_WEST)));
+                sendToFacade(() -> facade.playerCommand(player -> player.move(Direction.SOUTH_WEST)), 20);
                 return;
 
             case KeyEvent.VK_SPACE:
-                sendToFacade(() -> facade.playerCommand(Entity::jump));
+                sendToFacade(() -> facade.playerCommand(Entity::jump), 20);
                 return;
 
             case KeyEvent.VK_C:
-                sendToFacade(() -> facade.playerCommand((player) -> player.updatePosition(new Pos(392, 196))));
+                sendToFacade(() -> facade.playerCommand((player) -> player.updatePosition(new Pos(392, 196))), 100);
                 return;
 
             case KeyEvent.VK_CONTROL:
-                sendToFacade(() -> facade.playerCommand((player) -> player.setGhosting(true)));
+                sendToFacade(() -> facade.playerCommand((player) -> player.setGhosting(true)), 100);
                 return;
 
             case KeyEvent.VK_SHIFT:
-                sendToFacade(() -> facade.playerCommand((player) -> player.setSprinting(true)));
+                sendToFacade(() -> facade.playerCommand((player) -> player.setSprinting(true)), 100);
+                return;
+
+            case KeyEvent.VK_F:
+                sendToFacade(() -> facade.playerCommand((player) -> player.getInventory().selectItem()), 100);
                 return;
 
         }
@@ -101,11 +105,11 @@ public class InputCommandeer {
         switch(event.getKeyCode()) {
 
             case KeyEvent.VK_CONTROL:
-                sendToFacade(() -> facade.playerCommand((player) -> player.setGhosting(false)));
+                sendToFacade(() -> facade.playerCommand((player) -> player.setGhosting(false)), 100);
                 return;
 
             case KeyEvent.VK_SHIFT:
-                sendToFacade(() -> facade.playerCommand((player) -> player.setSprinting(false)));
+                sendToFacade(() -> facade.playerCommand((player) -> player.setSprinting(false)), 100);
                 return;
 
         }
@@ -116,7 +120,7 @@ public class InputCommandeer {
      * Provides a cooldown for input & executes commands provided by {@link InputCommandeer#translate(GameFacade, KeyEvent)}
      * @param command the command to be run
      */
-    private void sendToFacade(Runnable command) {
+    private void sendToFacade(Runnable command, int cooldown) {
         OperationTime time = new OperationTime("operation translation");
         time.start();
         String commandName = getCommandId(command);

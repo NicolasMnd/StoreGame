@@ -45,7 +45,7 @@ public class LimbVisitor {
                         case UP:
                             return player.getWalkVersion() == 1 ? new Pos(11, 11) : new Pos(13, 11);
                         case DOWN:
-                            return new Pos(3, 11); // beide 3,11
+                            return new Pos(2, 9); // beide 3,11
                         case RIGHT:
                             return player.getWalkVersion() == 1 ? new Pos(4,10) : new Pos(8, 8);
                         case LEFT:

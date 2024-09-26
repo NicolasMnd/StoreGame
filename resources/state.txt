@@ -1,2 +1,2 @@
-playerLocation=194,298
+playerLocation=320,316
 playerWorld=map

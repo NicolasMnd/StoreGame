@@ -76,12 +76,13 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     @Override
     public void keyTyped(KeyEvent e) {
-        for(InputNotifier listener : mouseListeners)
-            listener.enterCharacter(translator.translateKey(e));
+        /*for(InputNotifier listener : mouseListeners)
+            listener.enterCharacter(translator.translateKey(e));*/
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("Press");
         if(this.repeatedCommandSenders.stream().map(KeyEvent::getKeyChar).noneMatch(entry -> entry.equals(e.getKeyChar())))
             this.repeatedCommandSenders.add(translator.translateKey(e));
         repeatedCommandSenders = new KeyCompoundHelper().translateKeys(repeatedCommandSenders);
@@ -89,6 +90,7 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
     @Override
     public void keyReleased(KeyEvent e) {
+        System.out.println("Relase");
         e = translator.translateKey(e);
         KeyEvent finalE = e; // ?
         this.repeatedCommandSenders = new ArrayList<>(this.repeatedCommandSenders.stream()
@@ -98,7 +100,6 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
         repeatedCommandSenders = new KeyCompoundHelper().removeCombination(repeatedCommandSenders, finalE.getKeyChar());
 
         for (InputNotifier listener : mouseListeners) {
-
             listener.releaseCharacter(e);
         }
     }
