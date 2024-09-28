@@ -1,8 +1,10 @@
 package game.entity.property;
 
+import game.entity.types.Entity;
+
 /**
- * Class that helps a {@link game.entity.Entity} object to go from walking state to idling state in a timely fashion
- * This is used in {@link game.entity.Entity} and ticked by a {@link game.property.PropertyTickable} class.
+ * Class that helps a {@link Entity} object to go from walking state to idling state in a timely fashion
+ * This is used in {@link Entity} and ticked by a {@link game.property.PropertyTickable} class.
  */
 public class PropertyWalkState {
 

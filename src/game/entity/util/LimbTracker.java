@@ -1,5 +1,6 @@
-package game.entity;
+package game.entity.util;
 
+import game.entity.types.Entity;
 import util.positions.Pos;
 
 public abstract class LimbTracker {

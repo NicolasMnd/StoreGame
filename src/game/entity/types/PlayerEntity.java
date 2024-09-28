@@ -1,5 +1,6 @@
-package game.entity;
+package game.entity.types;
 
+import game.entity.util.LimbTracker;
 import game.entity.util.LimbVisitor;
 import listeners.IAnimationListener;
 import listeners.IMoveValidity;

@@ -29,7 +29,7 @@ public class RenderHeldItems implements IHasRenderables {
             list.add(
                     getItem(
                             () -> state.getPlayer().getLimbTracker().getLeftHand(),
-                            () -> camera.getRenderPositionFocused(state.getMapDimensions()),
+                            camera::getRenderPositionFocused,
                             state.getPlayer().getInventory().getItemLefthand(),
                             Direction.LEFT,
                             state.getPlayer().getFacing()
@@ -40,9 +40,9 @@ public class RenderHeldItems implements IHasRenderables {
             list.add(
                     getItem(
                             () -> state.getPlayer().getLimbTracker().getRightHand(),
-                            () -> camera.getRenderPositionFocused(state.getMapDimensions()),
+                            camera::getRenderPositionFocused,
                             state.getPlayer().getInventory().getItemRighthand(),
-                            Direction.LEFT,
+                            Direction.RIGHT,
                             state.getPlayer().getFacing()
                     )
             );

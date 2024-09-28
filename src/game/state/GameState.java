@@ -1,8 +1,8 @@
 package game.state;
 
 import game.container.Container;
-import game.entity.Entity;
-import game.entity.PlayerEntity;
+import game.entity.types.Entity;
+import game.entity.types.PlayerEntity;
 import game.map.MapRotator;
 import game.tile.GameTile;
 import listeners.IAnimationListener;
@@ -46,7 +46,7 @@ public class GameState {
     }
 
     /**
-     * @return the player {@link game.entity.Entity}
+     * @return the player {@link Entity}
      */
     public Entity getPlayer() {
         return this.player;

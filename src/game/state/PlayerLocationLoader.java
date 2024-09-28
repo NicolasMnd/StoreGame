@@ -1,6 +1,6 @@
 package game.state;
 
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import listeners.IAnimationListener;
 import util.positions.Pos;
 import util.texture.animation.Animation;

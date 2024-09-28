@@ -1,6 +1,6 @@
 package game.entity.property;
 
-import game.entity.Entity;
+import game.entity.types.Entity;
 
 public class PropertyStuck {
 

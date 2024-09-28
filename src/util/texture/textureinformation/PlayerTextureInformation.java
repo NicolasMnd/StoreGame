@@ -1,6 +1,6 @@
 package util.texture.textureinformation;
 
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import util.texture.comp.DirectedTexture;
 import util.texture.comp.MultiTexture;
 import util.texture.comp.TextureHolder;

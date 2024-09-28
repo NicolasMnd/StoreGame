@@ -1,7 +1,7 @@
 package game.entity.property;
 
 import controller.GameController;
-import game.entity.Entity;
+import game.entity.types.Entity;
 import game.property.PropertyTickable;
 import game.state.GameState;
 import listeners.IMoveValidity;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * This class is used by {@link game.entity.Entity} to allow it to jump.
+ * This class is used by {@link Entity} to allow it to jump.
  * The jump animation consists of gradually updating the {@link Entity#getPosition()} by {@link Entity#updatePosition(Pos)}.
  * We do this gradually by making sure this class is called each 'tick', a refresh in {@link GameController#update()}, which
  * will loop over items in {@link GameState} and call upon {@link PropertyTickable#execute()}.

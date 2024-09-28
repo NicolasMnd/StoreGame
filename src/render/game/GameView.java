@@ -2,7 +2,7 @@ package render.game;
 
 import controller.input.InputHandler;
 import game.GameObject;
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import game.state.GameState;
 import listeners.ListenerRegistrator;
 import render.View;
@@ -52,10 +52,12 @@ public class GameView extends JPanel implements View {
 
     @Override
     public void update(GameState state) {
-        if(this.camera == null)
+        if(this.camera == null) {
             this.camera = new Camera(state.getPlayer(), this);
+        }
 
         this.latestGameState = state;
+        camera.updateMapSize(latestGameState.getMapDimensions());
 
     }
 

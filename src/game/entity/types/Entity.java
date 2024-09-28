@@ -1,6 +1,7 @@
-package game.entity;
+package game.entity.types;
 
 import game.GameObject;
+import game.entity.util.LimbTracker;
 import game.entity.property.PropertyJumpState;
 import game.entity.property.PropertyWalkState;
 import game.inventory.Inventory;

@@ -1,6 +1,6 @@
 package controller;
 
-import game.entity.Entity;
+import game.entity.types.Entity;
 import org.junit.jupiter.api.Test;
 import util.Direction;
 import util.positions.Pos;

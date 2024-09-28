@@ -2,7 +2,7 @@ package render.game.renderorder;
 
 import game.GameObject;
 import game.ScreenObject;
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import util.positions.Hitbox;
 import util.positions.Pos;
 import util.texture.comp.TextureSelector;

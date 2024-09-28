@@ -1,6 +1,6 @@
 package render.game.renderorder;
 
-import game.entity.Entity;
+import game.entity.types.Entity;
 import game.item.vegetables.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;

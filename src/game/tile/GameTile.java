@@ -1,6 +1,7 @@
 package game.tile;
 
 import game.GameObject;
+import game.entity.types.Entity;
 import util.Direction;
 import util.positions.Hitbox;
 import util.positions.Pos;
@@ -15,7 +16,7 @@ public abstract class GameTile extends GameObject {
     }
 
     /**
-     * @return if a {@link game.entity.Entity} can collide with this {@link GameTile}.
+     * @return if a {@link Entity} can collide with this {@link GameTile}.
      */
     public boolean canCollide() {
         return true;

@@ -1,7 +1,6 @@
 package game.entity.util;
 
-import game.entity.LimbTracker;
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import util.positions.Pos;
 
 public class LimbVisitor {
@@ -43,7 +42,7 @@ public class LimbVisitor {
                 if(player.isWalking()) {
                     switch (player.getFacing()) {
                         case UP:
-                            return player.getWalkVersion() == 1 ? new Pos(11, 11) : new Pos(13, 11);
+                            return player.getWalkVersion() == 1 ? new Pos(19, 8) : new Pos(23, 10);
                         case DOWN:
                             return new Pos(2, 9); // beide 3,11
                         case RIGHT:
@@ -55,7 +54,7 @@ public class LimbVisitor {
                 else {
                     switch (player.getFacing()) {
                         case UP:
-                            return new Pos(12, 11);
+                            return new Pos(20, 9);
                         case DOWN:
                             return new Pos(3, 11);
                         case RIGHT:

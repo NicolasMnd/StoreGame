@@ -2,7 +2,7 @@ package controller;
 
 import controller.tasks.TaskManager;
 import game.state.GameState;
-import game.entity.Entity;
+import game.entity.types.Entity;
 import controller.input.InputHandler;
 import render.game.GameView;
 import render.View;
@@ -50,6 +50,8 @@ public class GameFacade {
     }
 
     public void hover(int x, int y) {
+
+
 
     }
 

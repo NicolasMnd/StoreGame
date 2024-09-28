@@ -24,10 +24,9 @@ public class RenderAnimations implements IHasRenderables {
         animation.forEach(
                 (screenObject) -> {
 
-                    if(camera.getRealCamera(state.getMapDimensions()).hasOverlap(screenObject.getHitbox())) {
+                    if(camera.getRealCamera().hasOverlap(screenObject.getHitbox())) {
 
-                        //System.out.println("Setting print location for " + screenObject.getClass().getName() + " to " + camera.getRenderPosition(screenObject.getPosition()).getFormat());
-                        objects.add(new RenderableScreenObject(screenObject, camera.getRenderPosition(screenObject.getPosition(), state.getMapDimensions())));
+                        objects.add(new RenderableScreenObject(screenObject, camera.getRenderPosition(screenObject.getPosition())));
 
                     }
 

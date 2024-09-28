@@ -1,7 +1,7 @@
 package controller.input;
 
 import controller.GameFacade;
-import game.entity.Entity;
+import game.entity.types.Entity;
 import util.Direction;
 import util.Logger;
 import util.OperationTime;

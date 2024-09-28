@@ -1,7 +1,7 @@
 package render.game.camera;
 
 import game.GameObject;
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import org.junit.jupiter.api.BeforeEach;
 import render.View;
 import render.VirtualView;

@@ -1,6 +1,6 @@
 package util.texture;
 
-import game.entity.PlayerEntity;
+import game.entity.types.PlayerEntity;
 import game.item.vegetables.ItemTomato;
 import game.tile.TileGround;
 import game.tile.TileShelf;

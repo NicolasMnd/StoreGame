@@ -11,11 +11,11 @@ import util.positions.Pos;
 import java.util.ArrayList;
 import java.util.List;
 
-class RenderTiles implements IHasRenderables {
+public class RenderTiles implements IHasRenderables {
 
     @Override
     public List<RenderableScreenObject> getRenderables(GameState state, Camera camera) {
-        return getRenderTiles(camera.getRealCamera(state.getMapDimensions()), state.getTiles(), state.getTileSize());
+        return getRenderTiles(camera.getRealCamera(), state.getTiles(), state.getTileSize());
     }
 
     /**
@@ -40,7 +40,6 @@ class RenderTiles implements IHasRenderables {
         List<RenderableScreenObject> tiles = new ArrayList<>();
 
         // Helper variables
-        int count = 0;
         int screenX = -spacing, screenY = -spacing;
 
         // We find all tiles

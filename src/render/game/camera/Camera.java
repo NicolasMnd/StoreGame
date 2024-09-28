@@ -38,10 +38,18 @@ public class Camera {
     }
 
     /**
+     * Update the map size for the camera. Used in map clamping.
+     * @param mapSize new map size in amount of rows & columns
+     */
+    public void updateMapSize(Dimension mapSize) {
+        this.mapSize = mapSize;
+    }
+
+    /**
      * @return the render {@link Pos} for the focused object.
      */
-    public Pos getRenderPositionFocused(Dimension mapSize) {
-        Hitbox realCamera = getRealCamera(mapSize);
+    public Pos getRenderPositionFocused() {
+        Hitbox realCamera = getRealCamera();
 
         // If clamping on bounds was not necessary
         if(this.focused.getPosition().equals(realCamera.getCenterPos()))
@@ -58,8 +66,14 @@ public class Camera {
 
     }
 
-    public Pos getRenderPosition(Pos pos, Dimension mapSize) {
-        return pos.subtract(this.getRealCamera(mapSize).getUpperleft());
+    /**
+     * Provides a relative position between the {@link Dimension} of the JFrame window.
+     * A position 300, 43 may be converted to 30, 4 in a 100,100 window...
+     * @param pos the real position of the object
+     * @return
+     */
+    public Pos getRenderPosition(Pos pos) {
+        return pos.subtract(this.getRealCamera().getUpperleft());
     }
 
     /**
@@ -75,10 +89,9 @@ public class Camera {
 
     /**
      * Returns the real camera, which is clamped to the bounds of the map.
-     * @param mapSize the dimensions of the tile map
      * @return a {@link Hitbox} that is clamped to the bounds of the map
      */
-    public Hitbox getRealCamera(Dimension mapSize) {
+    public Hitbox getRealCamera() {
 
         int lengthRow = mapSize.getHeight()+1;
         int lengthColumn = mapSize.getWidth()+1;

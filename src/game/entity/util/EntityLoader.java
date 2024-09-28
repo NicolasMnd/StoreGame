@@ -1,5 +1,7 @@
-package game.entity;
+package game.entity.util;
 
+import game.entity.types.Entity;
+import game.entity.types.PlayerEntity;
 import listeners.IMoveValidity;
 import util.positions.Pos;
 import util.texture.comp.TextureHolder;
