@@ -102,7 +102,6 @@ public class RenderStrategy {
             graphics.setColor(Color.RED);
             graphics.setStroke(stroke1);
             graphics.drawRect(x, y, width, height);
-
         };
     }
 

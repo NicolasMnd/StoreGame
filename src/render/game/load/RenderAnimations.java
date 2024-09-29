@@ -18,7 +18,7 @@ public class RenderAnimations implements IHasRenderables {
 
     List<RenderableScreenObject> getScreenObjects(GameState state, Camera camera) {
 
-        List<ScreenObject> animation = state.getAnimations().stream().map(Animation::getScreenObject).toList();
+        List<ScreenObject> animation = state.getListenerManager().getAnimations().stream().map(Animation::getScreenObject).toList();
         List<RenderableScreenObject> objects = new ArrayList<>();
 
         animation.forEach(

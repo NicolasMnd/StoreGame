@@ -11,7 +11,7 @@ import util.texture.textureinformation.ITextureStrategy;
 public class RenderableScreenObject extends ScreenObject {
 
     private final ScreenObject parent;
-    final Pos renderPosition;
+    protected final Pos renderPosition;
     RenderStage stage;
 
     public RenderableScreenObject(ScreenObject parent, Pos renderPosition) {

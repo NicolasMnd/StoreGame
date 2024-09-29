@@ -26,7 +26,7 @@ public class RenderPlayer implements IHasRenderables {
             object.setRenderOrder(getRenderStage(state));
 
         if(object.getRenderStage() == RenderStage.PLAYER_SHADOW)
-            state.startAnimation(new PlayerArrowAnimation(state.getPlayer()));
+            state.getListenerManager().startAnimation(new PlayerArrowAnimation(state.getPlayer()));
 
         return List.of(
                 object

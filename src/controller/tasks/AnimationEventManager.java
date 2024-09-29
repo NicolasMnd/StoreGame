@@ -2,6 +2,8 @@ package controller.tasks;
 
 import game.state.GameState;
 import listeners.IAnimationListener;
+import util.Logger;
+import util.OperationTime;
 import util.texture.animation.Animation;
 import util.texture.animation.AnimationStopCondition;
 
@@ -11,6 +13,7 @@ import java.util.List;
 public class AnimationEventManager implements Event {
 
     private List<Animation> animations;
+    private Logger trimAnimations = new Logger("Trim animations");
 
     public AnimationEventManager() {
         animations = new ArrayList<>();
@@ -27,6 +30,9 @@ public class AnimationEventManager implements Event {
      * Remove animations that have finished to keep the list clean.
      */
     private void trim(GameState state) {
+        OperationTime time = new OperationTime("Trim animations");
+        time.start();
+
         List<Animation> animations = new ArrayList<>();
         AnimationStopCondition stopCondition = new AnimationStopCondition(state);
 
@@ -36,9 +42,14 @@ public class AnimationEventManager implements Event {
         }
         if(animations.size() < this.animations.size())
             this.animations = animations;
+
+        time.stop();
+        //trimAnimations.time(time.getNano());
+
     }
 
     /**
+     * Used in {@link controller.GameFacade}, passed to {@link GameState}
      * @return a reference to a listener, allowing other classes to start an animation.
      */
     public IAnimationListener getListener() {

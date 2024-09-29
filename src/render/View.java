@@ -3,6 +3,7 @@ package render;
 import controller.input.InputHandler;
 import game.state.GameState;
 import listeners.ListenerRegistrator;
+import render.game.camera.Camera;
 import util.Dimension;
 
 public interface View {
@@ -22,5 +23,7 @@ public interface View {
     int getTileSize();
 
     Dimension getDimension();
+
+    Camera getCamera();
 
 }

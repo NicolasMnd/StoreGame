@@ -1,11 +1,12 @@
 package controller;
 
-import controller.tasks.TaskManager;
-import game.state.GameState;
-import game.entity.types.Entity;
 import controller.input.InputHandler;
-import render.game.GameView;
+import controller.tasks.TaskManager;
+import game.entity.types.Entity;
+import game.state.GameState;
 import render.View;
+import render.game.GameView;
+import render.screen.hover.Hover;
 import util.Dimension;
 import util.Direction;
 
@@ -31,7 +32,8 @@ public class GameFacade {
         this.taskManager = new TaskManager();
         this.view = new GameView(TILE_SIZE, windowSize);
         this.state = new GameState(TILE_SIZE, windowSize, view::getGameSize);
-        state.subscribeAnimationListener(this.taskManager.animationEventManager.getListener());
+        state.getListenerManager().subscribeAnimationListener(this.taskManager.animationEventManager.getListener());
+        state.getListenerManager().subscribeHoverListener(this.taskManager.hoverEventManager.getListener());
         view.registerMouseHandler(inputHandler);
         view.registerKeyHandler(inputHandler);
         view.registerListener(state.close());
@@ -51,7 +53,12 @@ public class GameFacade {
 
     public void hover(int x, int y) {
 
+        if(view.getCamera() == null)
+            return;
 
+        this.taskManager.hoverEventManager.addHover(
+                new Hover(state, view.getCamera()).getHoveredItem(x, y)
+        );
 
     }
 

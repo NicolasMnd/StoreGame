@@ -12,7 +12,7 @@ public class MapLoader extends StateObject {
     @Override
     public void load(GameState state) {
 
-        MapHandler handler = new MapHandler("resources/map/" + state.mapName + ".csv", state.tileSize, state.gameSizeListener);
+        MapHandler handler = new MapHandler("resources/map/" + state.mapName + ".csv", state.tileSize, state.getListenerManager().gameSizeListener);
         state.tiles = handler.readMap();
         state.containers = handler.getContainers();
 

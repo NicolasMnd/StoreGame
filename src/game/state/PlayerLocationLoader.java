@@ -31,12 +31,12 @@ public class PlayerLocationLoader extends StateObject {
         return new IAnimationListener() {
             @Override
             public void startAnimation(Animation animation) {
-                state.startAnimation(animation);
+                state.getListenerManager().startAnimation(animation);
             }
 
             @Override
             public List<Animation> getAnimations() {
-                return state.getAnimations();
+                return state.getListenerManager().getAnimations();
             }
         };
     }

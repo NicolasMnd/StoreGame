@@ -24,7 +24,7 @@ public class GameView extends JPanel implements View {
 
     private GameState latestGameState;
     private Graphics2D graphics;
-    private Camera camera;
+    protected Camera camera;
     private final int tileSize;
     private double gameSize = 1.0d;
     private final Dimension windowsSize;
@@ -93,6 +93,11 @@ public class GameView extends JPanel implements View {
         return this.windowsSize;
     }
 
+    @Override
+    public Camera getCamera() {
+        return camera;
+    }
+
     /**
      * Renders all elements of the {@link GameState}
      */
@@ -107,7 +112,6 @@ public class GameView extends JPanel implements View {
         }
 
         new RenderStrategy().renderCoordinates((PlayerEntity) latestGameState.getPlayer()).render(graphics, gameSize, tileSize);
-        //new RenderStrategy().rectangleRenderer(() -> camera.getRenderPositionFocused(), 8, 8);
 
     }
 

@@ -5,18 +5,17 @@ import game.entity.types.Entity;
 import game.entity.types.PlayerEntity;
 import game.map.MapRotator;
 import game.tile.GameTile;
-import listeners.IAnimationListener;
 import listeners.IGameSizeListener;
 import listeners.IMoveValidity;
 import listeners.ListenerRegistrator;
-import util.*;
+import util.Dimension;
+import util.Direction;
+import util.Logger;
+import util.OperationTime;
 import util.positions.Hitbox;
-import util.texture.animation.Animation;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Game State contains all main aspects of the game.
@@ -32,16 +31,14 @@ public class GameState {
     Container[] containers;
     final int tileSize;
     final Dimension windowSize;
+    final StateListenerManager listenerManager;
     private final Logger performanceLogger = new Logger("Check collision");
-    final IGameSizeListener gameSizeListener;
-    List<IAnimationListener> animationListeners;
     //private Entity[] entities;
 
     public GameState(int tileSize, Dimension windowsSize, IGameSizeListener gameSizeListener) {
         this.tileSize = tileSize;
         this.windowSize = windowsSize;
-        this.gameSizeListener = gameSizeListener;
-        this.animationListeners = new ArrayList<>();
+        this.listenerManager = new StateListenerManager(gameSizeListener);
         init();
     }
 
@@ -109,19 +106,8 @@ public class GameState {
         return new Dimension(tiles[0].length, tiles.length);
     }
 
-    /**
-     * Notifies to render a {@link render.game.load.RenderAnimations}
-     * @param animation the animation to be rendered
-     */
-    public void startAnimation(Animation animation) {
-        for(IAnimationListener listener : this.animationListeners)
-            listener.startAnimation(animation);
-    }
-
-    public List<Animation> getAnimations() {
-        for(IAnimationListener listener : this.animationListeners)
-            return listener.getAnimations();
-        return null;
+    public StateListenerManager getListenerManager() {
+        return this.listenerManager;
     }
 
     /**
@@ -156,14 +142,6 @@ public class GameState {
                 return true;
             }
         };
-    }
-
-    /**
-     * Lets this object pass animations to the {@link controller.GameFacade}
-     * @param listener the listener
-     */
-    public void subscribeAnimationListener(IAnimationListener listener) {
-        this.animationListeners.add(listener);
     }
 
 }

@@ -22,6 +22,10 @@ public class Camera {
         this.cameraHeight = view.getDimension().getHeight();
     }
 
+    public Dimension getCameraSize() {
+        return new Dimension(cameraHeight, cameraWidth);
+    }
+
     /**
      * @return The middle of the camera
      */
@@ -129,14 +133,6 @@ public class Camera {
         }
 
         return new Hitbox(new Pos(adjustedUpperX, adjustedUpperY), new Pos(adjustedLowerX, adjustedLowerY));
-    }
-
-    int getOffsetX() {
-        return this.focused.getWidth()/2;
-    }
-
-    int getOffsetY() {
-        return this.focused.getHeight()/2;
     }
 
 }

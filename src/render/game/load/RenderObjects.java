@@ -18,7 +18,8 @@ public class RenderObjects {
                 new RenderTiles(),
                 new RenderPlayer(),
                 new RenderAnimations(),
-                new RenderHeldItems()
+                new RenderHeldItems(),
+                new RenderHovered()
         );
     }
 

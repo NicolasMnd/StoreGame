@@ -13,6 +13,8 @@ import java.util.List;
 
 public class RenderTiles implements IHasRenderables {
 
+    private final int spacing = 2;
+
     @Override
     public List<RenderableScreenObject> getRenderables(GameState state, Camera camera) {
         return getRenderTiles(camera.getRealCamera(), state.getTiles(), state.getTileSize());
@@ -28,7 +30,6 @@ public class RenderTiles implements IHasRenderables {
         // To prevent the map being drawn per tile, this would allow small shifts so only part of a tile can be displayed
         int xResidu = camera.getCenterPos().x() % tileSize;
         int yResidu = camera.getCenterPos().y() % tileSize;
-        int spacing = 2;
 
         // We calculate indexes to find tiles overlapping with the camera.
         int iStart = floor(camera.getUpperleft().y(), tileSize) - spacing;
@@ -90,6 +91,10 @@ public class RenderTiles implements IHasRenderables {
      */
     int floor(int a, int b) {
         return Math.floorDiv(a, b);
+    }
+
+    public int getSpacing() {
+        return this.spacing;
     }
 
 }

@@ -7,13 +7,16 @@ import java.util.List;
 public class TaskManager {
 
     public AnimationEventManager animationEventManager;
+    public HoverEventManager hoverEventManager;
     private List<Event> events;
 
     public TaskManager() {
         animationEventManager = new AnimationEventManager();
+        hoverEventManager = new HoverEventManager();
         this.events = List.of(
                 new TickEvent(),
-                animationEventManager
+                animationEventManager,
+                hoverEventManager
         );
     }
 
