@@ -3,6 +3,7 @@ package render.game.renderorder;
 import game.GameObject;
 import game.ScreenObject;
 import game.entity.types.PlayerEntity;
+import render.screen.hover.Box;
 import util.positions.Hitbox;
 import util.positions.Pos;
 import util.texture.comp.TextureSelector;
@@ -25,6 +26,32 @@ public class RenderStrategy {
                     (int) (object.getHeight()*gameSize),
                     null
             );
+        };
+    }
+
+    public IRender boxRenderer(Box box) {
+        return (graphics, gameSize, tileSize) -> {
+            graphics.setStroke(new BasicStroke(5));
+            Pos drawPosition = box.getPosition();
+            int width = box.getWidth();
+            int height = box.getHeight();
+
+            Rectangle rect = new Rectangle(
+                    (int) (drawPosition.x()),
+                    (int) (drawPosition.y()),
+                    (int) (width*gameSize),
+                    (int) (height*gameSize)
+            );
+            graphics.setColor(Color.LIGHT_GRAY);
+            graphics.fillRect(
+                    (int) (drawPosition.x()),
+                    (int) (drawPosition.y()),
+                    (int) (width*gameSize),
+                    (int) (height*gameSize)
+            );
+
+
+            graphics.draw(rect);
         };
     }
 
